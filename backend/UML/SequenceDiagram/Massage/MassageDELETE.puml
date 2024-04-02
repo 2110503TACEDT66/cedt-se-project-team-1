@@ -1,0 +1,23 @@
+@startuml Manage Massage (DELETE)
+
+header Massage Reservation System
+footer Page %page% of %lastpage%
+title "Manage Massage (DELETE)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:massages" as routerMassages
+participant "<<controllers>>\n:massages" as controllersMassages
+participant "<<model>>\n:Massage" as modelMassage
+database "<<MongoDB>>\n:massages" as MassagesDatabase
+
+client->server ++:req.delete('/massages/:id')
+server->routerMassages ++:app.use('/massages/:id',massages)
+routerMassages -> controllersMassages ++:deleteMassage(id)
+controllersMassages->modelMassage ++:deleteMassageById(id)
+modelMassage ->MassagesDatabase ++: MassageSchema
+MassagesDatabase --> modelMassage --: massage
+controllersMassages <-- modelMassage --:massage
+controllersMassages->client --:response
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml Manage Massage (GET One)
+
+header Massage Reservation System
+footer Page %page% of %lastpage%
+title "Manage Massage (GET One)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:massages" as routerMassages
+participant "<<controllers>>\n:massages" as controllersMassages
+participant "<<model>>\n:Massage" as modelMassage
+database "<<MongoDB>>\n:massages" as MassagesDatabase
+
+client->server ++:req.get('/massages/:id')
+server->routerMassages ++:app.use('/massages/:id',massages)
+routerMassages -> controllersMassages ++:getMassage(id)
+controllersMassages->modelMassage ++:findMassageById(req.id, req.body)
+modelMassage ->MassagesDatabase ++: MassageSchema
+MassagesDatabase --> modelMassage --: massage
+controllersMassages <-- modelMassage --:massage
+controllersMassages->client --:response
+
+@enduml

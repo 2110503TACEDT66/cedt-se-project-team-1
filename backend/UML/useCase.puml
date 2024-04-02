@@ -1,0 +1,26 @@
+@startuml Massage Reservation Use Case Diagram
+left to right direction
+actor "User" as user
+rectangle "Massage Reservation" as MassageReservation {
+    usecase "Register" as register
+    usecase "View\nMassage" as viewMassage
+    usecase "Manage\nReservation" as manageReservation
+    usecase "Manage\nMassage" as manageMassage
+    usecase "View\nSlips" as viewSlips
+    usecase "Manage\nSlips" as manageSlips
+}
+
+user -- register
+user -- viewMassage
+user -- manageReservation
+user -- viewSlips
+user -- manageSlips
+
+actor "Admin" as admin
+register -- admin
+manageMassage -- admin
+manageReservation -- admin
+manageSlips -- admin
+viewSlips -- admin
+
+@enduml

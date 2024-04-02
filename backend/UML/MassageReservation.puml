@@ -1,0 +1,105 @@
+@startuml MassageReservationDiagram
+left to right direction
+package "Massage Reservation"{
+    class "<<Application>>\nMassageReservation" as MassageReservation{}
+
+    ' Massage Service
+    class "<<Resource>>\nMassage" as ResourceMassages{
+        <<GET>> +getMassages():Massage
+        <<POST>> +createMassage():Massage
+    }
+
+    class "<<Resource>>\nMassage" as ResourceMassage {
+        <<GET>> +getMassage(): Massage
+        <<PUT>> +updateMassage(): Massage
+        <<DELETE>> +deleteMassage(): void
+    }
+
+    class "<<Representation>>\nMassage" as RepresentationMassage {
+        -name
+        -address
+        -district
+        -province
+        -postalcode
+        -telephone
+        -region
+    }
+
+    ' Reservation Service
+    class "<<Resource>>\nReservation" as ResourceReservations {
+        <<GET>> +getReservation():Reservation
+        <<POST>> +createReservation():Reservation 
+    }
+
+    class "<<Resource>>\nReservation" as ResourceReservation {
+        <<GET>> +getReservation(): Reservation
+        <<PUT>> +updateReservation(): Reservation
+        <<DELETE>> +deleteMassage(): void
+    }
+
+    class "<<Representation>>\nReservation" as RepresentationReservation {
+        -apptDate
+        -user
+        -massage
+        -createdAt
+    }
+    
+    ' Auth service
+    class "<<Resource>>\nAuth" as ResourceAuths {
+        <<GET>> +getMe():token
+        <<GET>> +logout():void
+        <<POST>> +login():User 
+        <<POST>> +register():User 
+    }
+
+    class "<<Representation>>\nUser" as RepresentationUser {
+        -name
+        -email
+        -role
+        -password
+        -createdAt
+    }
+
+    class "<<Resource>>\nSlip" as ResourceSlip {
+        <<GET>> +getSlip():Slip
+        <<POST>> +createSlip():Slip
+    }
+
+    class "<<Resource>>\nSlip" as ResourceSlips {
+        <<GET>> +getSlip(): Slip
+        <<PUT>> +updateSlip(): Slip
+        <<DELETE>> +deleteSlip(): void
+    }
+
+    class "<<Representation>>\nSlip" as RepresentationSlip {
+        -reservation
+        -slipPhoto
+        -date
+    }
+
+    class "<<Resource>>\nSlip" as ResourceSlipPhoto {
+        <<POST>> +uploadSlipPhoto():Slip
+    }
+
+}
+
+MassageReservation ..> ResourceAuths:"/me\n<<Path>>"
+MassageReservation ..> ResourceAuths:"/logout\n<<Path>>"
+MassageReservation ..> ResourceAuths:"/login\n<<Path>>"
+MassageReservation ..> ResourceAuths:"/register\n<<Path>>"
+ResourceAuths ..> RepresentationUser: "<<use>>"
+
+MassageReservation ..> ResourceReservations:"/reservation\n<<Path>>"
+ResourceReservations ..> ResourceReservation: "/{reservationId}\n<<Path>>"
+ResourceReservation ..> RepresentationReservation: "<<use>>"
+
+MassageReservation ..> ResourceMassages:"/massage\n<<Path>>"
+ResourceMassages ..> ResourceMassage: "/{massageId}\n<<Path>>"
+ResourceMassage ..> RepresentationMassage: "<<use>>"
+
+MassageReservation ..> ResourceSlip:"/slip\n<<Path>>"
+ResourceSlip ..> ResourceSlips: "/{slipId}\n<<Path>>"
+ResourceSlips ..> ResourceSlipPhoto: "/photo\n<<Path>>"
+ResourceSlipPhoto ..> RepresentationSlip: "<<use>>"
+
+@enduml

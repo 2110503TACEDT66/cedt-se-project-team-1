@@ -1,0 +1,23 @@
+@startuml Manage Massage (PUT)
+
+header Massage Reservation System
+footer Page %page% of %lastpage%
+title "Manage Massage (PUT)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:massages" as routerMassages
+participant "<<controllers>>\n:massages" as controllersMassages
+participant "<<model>>\n:Massage" as modelMassage
+database "<<MongoDB>>\n:massages" as MassagesDatabase
+
+client->server ++:req.put('/massages/:id')
+server->routerMassages ++:app.use('/massages/:id',massages)
+routerMassages -> controllersMassages ++:updateMassage(id)
+controllersMassages->modelMassage ++:updateMassageById(id)
+modelMassage ->MassagesDatabase ++: MassageSchema
+MassagesDatabase --> modelMassage --: massage
+controllersMassages <-- modelMassage --:massage
+controllersMassages->client --:response
+
+@enduml
