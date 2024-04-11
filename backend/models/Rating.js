@@ -36,12 +36,12 @@ const ratingSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.ObjectId,
-        refq: 'User',
+        ref: 'User',
         required: true
     },
-    workingSpace: {
+    massageShop: {
         type: mongoose.Schema.ObjectId,
-        ref: 'WorkingSpace',
+        ref: 'Massage',
         required: true
     },
     createdAt: {

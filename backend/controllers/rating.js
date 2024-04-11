@@ -66,22 +66,22 @@ const addRating = async (req, res) => {
     // }
 
     try {
-        req.body.workingSpace = req.params.workingSpaceId;
+        req.body.massageShop  = req.params.massageShopId;
         const workingSpace = await WorkingSpace.findById(
-            req.params.workingSpaceId
+            req.params.massageShopId
         );
 
         if (!workingSpace) {
             return res.status(404).json({
                 success: false,
-                message: `No workingSpace with the id of ${req.params.workingSpaceId}`
+                message: `No workingSpace with the id of ${req.params.massageShopId}`
             });
         }
 
         const aggregateResult = await Rating.aggregate([
             {
                 $match: {
-                    workingSpace: new mongoose.Types.ObjectId(req.params.workingSpaceId),
+                    workingSpace: new mongoose.Types.ObjectId(req.params.massageShopId),
                     user : new mongoose.Types.ObjectId(req.user.id)
 
                 }
