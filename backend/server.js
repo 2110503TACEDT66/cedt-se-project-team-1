@@ -5,7 +5,7 @@ const connectDB = require('./config/db');
 const auth = require('./routes/auth');
 const massages = require('./routes/massages');
 const reservations = require('./routes/reservations');
-const slips = require('./routes/slips');
+// const slips = require('./routes/slips');
 
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
@@ -16,7 +16,7 @@ const cors = require('cors');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: './.env' });
 
 connectDB();
 
@@ -26,6 +26,9 @@ const limiter = rateLimit({
     windowMs: 10 * 60 * 1000,
     max: 5000
 });
+
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on ${process.env.HOST}:${PORT}`));
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -37,7 +40,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:5000/api/v1'
+                url: process.env.HOST + ":" + PORT + '/api/v1'
             }
         ],
     },
@@ -59,10 +62,9 @@ app.use(cors());
 app.use('/api/v1/massages', massages);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/reservations', reservations);
-app.use('/api/v1/slips', slips);
+// app.use('/api/v1/slips', slips);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`));
+
 
 process.on('unhandledRejection', (err, promise) => {
     console.log(`Error: ${err.message}`);

@@ -3,3 +3,4 @@ config/config.env
 # output of UML diagrams
 out/*
 image/*
+.env

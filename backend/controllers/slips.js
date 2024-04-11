@@ -98,10 +98,11 @@ exports.deleteSlip = async (req, res, next) => {
             return res.status(404).json({success: false, message: `No slip with the id of ${req.params.id}`});
         }
 
-        slip.remove();
+        await slip.deleteOne();
 
         res.status(200).json({success: true, data: {}});
     } catch (err) {
+        console.log(err);
         res.status(500).json({success: false, message: "Cannot delete slip"});
     }
 }

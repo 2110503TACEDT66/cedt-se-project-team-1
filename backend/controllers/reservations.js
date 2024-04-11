@@ -6,18 +6,18 @@ exports.getReservations = async (req, res, next) => {
     if(req.user.role !== 'admin'){
         query = Reservation.find({user: req.user.id}).populate({
             path: 'massage',
-            select: 'name province tel'
+            select: 'name province tel picture'
         })
     }else{
         if(req.params.massageId) {
             query = Reservation.find({massage: req.params.massageId}).populate({
                 path: 'massage',
-                select: 'name province tel'
+                select: 'name province tel picture'
             })
         }else{
            query = Reservation.find().populate({
             path: 'massage',
-            select: 'name province tel'
+               select: 'name province tel picture'
         }) 
         }
     }
@@ -34,7 +34,7 @@ exports.getReservation = async (req, res, next) => {
     try{
         const reservation = await Reservation.findById(req.params.id).populate({
             path: 'massage',
-            select: 'name province tel'
+            select: 'name province tel picture'
         });
 
         if(!reservation){

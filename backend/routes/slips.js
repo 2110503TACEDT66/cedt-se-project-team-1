@@ -7,7 +7,7 @@ const router = express.Router();
 const { protect, authorize } = require('../middleware/auth');
 
 // Set up multer to store uploads in the 'image/slip' folder
-const upload = multer({ dest: 'image/upload/slips/' });
+const upload = multer({ dest: '/image/upload/slips/' });
 
 router.route('/').get(protect, getSlips).post(protect, authorize('admin', 'user'), createSlip);
 router.route('/:id/photo').post(protect, authorize('admin', 'user'), upload.single('slipPhoto'), uploadSlipPhoto);
