@@ -1,5 +1,5 @@
 const Rating = require('../models/Rating');
-const WorkingSpace = require('../models/Massage.js');
+const Massage = require('../models/Massage.js');
 const mongoose = require('mongoose');
 
 // Get all ratings
@@ -29,9 +29,9 @@ const getRating = async (req, res) => {
 // Update rating
 const updateRating = async (req, res) => {
     const { id } = req.params;
-    const { rating,comment } = req.body;
+    const { rating, comment } = req.body;
     try {
-        const updatedRating = await Rating.findByIdAndUpdate(id, { rating,comment }, { new: true });
+        const updatedRating = await Rating.findByIdAndUpdate(id, { rating, comment }, { new: true });
         if (!updatedRating) {
             return res.status(404).json({ error: 'Rating not found' });
         }
@@ -56,43 +56,33 @@ const deleteRating = async (req, res) => {
 };
 // Add rating
 const addRating = async (req, res) => {
-    // const { rating } = req.body;
-    // try {
-    //     const newRating = new Rating({ rating });
-    //     const savedRating = await newRating.save();
-    //     res.json(savedRating);
-    // } catch (error) {
-    //     res.status(500).json({ error: 'Internal server error' });
-    // }
-
     try {
-        req.body.massageShop  = req.params.massageShopId;
-        const workingSpace = await WorkingSpace.findById(
+        req.body.massageShop = req.params.massageShopId;
+        const massageShop = await Massage.findById(
             req.params.massageShopId
         );
 
-        if (!workingSpace) {
+        if (!massageShop) {
             return res.status(404).json({
                 success: false,
-                message: `No workingSpace with the id of ${req.params.massageShopId}`
+                message: `No massageShop with the id of ${req.params.massageShopId}`
             });
         }
 
         const aggregateResult = await Rating.aggregate([
             {
                 $match: {
-                    workingSpace: new mongoose.Types.ObjectId(req.params.massageShopId),
-                    user : new mongoose.Types.ObjectId(req.user.id)
+                    massage: new mongoose.Types.ObjectId(req.params.massageShopId),
+                    user: new mongoose.Types.ObjectId(req.user.id)
 
                 }
             }]
         );
 
         if (aggregateResult.length > 0) {
-            console.log("here");
             return res.status(400).json({
                 success: false,
-                message: `The user with ID ${req.user.id} has already rated this working space`
+                message: `The user with ID ${req.user.id} has already rated this massage shop`
             })
         }
 
@@ -115,20 +105,20 @@ const addRating = async (req, res) => {
 const getAvgRatings = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         const aggregateResult = await Rating.aggregate([
             {
                 $group: {
-                    _id: "$workingSpace",
+                    _id: "$massage",
                     averageRating: { $avg: "$rating" }
                 }
             }
         ]);
-        
-     
+
+
         console.log(aggregateResult);
-        
-       
+
+
         res.status(200).json({
             succes: true,
             data: aggregateResult
@@ -144,20 +134,20 @@ const getAvgRatings = async (req, res) => {
 };
 
 const getAvgRating = async (req, res) => {
-    
+
     try {
-    
+
         const { id } = req.params;
 
         const aggregateResult = await Rating.aggregate([
             {
                 $match: {
-                    workingSpace: new mongoose.Types.ObjectId(id)
+                    massage: new mongoose.Types.ObjectId(id)
                 }
             },
             {
                 $group: {
-                    _id: "$workingSpace",
+                    _id: "$massage",
                     averageRating: { $avg: "$rating" }
                 }
             }
