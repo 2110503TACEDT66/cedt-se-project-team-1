@@ -122,6 +122,8 @@ const addRating = async (req, res) => {
                 hygieneRating,
                 overallRating,
                 comment,
+                user: req.user.id,
+                massageShop: req.params.massageShopId
             });
     
             // Save the rating to MongoDB

@@ -3,6 +3,9 @@ import { Rating } from '@mui/material';
 import addRating from '@/libs/addRating';
 import { RatingItem } from '../../interface';
 import deleteReservation from '@/libs/deleteReservation';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { deleteReservationReducer } from '@/redux/features/reservationSlice';
 
 const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID: string }) => {
     // State variables to store rating values for different categories
@@ -11,7 +14,8 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
     const [priceRating, setPriceRating] = useState<number | null>(null);
     const [hygieneRating, setHygieneRating] = useState<number | null>(null);
     const [comment, setComment] = useState<string>('');
-
+    const dispatch = useDispatch<AppDispatch>()
+    
     const handleServiceRatingChange = (newValue: number | null) => {
         setServiceRating(newValue);
     };
@@ -47,13 +51,13 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
         const overallRating = (serviceRating + transportationRating + priceRating + hygieneRating) / 4.0;
         console.log('Overall Rating:', overallRating);
     
-        const ratingItem = {
-            serviceRating: 3,
-            transportRating: 4,
-            priceRating: 5,
-            hygieneRating: 1,
-            overallRating: 2,
-            comment: "comment",
+        const ratingItem: RatingItem = {
+            serviceRating: serviceRating,
+            transportRating: transportationRating,
+            priceRating: priceRating,
+            hygieneRating: hygieneRating,
+            overallRating: overallRating,
+            comment: comment,
         };
     
         console.log('Rating Item:', ratingItem);
@@ -63,8 +67,9 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
     
         if (response.success) {
             // deleteReservation(reservationID);
-            console.log(response.data);
-            // window.location.reload();
+            dispatch(deleteReservationReducer(reservationID))
+            alert("THank you for your feedback!");
+            window.location.reload();
         }
     };
 
