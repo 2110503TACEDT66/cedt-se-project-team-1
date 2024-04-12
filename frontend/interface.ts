@@ -51,6 +51,7 @@ export interface MassageItem {
   district: string,
   province: string,
   postalcode: string,
+  rating : number,
   tel: string,
   picture: string,
   description: string,

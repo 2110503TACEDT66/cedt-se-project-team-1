@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 
 import { deleteMassageReducer } from '@/redux/features/massageSlice';
 
-export default function Card({ massageName, imgSrc, massageId,masssageDescription,massageDistricts }: { massageName: string, imgSrc: string, massageId: string, masssageDescription: string, massageDistricts: string}) {
+export default function Card({ massageName, imgSrc, massageId,masssageDescription,massageDistricts,massageRating }: { massageName: string, imgSrc: string, massageId: string, masssageDescription: string, massageDistricts: string,massageRating: number}) {
 
     const {data:session} = useSession();
     const dispatch = useDispatch<AppDispatch>()
