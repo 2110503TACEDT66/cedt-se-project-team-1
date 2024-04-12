@@ -20,12 +20,12 @@ const MassageSchema = new mongooes.Schema({
         type: String,
         required: [true, 'Please add a province']
     },
-    postalcode:{
+    postalcode: {
         type: String,
         required: [true, 'Please add a postalcode'],
         maxlength: [5, 'Postalcode can not be more than 5 characters']
     },
-    tel:{
+    tel: {
         type: String,
     },
     picture: {
@@ -37,9 +37,48 @@ const MassageSchema = new mongooes.Schema({
         required: [true, 'Please add a description'],
         maxlength: [500, 'Description can not be more than 500 characters']
     },
-},{
-    toJSON: {virtuals: true},
-    toObject: {virtuals: true}
+    owner: {
+        type: mongooes.Schema.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    overallRating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    serviceRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    transportRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    priceRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    hygieneRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
 MassageSchema.virtual('reservations', {
@@ -49,9 +88,9 @@ MassageSchema.virtual('reservations', {
     justOne: false
 });
 
-MassageSchema.pre('deleteOne',{document: true, query: false}, async function(next){
+MassageSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
     console.log(`Reservation being removed from massage ${this._id}`);
-    await this.model('Reservation').deleteMany({message: this._id});
+    await this.model('Reservation').deleteMany({ message: this._id });
     next();
 })
 
