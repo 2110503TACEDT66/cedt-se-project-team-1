@@ -6,7 +6,7 @@ export default async function deleteMassage(id: string) {
 
     const session = await getServerSession(authOptions)
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/massages/${id}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/massages/${id}`, {
         method: 'DELETE',
         headers: {
             authorization: `Bearer ${session?.user.token}`,

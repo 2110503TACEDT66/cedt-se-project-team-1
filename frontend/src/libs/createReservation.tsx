@@ -7,7 +7,7 @@ export default async function createReservation(reservationData: ReservationItem
 
     const session = await getServerSession(authOptions);
 
-    const res = await fetch(`${process.env.BACKEND_URL}/api/v1/massages/${reservationData.massage.id}/reservations`, {
+    const res = await fetch(`${process.env.BACKEND_URL}/api/massages/${reservationData.massage.id}/reservations`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

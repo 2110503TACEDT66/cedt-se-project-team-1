@@ -12,8 +12,7 @@ import { useEffect } from "react"
 import { ReservationJson } from "../../interface"
 import TextHeader from "./TextHeader"
 import dayjs from "dayjs"
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+
 import RatingModal from "./RatingModal"
 
 
@@ -54,13 +53,13 @@ export default function BookingList() {
                             <div className="flex flex-row gap-5 justify-end">
                                 <ModalButton text = "Finish" color="green">
                                     <div className="bg-white py-4 px-8 rounded-lg w-1/4 text-center">
-                                        <RatingModal/>
+                                        <RatingModal shopID={reservation.massage._id} reservationID={reservation._id}/>
                                     </div>
                                 </ModalButton>
-                                <ModalButton text = "Edit" color="gray">
+                                <ModalButton text = "Edit" color="red">
                                     <ReservationForm isUpdate={true} id={reservation.id} />
                                 </ModalButton>
-                                <button className="rounded-md bg-red-600 hover:bg-red-800 transition px-3 py-1 text-white shadow-sm relative mt-10" onClick={() => dispatch(deleteReservationReducer(reservation._id))}>Cancel</button>
+                                <button className="rounded-md bg-gray-600 hover:bg-gray-800 transition px-3 py-1 text-white shadow-sm relative mt-10" onClick={() => dispatch(deleteReservationReducer(reservation._id))}>Cancel</button>
                             </div> 
                         </div>
 

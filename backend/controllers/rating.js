@@ -108,22 +108,29 @@ const addRating = async (req, res) => {
                 message: `The user with ID ${req.user.id} has already rated this massage shop`
             })
         }
+    
+            console.log(req.body);
+  
 
-        // Create a new rating
-        const { serviceRating, transportRating, priceRating, hygieneRating, comment } = req.body;
-        const rating = await Rating.create({
-            serviceRating,
-            transportRating,
-            priceRating,
-            hygieneRating,
-            comment,
-            user: req.user.id,
-            massageShop: req.params.massageShopId
-        });
-        res.status(200).json({
-            success: true,
-            data: rating
-        })
+            const { serviceRating, transportRating, priceRating, hygieneRating, overallRating, comment } = req.body;
+
+            // Create a new rating document
+            const rating = new Rating({
+                serviceRating,
+                transportRating,
+                priceRating,
+                hygieneRating,
+                overallRating,
+                comment,
+            });
+    
+            // Save the rating to MongoDB
+            const savedRating = await rating.save();
+    
+            res.status(201).json({
+                success: true,
+                data: savedRating
+            });
     }
     catch (err) {
         console.log(err);

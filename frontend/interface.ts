@@ -71,3 +71,13 @@ export interface MassageOne {
   success: boolean,
   data: MassageItem
 }
+
+
+export interface RatingItem{
+  serviceRating:number,
+  transportRating:number,
+  priceRating:number,
+  hygieneRating:number,
+  overallRating:number,
+  comment:string,
+}

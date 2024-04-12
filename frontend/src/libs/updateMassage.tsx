@@ -7,7 +7,7 @@ export default async function editMassage(id: string, massageData: MassageItem) 
 
     const session = await getServerSession(authOptions);
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/massages/${id}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/massages/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

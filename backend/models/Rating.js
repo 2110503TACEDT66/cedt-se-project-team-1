@@ -30,11 +30,6 @@ const ratingSchema = new mongoose.Schema({
         max: 5,
         default: 0
     },
-    comment: {
-        type: String,
-        required: true,
-        default: "No comment"
-    },
     overallRating: {
         type: Number,
         required: true,
@@ -42,10 +37,10 @@ const ratingSchema = new mongoose.Schema({
         max: 5,
         default: 0
     },
-    shopOwner:{
-        type: mongoose.Schema.ObjectId,
-        ref: 'ShopOwner',
-        required: true
+    comment: {
+        type: String,
+        required: true,
+        default: "No comment"
     },
     user: {
         type: mongoose.Schema.ObjectId,
