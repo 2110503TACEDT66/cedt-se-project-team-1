@@ -34,6 +34,18 @@ const ratingSchema = new mongoose.Schema({
         required: true,
         default: "No comment"
     },
+    overallRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    shopOwner:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'ShopOwner',
+        required: true
+    },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
