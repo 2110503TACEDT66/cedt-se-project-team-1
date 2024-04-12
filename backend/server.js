@@ -69,7 +69,6 @@ app.use(cors());
 app.use("/api/v1/massages", massages);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/reservations", reservations);
-app.use("/api/v1/slips", slips);
 app.use("/ratings", ratings);
 
 // process.on('unhandledRejection', (err, promise) => {
