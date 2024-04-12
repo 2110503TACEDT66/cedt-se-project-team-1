@@ -1,5 +1,6 @@
 const Rating = require('../models/Rating');
 const Massage = require('../models/Massage.js');
+const Reservation = require('../models/Reservation.js');
 const mongoose = require('mongoose');
 
 // Get all ratings
@@ -57,11 +58,10 @@ const deleteRating = async (req, res) => {
 // Add rating
 const addRating = async (req, res) => {
     try {
-        req.body.massageShop = req.params.massageShopId;
+        // Check if the massageShop exists
         const massageShop = await Massage.findById(
             req.params.massageShopId
         );
-
         if (!massageShop) {
             return res.status(404).json({
                 success: false,
@@ -69,6 +69,16 @@ const addRating = async (req, res) => {
             });
         }
 
+        // Check if the user has reserved the massageShop
+        const reservation = await Reservation.find({ user: req.user.id, massage: req.params.massageShopId })
+        if (reservation.length === 0) {
+            return res.status(400).json({
+                succes: false,
+                message: `The user with ID ${req.user.id} has not reserved this massage shop`
+            })
+        }
+
+        // Check if the user has already rated the massageShop
         const aggregateResult = await Rating.aggregate([
             {
                 $match: {
@@ -76,9 +86,8 @@ const addRating = async (req, res) => {
                     user: new mongoose.Types.ObjectId(req.user.id)
 
                 }
-            }]
-        );
-
+            }
+        ]);
         if (aggregateResult.length > 0) {
             return res.status(400).json({
                 success: false,
@@ -86,8 +95,17 @@ const addRating = async (req, res) => {
             })
         }
 
-        req.body.user = req.user.id;
-        const rating = await Rating.create(req.body);
+        // Create a new rating
+        const { serviceRating, transportRating, priceRating, hygieneRating, comment } = req.body;
+        const rating = await Rating.create({
+            serviceRating,
+            transportRating,
+            priceRating,
+            hygieneRating,
+            comment,
+            user: req.user.id,
+            massageShop: req.params.massageShopId
+        });
         res.status(200).json({
             success: true,
             data: rating
@@ -104,8 +122,6 @@ const addRating = async (req, res) => {
 
 const getAvgRatings = async (req, res) => {
     try {
-        const { id } = req.params;
-
         const aggregateResult = await Rating.aggregate([
             {
                 $group: {
