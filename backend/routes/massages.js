@@ -3,8 +3,10 @@ const { getMassages, getMassage, createMassage, updateMassage, deleteMassage} = 
 const router = express.Router();
 const {protect,authorize} = require('../middleware/auth');
 const reservationRouter = require('./reservations');
+const rating = require('./rating');
 
 router.use('/:massageId/reservations', reservationRouter);
+router.use('/:massageShopId',rating)
 
 router.route('/').get(getMassages).post(protect,authorize('admin'),createMassage);
 router.route('/:id').get(getMassage).put(protect,authorize('admin'),updateMassage).delete(protect,authorize('admin'),deleteMassage);
