@@ -5,7 +5,6 @@ const connectDB = require("./config/db");
 const auth = require("./routes/auth");
 const massages = require("./routes/massages");
 const reservations = require("./routes/reservations");
-const slips = require("./routes/slips");
 const ratings = require("./routes/rating.js");
 
 const mongoSanitize = require("express-mongo-sanitize");
@@ -66,10 +65,10 @@ app.use(cookieParser());
 app.use(hpp());
 app.use(cors());
 
-app.use("/api/v1/massages", massages);
-app.use("/api/v1/auth", auth);
-app.use("/api/v1/reservations", reservations);
-app.use("/ratings", ratings);
+app.use("/api/massages", massages);
+app.use("/api/auth", auth);
+app.use("/api/reservations", reservations);
+app.use("/api/ratings", ratings);
 
 // process.on('unhandledRejection', (err, promise) => {
 //     console.log(`Error: ${err.message}`);
