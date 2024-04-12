@@ -6,10 +6,24 @@ const mongoose = require('mongoose');
 // Get all ratings
 const getRatings = async (req, res) => {
     try {
-        const ratings = await Rating.find();
-        res.json(ratings);
+        if (!req.params.massageShopId) {
+            const ratings = await Rating.find();
+            res.status(200).json({ success: true, data: ratings });
+        }
+        else {
+            const massageShop = await Massage.findById(req.params.massageShopId);
+            if (!massageShop) {
+                return res.status(404).json({
+                    success: false,
+                    message: `No massageShop with the id of ${req.params.massageShopId}`
+                });
+            }
+
+            const ratings = await Rating.find({ massageShop: req.params.massageShopId });
+            res.status(200).json({ success: true, data: ratings });
+        }
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 
@@ -19,11 +33,11 @@ const getRating = async (req, res) => {
     try {
         const rating = await Rating.findById(id);
         if (!rating) {
-            return res.status(404).json({ error: 'Rating not found' });
+            return res.status(404).json({ succes: false, error: 'Rating not found' });
         }
-        res.json(rating);
+        res.status(200).json({ success: false, data: rating });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 
@@ -34,11 +48,11 @@ const updateRating = async (req, res) => {
     try {
         const updatedRating = await Rating.findByIdAndUpdate(id, { rating, comment }, { new: true });
         if (!updatedRating) {
-            return res.status(404).json({ error: 'Rating not found' });
+            return res.status(404).json({ success: false, error: 'Rating not found' });
         }
-        res.json(updatedRating);
+        res.status(200).json({ success: true, data: updatedRating });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 
@@ -48,11 +62,11 @@ const deleteRating = async (req, res) => {
     try {
         const deletedRating = await Rating.findByIdAndDelete(id);
         if (!deletedRating) {
-            return res.status(404).json({ error: 'Rating not found' });
+            return res.status(404).json({ success: false, error: 'Rating not found' });
         }
-        res.json({ message: 'Rating deleted successfully' });
+        res.status(200).json({ success: true, message: 'Rating deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 // Add rating
