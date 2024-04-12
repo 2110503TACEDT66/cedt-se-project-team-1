@@ -8,8 +8,8 @@ const rating = require('./rating');
 router.use('/:massageId/reservations', reservationRouter);
 router.use('/:massageShopId/ratings', rating)
 
-router.route('/').get(getMassages).post(protect, authorize('admin'), createMassage);
-router.route('/:id').get(getMassage).put(protect, authorize('admin'), updateMassage).delete(protect, authorize('admin'), deleteMassage);
+router.route('/').get(getMassages).post(protect, authorize('shopOwner'), createMassage);
+router.route('/:id').get(getMassage).put(protect, authorize('admin', 'shopOwner'), updateMassage).delete(protect, authorize('admin', 'shopOwner'), deleteMassage);
 
 module.exports = router;
 

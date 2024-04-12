@@ -37,6 +37,11 @@ const MassageSchema = new mongooes.Schema({
         required: [true, 'Please add a description'],
         maxlength: [500, 'Description can not be more than 500 characters']
     },
+    owner: {
+        type: mongooes.Schema.ObjectId,
+        ref: 'User',
+        required: true,
+    }
 },{
     toJSON: {virtuals: true},
     toObject: {virtuals: true}
