@@ -1,7 +1,7 @@
 import { RegisterJson, Role } from "../../interface";
 
 export default async function userRegister(userRegisterData: RegisterJson, role: Role) {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/auth/register`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

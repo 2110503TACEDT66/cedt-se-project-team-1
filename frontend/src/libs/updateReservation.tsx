@@ -7,7 +7,7 @@ export default async function updateReservation(id:string, reservationData: Rese
 
     const session = await getServerSession(authOptions);
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/reservations/${id}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/reservations/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

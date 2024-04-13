@@ -7,7 +7,7 @@ export default async function deleteReservation(id:string) {
     const session = await getServerSession(authOptions);
     console.log(`${process.env.BACKEND_URL}/api/v1/reservations/${id}`)
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/reservations/${id}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/reservations/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

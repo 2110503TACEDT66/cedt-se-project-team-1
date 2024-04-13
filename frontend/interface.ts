@@ -51,13 +51,19 @@ export interface MassageItem {
   district: string,
   province: string,
   postalcode: string,
+  rating : number,
   tel: string,
   picture: string,
   description: string,
   reservation: ReservationItem[],
   _id: string,
   __v: number,
-  id: string
+  id: string,
+  hygieneRating:number,
+  overallRating:number,
+  priceRating:number,
+  serviceRating:number,
+  transportRating:number,
 }
 
 export interface MassageJson {
