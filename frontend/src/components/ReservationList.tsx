@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { deleteReservationReducer } from "@/redux/features/reservationSlice"
 import ModalButton from "./ModalButton"
 import ReservationForm from "./ReservationForm"
-import getReservations from "@/libs/getReservations"
+import getReservations from "@/libs/Authenticate/Reservation/getReservations"
 import { setReservationReducer } from "@/redux/features/reservationSlice"
 import { useEffect } from "react"
 import { ReservationJson } from "../../interface"

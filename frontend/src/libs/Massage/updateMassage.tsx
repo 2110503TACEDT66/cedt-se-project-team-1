@@ -1,14 +1,14 @@
 "use server"
-import { MassageItem } from "../../interface";
 import { getServerSession } from "next-auth";
+import { MassageItem } from "../../../interface";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default async function createMassage(massageData: MassageItem) {
+export default async function editMassage(id: string, massageData: MassageItem) {
 
     const session = await getServerSession(authOptions);
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/massages/`, {
-        method: 'POST',
+    const response = await fetch(`${process.env.BACKEND_URL}/api/massages/${id}`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${session?.user.token}`
@@ -26,9 +26,8 @@ export default async function createMassage(massageData: MassageItem) {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to create massage")
+        throw new Error("Failed to edit massage")
     }
 
     return await response.json();
-
 }

@@ -2,11 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ReservationItem, ReservationJson } from "../../../interface";
 import { store } from "../store";
 
-import getReservations from "@/libs/getReservations";
-import getReservation from "@/libs/getReservation";
-import createReservation from "@/libs/createReservation";
-import updateReservation from "@/libs/updateReservation";
-import deleteReservation from "@/libs/deleteReservation";
+import getReservations from "@/libs/Authenticate/Reservation/getReservations";
+import getReservation from "@/libs/Authenticate/Reservation/getReservation";
+import createReservation from "@/libs/Authenticate/Reservation/createReservation";
+import updateReservation from "@/libs/Authenticate/Reservation/updateReservation";
+import deleteReservation from "@/libs/Authenticate/Reservation/deleteReservation";
 import session from "redux-persist/lib/storage/session";
 
 type ReservationState = {

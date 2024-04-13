@@ -1,11 +1,22 @@
 "use client"
 import Image from "next/image"
 import { useAppSelector } from "@/redux/store";
+import { useEffect, useState } from "react";
+import MassageRating from "@/components/MassageRating";
+import getMassagesRating from "@/libs/Rating/getMassagesRating";
+import { RatingJson } from "../../../../../interface";
 
-export default async function MassageDetailPage({ params }: { params: { mid: string } }) {
+export default function MassageDetailPage({ params }: { params: { mid: string } }) {
 
     const massageItem = useAppSelector(state => state.massageSlice.massageItems)
     const massage = massageItem.find(massage => massage.id === params.mid)
+    const [ratingJson, setRatingJson] = useState<RatingJson>({ success: false, data: [] });
+    
+    if (massage !== undefined) {
+        useEffect(() => {
+            getMassagesRating(massage.id).then((res) => setRatingJson(res))
+        }, [])
+    }
 
     return (
         <>
@@ -37,6 +48,7 @@ export default async function MassageDetailPage({ params }: { params: { mid: str
                             </div>
                         </div>
                         </div>
+                        <MassageRating ratingJson={ratingJson}/>
                     </div>
                 </main>
             ) : <h1>This massage id not availble </h1>

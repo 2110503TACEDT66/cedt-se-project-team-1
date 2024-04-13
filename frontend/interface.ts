@@ -79,7 +79,6 @@ export interface MassageOne {
   data: MassageItem
 }
 
-
 export interface RatingItem{
   serviceRating:number,
   transportRating:number,
@@ -87,4 +86,13 @@ export interface RatingItem{
   hygieneRating:number,
   overallRating:number,
   comment:string,
+  // Add for retrieval of all ratings
+  createdAt: string,
+  user: string,
+  _id: string,
+}
+
+export interface RatingJson {
+    success: boolean,
+    data: RatingItem[]
 }

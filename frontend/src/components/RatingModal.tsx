@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Rating } from '@mui/material';
-import addRating from '@/libs/addRating';
+import addRating from '@/libs/Rating/addRating';
 import { RatingItem } from '../../interface';
-import deleteReservation from '@/libs/deleteReservation';
+import deleteReservation from '@/libs/Authenticate/Reservation/deleteReservation';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { deleteReservationReducer } from '@/redux/features/reservationSlice';
@@ -56,6 +56,9 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
             hygieneRating: hygieneRating,
             overallRating: overallRating,
             comment: comment,
+            createdAt: '',
+            user: '',
+            _id: ''
         };
     
         const response = await addRating(shopID, ratingItem);

@@ -1,5 +1,5 @@
 "use client"
-import getMassages from "@/libs/getMassages";
+import getMassages from "@/libs/Massage/getMassages";
 import MassageCatalog from "@/components/MassageCatalog";
 import { Suspense } from "react";
 import { LinearProgress } from "@mui/material";
@@ -17,7 +17,6 @@ export default function Massage() {
 
     useEffect(() => {
         getMassages().then((res) => {
-            console.log(res)
             store.dispatch(setMassageReducer(res.data))
         })
     }, [])
