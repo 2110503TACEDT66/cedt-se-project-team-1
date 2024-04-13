@@ -25,7 +25,6 @@ const app = express();
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000,
     max: 5000,
-    validate: { xForwardedForHeader: false }
 });
 
 const PORT = process.env.PORT || 5000;
