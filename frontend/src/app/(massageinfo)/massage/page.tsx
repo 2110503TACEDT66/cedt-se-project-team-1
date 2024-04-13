@@ -17,6 +17,7 @@ export default function Massage() {
 
     useEffect(() => {
         getMassages().then((res) => {
+            console.log(res)
             store.dispatch(setMassageReducer(res.data))
         })
     }, [])
@@ -37,7 +38,7 @@ export default function Massage() {
                 {massageItems && <MassageCatalog massages={massageItems} />}
             </Suspense>            
             {
-                session?.user.data.role === "admin"
+                session?.user.data.role === "shopOwner"
                 ? (
                     <div className="flex flex-col justify-center items-center mt-20">
                        <ModalButton text="Create new massage" color="green">

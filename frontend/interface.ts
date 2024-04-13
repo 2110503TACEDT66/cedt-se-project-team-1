@@ -8,7 +8,8 @@ export interface RegisterJson {
 
 export enum Role {
   User = 'user',
-  Admin = 'admin'
+  Admin = 'admin',
+  ShopOwner = 'shopOwner'
 }
 
 export interface UserProfile {
