@@ -20,12 +20,12 @@ const MassageSchema = new mongooes.Schema({
         type: String,
         required: [true, 'Please add a province']
     },
-    postalcode:{
+    postalcode: {
         type: String,
         required: [true, 'Please add a postalcode'],
         maxlength: [5, 'Postalcode can not be more than 5 characters']
     },
-    tel:{
+    tel: {
         type: String,
     },
     picture: {
@@ -54,9 +54,9 @@ MassageSchema.virtual('reservations', {
     justOne: false
 });
 
-MassageSchema.pre('deleteOne',{document: true, query: false}, async function(next){
+MassageSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
     console.log(`Reservation being removed from massage ${this._id}`);
-    await this.model('Reservation').deleteMany({message: this._id});
+    await this.model('Reservation').deleteMany({ message: this._id });
     next();
 })
 

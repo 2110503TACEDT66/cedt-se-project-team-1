@@ -35,7 +35,7 @@ const getRating = async (req, res) => {
         if (!rating) {
             return res.status(404).json({ succes: false, error: 'Rating not found' });
         }
-        res.status(200).json({ success: false, data: rating });
+        res.status(200).json({ success: true, data: rating });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
@@ -109,21 +109,30 @@ const addRating = async (req, res) => {
             })
         }
 
-        // Create a new rating
-        const { serviceRating, transportRating, priceRating, hygieneRating, comment } = req.body;
-        const rating = await Rating.create({
+        console.log(req.body);
+
+
+        const { serviceRating, transportRating, priceRating, hygieneRating, overallRating, comment } = req.body;
+
+        // Create a new rating document
+        const rating = new Rating({
             serviceRating,
             transportRating,
             priceRating,
             hygieneRating,
+            overallRating,
             comment,
             user: req.user.id,
             massageShop: req.params.massageShopId
         });
-        res.status(200).json({
+
+        // Save the rating to MongoDB
+        const savedRating = await rating.save();
+
+        res.status(201).json({
             success: true,
-            data: rating
-        })
+            data: savedRating
+        });
     }
     catch (err) {
         console.log(err);
@@ -134,74 +143,10 @@ const addRating = async (req, res) => {
     }
 };
 
-const getAvgRatings = async (req, res) => {
-    try {
-        const aggregateResult = await Rating.aggregate([
-            {
-                $group: {
-                    _id: "$massage",
-                    averageRating: { $avg: "$rating" }
-                }
-            }
-        ]);
-
-
-        console.log(aggregateResult);
-
-
-        res.status(200).json({
-            succes: true,
-            data: aggregateResult
-        });
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: 'Cannot get Average Rating'
-        });
-    }
-};
-
-const getAvgRating = async (req, res) => {
-
-    try {
-
-        const { id } = req.params;
-
-        const aggregateResult = await Rating.aggregate([
-            {
-                $match: {
-                    massage: new mongoose.Types.ObjectId(id)
-                }
-            },
-            {
-                $group: {
-                    _id: "$massage",
-                    averageRating: { $avg: "$rating" }
-                }
-            }
-        ]);
-        res.status(200).json({
-            succes: true,
-            data: aggregateResult
-        });
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: 'Cannot get Average Rating'
-        });
-    }
-};
-
 module.exports = {
     getRatings,
     getRating,
     updateRating,
     deleteRating,
-    addRating,
-    getAvgRatings,
-    getAvgRating
+    addRating
 };
