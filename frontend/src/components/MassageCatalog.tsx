@@ -25,22 +25,24 @@ export default function MassageCatalog({ massages }: { massages: MassageItem[] }
 
     return (
         <>                
-            <div className="flex flex-row justify-center gap-4">                
+            <div className="flex flex-row justify-center gap-4 my-10">                
                 <input
                     type="text"
                     placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border border-gray-300 rounded-md px-2 py-1"
                 />
                 <select
                     title="Sort Order"
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value as "lowToHigh" | "highToLow" | "AtoZ" | "ZtoA")}
+                    className="border border-gray-300 rounded-md px-2 py-1"
                 >
-                    <option value="lowToHigh">Sort: Low to High</option>
-                    <option value="highToLow">Sort: High to Low</option>
-                    <option value="AtoZ">Sort: A to Z</option>
-                    <option value="ZtoA">Sort: Z to A</option>
+                    <option value="lowToHigh">Rating Low to High</option>
+                    <option value="highToLow">Rating High to Low</option>
+                    <option value="AtoZ">Name A to Z</option>
+                    <option value="ZtoA">Name: Z to A</option>
                 </select>
 
             </div>
