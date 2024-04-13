@@ -58,7 +58,12 @@ export interface MassageItem {
   reservation: ReservationItem[],
   _id: string,
   __v: number,
-  id: string
+  id: string,
+  hygieneRating:number,
+  overallRating:number,
+  priceRating:number,
+  serviceRating:number,
+  transportRating:number,
 }
 
 export interface MassageJson {

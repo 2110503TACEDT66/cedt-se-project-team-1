@@ -1,9 +1,21 @@
+"use server"
+import { MassageItem } from "../../interface";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 export default async function getMassages() {
     // Optional loading delay simulation (uncomment if needed)
     // await new Promise((resolve) => setTimeout(resolve, 1000));
   
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/v1/massages`);
+      const session = await getServerSession(authOptions);
+      const response = await fetch(`${process.env.BACKEND_URL}/api/massages`,{
+          method: 'GET',
+          headers: {
+              authorization: `Bearer ${session?.user.token}`
+          }
+      
+      });
   
       if (!response.ok) {
         throw new Error("Failed to fetch massages");
