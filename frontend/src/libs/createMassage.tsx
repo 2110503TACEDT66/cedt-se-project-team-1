@@ -7,7 +7,7 @@ export default async function createMassage(massageData: MassageItem) {
 
     const session = await getServerSession(authOptions);
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/massages/`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/massages/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

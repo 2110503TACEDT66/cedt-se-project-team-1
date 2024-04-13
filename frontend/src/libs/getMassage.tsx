@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function getMassage(id: string) {
     const session = await getServerSession(authOptions);
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/massages/${id}`,{
+    const response = await fetch(`${process.env.BACKEND_URL}/api/massages/${id}`,{
         method: 'GET',
         headers: {
             authorization: `Bearer ${session?.user.token}`
