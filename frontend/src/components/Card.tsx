@@ -47,6 +47,7 @@ export default function Card({ massageName, imgSrc, massageId,masssageDescriptio
                         name="rating"
                         value={massageRating}
                         precision={0.5}
+                        readOnly
                     />
                     <p className='text-gray-500 text-sm flex justify-center items-center'>
                         {massageRating ? massageRating.toFixed(1) : ''}
