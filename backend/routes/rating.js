@@ -1,5 +1,5 @@
 const express = require('express');
-const {getRating, getRatings, updateRating, deleteRating,addRating, getAvgRatings, getAvgRating } 
+const { getRating, getRatings, updateRating, deleteRating,addRating, getAvgRatings, getAvgRating } 
 = require('../controllers/rating.js');
 
 const router = express.Router({ mergeParams: true });

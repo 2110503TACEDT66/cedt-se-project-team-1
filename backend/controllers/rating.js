@@ -35,7 +35,7 @@ const getRating = async (req, res) => {
         if (!rating) {
             return res.status(404).json({ succes: false, error: 'Rating not found' });
         }
-        res.status(200).json({ success: false, data: rating });
+        res.status(200).json({ success: true, data: rating });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
