@@ -11,10 +11,11 @@ import { useDispatch } from 'react-redux';
 
 import { deleteMassageReducer } from '@/redux/features/massageSlice';
 
-export default function Card({ massageName, imgSrc, massageId,masssageDescription,massageDistricts }: { massageName: string, imgSrc: string, massageId: string, masssageDescription: string, massageDistricts: string}) {
+export default function Card({ massageName, imgSrc, massageId,masssageDescription,massageDistricts,massageRating }: { massageName: string, imgSrc: string, massageId: string, masssageDescription: string, massageDistricts: string,massageRating: number}) {
 
     const {data:session} = useSession();
     const dispatch = useDispatch<AppDispatch>()
+
     
     return (
         <InteractiveCard>
@@ -34,6 +35,9 @@ export default function Card({ massageName, imgSrc, massageId,masssageDescriptio
             <div className="h-[40%] p-4 break-words relative">
                 <p className="text-gray-600 text-sm">
                     {masssageDescription}
+                </p>
+                <p>
+                    Rating: {massageRating ? massageRating.toFixed(1) : ''}
                 </p>
                 { session?.user.data.role === Role.Admin ?
                 <div className='absolute bottom-0 right-0 p-4'>
