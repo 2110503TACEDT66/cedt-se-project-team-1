@@ -11,8 +11,10 @@ exports.getMassages = async (req, res, next) => {
     
     let queryStr = JSON.stringify(req.query);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
-        
-    query = Massage.find(JSON.parse(queryStr)).populate('reservations')
+
+    // shopOwner role will display only their own massage shops
+    if (req.user.role === 'shopOwner') query = Massage.find({ owner: req.user.id }, JSON.parse(queryStr)).populate('reservations')
+    else query = Massage.find(JSON.parse(queryStr)).populate('reservations')
 
     if(req.query.select){
         const fields = req.query.select.split(',').join(' ');
