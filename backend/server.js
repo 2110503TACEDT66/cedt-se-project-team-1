@@ -15,6 +15,7 @@ const hpp = require("hpp");
 const cors = require("cors");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
+const { validate } = require("./models/User.js");
 
 dotenv.config({ path: "./.env" });
 
@@ -24,7 +25,8 @@ const app = express();
 
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000,
-    max: 5000
+    max: 5000,
+    validate: {xForwardedForHeader: false}
 });
 
 const PORT = process.env.PORT || 5000;
