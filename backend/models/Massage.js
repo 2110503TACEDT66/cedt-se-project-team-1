@@ -90,7 +90,7 @@ MassageSchema.virtual('reservations', {
 
 MassageSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
     console.log(`Reservation being removed from massage ${this._id}`);
-    await this.model('Reservation').deleteMany({ message: this._id });
+    await this.model('Reservation').deleteMany({ massage: this._id });
     next();
 })
 
