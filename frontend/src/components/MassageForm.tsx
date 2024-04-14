@@ -57,7 +57,6 @@ export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: stri
             id: (id === null) ? "" : id,
             reservation: [],
             owner: session?.user.data._id || "",
-            rating: 0,
             hygieneRating: 0,
             overallRating: 0,
             priceRating: 0,

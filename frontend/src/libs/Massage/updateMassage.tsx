@@ -22,6 +22,12 @@ export default async function editMassage(id: string, massageData: MassageItem) 
             tel: massageData.tel,
             picture: massageData.picture,
             description: massageData.description,
+            owner: massageData.owner,
+            overallRating: massageData.overallRating,
+            hygieneRating: massageData.hygieneRating,
+            priceRating: massageData.priceRating,
+            serviceRating: massageData.serviceRating,
+            transportRating: massageData.transportRating,
         })
     });
 
