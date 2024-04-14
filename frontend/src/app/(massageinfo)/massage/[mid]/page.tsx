@@ -60,6 +60,9 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
         <>
         {
             massage !== undefined ? (
+                <div className="bg-[#f6edd8e0] mx-6 mb-8 mt-4 rounded-lg">
+
+
                 <main className="p-5 items-center">
                     <div className="flex flex-col my-5 items-center gap-8">
                         <div className="relative">
@@ -89,6 +92,7 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                         <MassageRating ratingJson={ratingJson}/>
                     </div>
                 </main>
+                </div>
             ) : <h1>This massage id not availble </h1>
         }
         </>
