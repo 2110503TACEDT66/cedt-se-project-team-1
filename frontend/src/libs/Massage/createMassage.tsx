@@ -22,7 +22,8 @@ export default async function createMassage(massageData: MassageItem) {
             tel: massageData.tel,
             picture: massageData.picture,
             description: massageData.description,
-            owner: session?.user.data._id
+            // owner: session?.user.data._id
+            owner: massageData.owner
         })
     });
 

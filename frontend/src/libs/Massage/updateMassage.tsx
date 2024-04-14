@@ -21,7 +21,7 @@ export default async function editMassage(id: string, massageData: MassageItem) 
             postalcode: massageData.postalcode,
             tel: massageData.tel,
             picture: massageData.picture,
-            description: massageData.description
+            description: massageData.description,
         })
     });
 

@@ -23,7 +23,7 @@ const massageSlice = createSlice({
             state.massageItems = action.payload
         },
         addMassageReducer: (state, action: PayloadAction<MassageItem>) => {
-            const remainMassage = state.massageItems.filter((massage) => massage.id !== action.payload.id)
+            const remainMassage = state.massageItems.filter((massage: MassageItem) => massage.id !== action.payload.id)
             remainMassage.push(action.payload)
             state.massageItems = remainMassage
             createMassage(action.payload)

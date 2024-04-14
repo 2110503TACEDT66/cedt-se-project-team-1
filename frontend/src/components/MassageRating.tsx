@@ -17,12 +17,14 @@ export default function MassageRating({ ratingJson }: { ratingJson: RatingJson})
 
     for (let i = 0; i < columnsRating.length; i++) columnsRating[i] /= ratingJson.data.length;
 
+    // Update rating to massage Database
+    
 
     return (
         <>
             <h1>Overall Rating</h1>
             <div className="bg-white w-[280px] text-center">
-                <h1>{columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length}</h1>
+                <h1>{(columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length).toPrecision(2)}</h1>
                 <Rating
                     name="avg-rating"
                     value={columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length}

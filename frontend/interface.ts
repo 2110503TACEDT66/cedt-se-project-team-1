@@ -65,6 +65,7 @@ export interface MassageItem {
   priceRating:number,
   serviceRating:number,
   transportRating:number,
+  owner: string
 }
 
 export interface MassageJson {
