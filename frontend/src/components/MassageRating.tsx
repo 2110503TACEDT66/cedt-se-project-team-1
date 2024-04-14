@@ -47,12 +47,9 @@ export default function MassageRating({ ratingJson }: { ratingJson: RatingJson})
                     }
 
                 {/* Click to see all reviews (Modal and scroll on x axis) */}
-                <ModalButton text="See all reviews" color="green">
-                  
 
-                   
+                <ModalButton text="See all reviews" color="green">   
                         <RatingCatalog ratings={ratingJson.data}/>
-               
                 </ModalButton>
             </div>
         </div>
