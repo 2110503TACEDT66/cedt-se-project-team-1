@@ -1,5 +1,7 @@
 import { Rating } from "@mui/material"
 import { RatingJson } from "../../interface"
+import ModalButton from "./ModalButton";
+import RatingCatalog from "./RatingCatalog";
 
 export default function MassageRating({ ratingJson }: { ratingJson: RatingJson}) {
 
@@ -13,9 +15,7 @@ export default function MassageRating({ ratingJson }: { ratingJson: RatingJson})
         columnsRating[3] += ratingJson.data[i].hygieneRating;
     }
 
-    for (let i = 0; i < columnsRating.length; i++) {
-        columnsRating[i] /= ratingJson.data.length;
-    }
+    for (let i = 0; i < columnsRating.length; i++) columnsRating[i] /= ratingJson.data.length;
 
 
     return (
@@ -46,7 +46,9 @@ export default function MassageRating({ ratingJson }: { ratingJson: RatingJson})
                     })
                 }
                 {/* Click to see all reviews (Modal and scroll on x axis) */}
-                <h1>See all reviews</h1>
+                <ModalButton text="See all reviews" color="green">
+                    <RatingCatalog ratings={ratingJson.data}/>
+                </ModalButton>
             </div>
         </>
     )
