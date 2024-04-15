@@ -92,6 +92,14 @@ export interface RatingItem{
   _id: string,
 }
 
+export interface RatingUpdateData {
+  serviceRating: number;
+  transportRating: number;
+  priceRating: number;
+  hygieneRating: number;
+  comment: string
+}
+
 export interface RatingJson {
     success: boolean,
     data: RatingItem[]
