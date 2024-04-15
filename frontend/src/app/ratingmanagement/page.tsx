@@ -74,7 +74,7 @@ function RatingManagement() {
 });
 
   return (
-    <main className="p-2 flex flex-col justify-center items-center p-5">
+    <main className="p-5 flex flex-col justify-center items-center">
       <h1 className="text-2xl font-semibold">Rating Management</h1>
       <div className="relative mt-5 flex">
         <div>
