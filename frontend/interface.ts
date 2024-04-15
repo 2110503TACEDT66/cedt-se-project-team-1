@@ -8,7 +8,8 @@ export interface RegisterJson {
 
 export enum Role {
   User = 'user',
-  Admin = 'admin'
+  Admin = 'admin',
+  ShopOwner = 'shopOwner'
 }
 
 export interface UserProfile {
@@ -51,7 +52,6 @@ export interface MassageItem {
   district: string,
   province: string,
   postalcode: string,
-  rating : number,
   tel: string,
   picture: string,
   description: string,
@@ -64,6 +64,7 @@ export interface MassageItem {
   priceRating:number,
   serviceRating:number,
   transportRating:number,
+  owner: string
 }
 
 export interface MassageJson {
@@ -78,7 +79,6 @@ export interface MassageOne {
   data: MassageItem
 }
 
-
 export interface RatingItem{
   serviceRating:number,
   transportRating:number,
@@ -86,4 +86,13 @@ export interface RatingItem{
   hygieneRating:number,
   overallRating:number,
   comment:string,
+  // Add for retrieval of all ratings
+  createdAt: string,
+  user: string,
+  _id: string,
+}
+
+export interface RatingJson {
+    success: boolean,
+    data: RatingItem[]
 }

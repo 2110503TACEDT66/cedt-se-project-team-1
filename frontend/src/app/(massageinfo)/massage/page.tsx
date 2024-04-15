@@ -1,5 +1,5 @@
 "use client"
-import getMassages from "@/libs/getMassages";
+import getMassages from "@/libs/Massage/getMassages";
 import MassageCatalog from "@/components/MassageCatalog";
 import { Suspense } from "react";
 import { LinearProgress } from "@mui/material";
@@ -37,7 +37,7 @@ export default function Massage() {
                 {massageItems && <MassageCatalog massages={massageItems} />}
             </Suspense>            
             {
-                session?.user.data.role === "admin"
+                session?.user.data.role === "shopOwner"
                 ? (
                     <div className="flex flex-col justify-center items-center mt-20">
                        <ModalButton text="Create new massage" color="green">

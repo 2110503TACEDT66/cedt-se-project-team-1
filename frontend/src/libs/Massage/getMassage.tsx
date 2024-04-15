@@ -1,5 +1,4 @@
 "use server";
-import { MassageItem } from "../../interface";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
@@ -14,7 +13,6 @@ export default async function getMassage(id: string) {
             },
         }
     );
-
     if (!response.ok) {
         throw new Error("Failed to fetch massage");
     }

@@ -1,5 +1,5 @@
-import userLogIn from "@/libs/userLogIn";
-import getUserProfile from "@/libs/getUserProfile";
+import userLogIn from "@/libs/Authenticate/userLogIn";
+import getUserProfile from "@/libs/Authenticate/getUserProfile";
 import NextAuth from "next-auth";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";

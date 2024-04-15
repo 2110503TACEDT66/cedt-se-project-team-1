@@ -4,7 +4,7 @@ import React from 'react'
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { getServerSession } from "next-auth";
-import { RatingItem } from '../../interface';
+import { RatingItem } from '../../../interface';
 const addRating = async (shopID:string,ratingItem:RatingItem) => {
     const session = await getServerSession(authOptions);
     console.log(ratingItem);
