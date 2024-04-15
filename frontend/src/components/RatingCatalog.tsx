@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import { RatingItem } from "../../interface";
 import { Rating } from "@mui/material";
+import { FaEdit, FaSearch } from "react-icons/fa";
+import { useState } from "react";
 
 export default function RatingCatalog({ ratings }: { ratings: RatingItem[] }) {
     

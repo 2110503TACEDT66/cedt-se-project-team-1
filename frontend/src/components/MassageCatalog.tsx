@@ -7,7 +7,7 @@ export default function MassageCatalog({ massages }: { massages: MassageItem[] }
     const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "AtoZ" | "ZtoA" >("highToLow");
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Filter and sort the massages based on the search term and sort order
+
     const filteredMassages = massages.filter((massage) =>
         massage.name.toLowerCase().includes(searchTerm.toLowerCase())
     );

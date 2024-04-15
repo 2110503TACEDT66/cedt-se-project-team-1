@@ -58,17 +58,51 @@ function RatingManagement() {
       setInitialRatingData(ratingToUpdate);
     }
   }
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" >("highToLow");
 
+  const filteredRating = ratings.filter((ratings) =>
+      ratings._id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sortedRating = [...filteredRating].sort((a, b) => {
+    if (sortOrder === "lowToHigh") {
+        return a.overallRating - b.overallRating;
+    }else{
+        return b.overallRating - a.overallRating;
+    }
+});
 
   return (
     <main className="p-2 flex flex-col justify-center items-center p-5">
       <h1 className="text-2xl font-semibold">Rating Management</h1>
-      <div className="relative mt-5">
-        <input type="text" className="w-[600px] h-12 border-[1px] rounded-lg pl-5" placeholder="Search rating by id..." />
-        <FaSearch className="absolute top-4 right-5 text-gray-400 pointer-events-none" size={20}/>
+      <div className="relative mt-5 flex">
+        <div>
+          <input 
+        type="text" 
+        className="w-[600px] h-12 border-[1px] rounded-lg pl-5" 
+        placeholder="Search rating by id..." 
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <FaSearch className="absolute top-4 right-48 text-gray-400 pointer-events-none" size={20}/>
+        </div>
+        <select
+          title="Sort Order"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value as "lowToHigh" | "highToLow")}
+          className="border border-gray-300 rounded-md px-2 py-1"
+        >
+          <option value="lowToHigh">Rating Low to High</option>
+          <option value="highToLow">Rating High to Low</option>
+        </select>       
+        
+      </div>
+      <div>
+        
       </div>
       <section className="grid grid-cols-3 gap-5 w-8/12 mt-5">
-        {ratings.map((rating) => (
+        {sortedRating.map((rating) => (
           <div key={rating._id} className="bg-white border-[1px] border-[#B1B1B1] rounded-lg h-full overflow-hidden">
             <div className="bg-[#B1B1B1] flex flex-col justify-center w-full h-[30px]">
                 <h3 className="font-light text-sm text-white text-center">Id : {rating._id}</h3>
@@ -90,8 +124,8 @@ function RatingManagement() {
                 </div>
                 
                 <div className="flex flex-row gap-x-2 items-center justify-center py-2">
-                  <button onClick={() => handleUpdateRating(rating._id)}><FaEdit size={20} color="#B1B1B1"/></button>
-                  <button onClick={() => handleDeleteRating(rating._id)}><MdDelete size={22} color="#B1B1B1"/></button>
+                  <button title="update" onClick={() => handleUpdateRating(rating._id)}><FaEdit size={20} color="#B1B1B1"/></button>
+                  <button title="delete" onClick={() => handleDeleteRating(rating._id)}><MdDelete size={22} color="#B1B1B1"/></button>
                 </div>
               </div>
             </div>
