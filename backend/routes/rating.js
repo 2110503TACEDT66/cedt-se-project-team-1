@@ -11,9 +11,7 @@ router.route('/:id')
     .delete(protect, authorize('admin', 'user'), deleteRating);
 
 router.route('/')
-    .get(getRatings)
+    .get(protect, getRatings)
     .post(protect, authorize('admin', 'user'), addRating);
-
-
 
 module.exports = router;

@@ -6,6 +6,9 @@ export default async function getMassagesRating(mid: string) {
     const session = await getServerSession(authOptions);
     const response = await fetch(`${process.env.BACKEND_URL}/api/massages/${mid}/ratings`, {
         method: 'GET',
+        headers: {
+            authorization: `Bearer ${session?.user.token}`
+        }
     });
 
     if (!response.ok) {
