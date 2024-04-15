@@ -125,7 +125,8 @@ const addRating = async (req, res) => {
         console.log(req.body);
 
 
-        const { serviceRating, transportRating, priceRating, hygieneRating, overallRating, comment } = req.body;
+        const { serviceRating, transportRating, priceRating, hygieneRating, comment } = req.body;
+        const overallRating = (serviceRating + transportRating + priceRating + hygieneRating) / 4;
 
         // Create a new rating document
         const rating = new Rating({
