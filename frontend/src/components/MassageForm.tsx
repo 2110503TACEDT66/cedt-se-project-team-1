@@ -6,8 +6,11 @@ import { MassageItem } from "../../interface"
 import { useAppSelector, AppDispatch } from "@/redux/store"
 import { useDispatch } from "react-redux"
 import { updateMassageReducer, addMassageReducer } from "@/redux/features/massageSlice"
+import { useSession } from "next-auth/react"
 
 export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: string | null}) {
+
+    const { data: session } = useSession();
 
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
@@ -52,7 +55,13 @@ export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: stri
             _id: (id === null) ? "" : id,
             __v: 0,
             id: (id === null) ? "" : id,
-            reservation: []
+            reservation: [],
+            owner: session?.user.data._id || "",
+            hygieneRating: 0,
+            overallRating: 0,
+            priceRating: 0,
+            serviceRating: 0,
+            transportRating: 0
         }
 
         // validate date
