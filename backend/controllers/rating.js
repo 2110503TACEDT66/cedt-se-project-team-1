@@ -7,23 +7,23 @@ const mongoose = require('mongoose');
 const getRatings = async (req, res) => {
     let query;
     if(req.user.role === 'user') {
-		query = Appointment.find({ user: req.user.id }).populate({
+		query = Reservation.find({ user: req.user.id }).populate({
 			path: 'massageShop',
 			select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
 		});
     }else if(req.user.role === 'shopOwner') {
-        query = Appointment.find({ massageShop: req.user.id }).populate({
+        query = Reservation.find({ massageShop: req.user.id }).populate({
             path: 'massageShop',
             select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
         });
     }else {
         if (req.params.massageShopId) {
-            query = Appointment.find({ massageShop: req.params.massageShopId }).populate({
+            query = Reservation.find({ massageShop: req.params.massageShopId }).populate({
                 path: 'massageShop',
                 select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
             });
         } else {
-            query = Appointment.find().populate({
+            query = Reservation.find().populate({
                 path: 'massageShop',
                 select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
             });
@@ -42,6 +42,9 @@ const getRating = async (req, res) => {
     const { id } = req.params;
     try {
         const rating = await Rating.findById(id);
+        if(req.user.role !== rating.user.toString() && req.user.role !== 'admin') {
+            return res.status(401).json({ success: false, error: 'Unauthorized' });
+        }
         if (!rating) {
             return res.status(404).json({ succes: false, error: 'Rating not found' });
         }
@@ -94,8 +97,8 @@ const addRating = async (req, res) => {
         }
 
         // Check if the user has reserved the massageShop
-        const reservation = await Reservation.find({ user: req.user.id, massage: req.params.massageShopId })
-        if (reservation.length === 0) {
+        const Reservation = await Reservation.find({ user: req.user.id, massage: req.params.massageShopId })
+        if (Reservation.length === 0) {
             return res.status(400).json({
                 succes: false,
                 message: `The user with ID ${req.user.id} has not reserved this massage shop`
