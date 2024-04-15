@@ -44,9 +44,10 @@ const getRating = async (req, res) => {
 // Update rating
 const updateRating = async (req, res) => {
     const { id } = req.params;
-    const { rating, comment } = req.body;
+    const { serviceRating, transportRating, priceRating, hygieneRating, comment } = req.body;
+    const overallRating = (serviceRating + transportRating + priceRating + hygieneRating ) /4.0
     try {
-        const updatedRating = await Rating.findByIdAndUpdate(id, { rating, comment }, { new: true });
+        const updatedRating = await Rating.findByIdAndUpdate(id, { serviceRating, transportRating, priceRating, hygieneRating, overallRating, comment }, { new: true });
         if (!updatedRating) {
             return res.status(404).json({ success: false, error: 'Rating not found' });
         }
