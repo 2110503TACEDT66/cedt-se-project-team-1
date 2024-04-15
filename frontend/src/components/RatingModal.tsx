@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Rating } from '@mui/material';
 import addRating from '@/libs/Rating/addRating';
 import { RatingItem } from '../../interface';
-import deleteReservation from '@/libs/Authenticate/Reservation/deleteReservation';
+import deleteReservation from '@/libs/Reservation/deleteReservation';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { deleteReservationReducer } from '@/redux/features/reservationSlice';

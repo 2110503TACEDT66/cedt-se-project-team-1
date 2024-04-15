@@ -1,7 +1,7 @@
 "use server"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { ReservationItem } from "../../../../interface";
+import { ReservationItem } from "../../../interface";
 
 export default async function updateReservation(id:string, reservationData: ReservationItem) {
 
