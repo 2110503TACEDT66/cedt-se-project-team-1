@@ -2,10 +2,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { MassageItem, MassageJson } from "../../../interface";
 import { store } from "../store";
 
-import getMassages from "@/libs/getMassages";
-import createMassage from "@/libs/createMassage";
-import updateMassage from "@/libs/updateMassage";
-import deleteMassage from "@/libs/deleteMassage";
+import getMassages from "@/libs/Massage/getMassages";
+import createMassage from "@/libs/Massage/createMassage";
+import updateMassage from "@/libs/Massage/updateMassage";
+import deleteMassage from "@/libs/Massage/deleteMassage";
 
 type MassageState = {
     massageItems: MassageItem[]
@@ -23,7 +23,7 @@ const massageSlice = createSlice({
             state.massageItems = action.payload
         },
         addMassageReducer: (state, action: PayloadAction<MassageItem>) => {
-            const remainMassage = state.massageItems.filter((massage) => massage.id !== action.payload.id)
+            const remainMassage = state.massageItems.filter((massage: MassageItem) => massage.id !== action.payload.id)
             remainMassage.push(action.payload)
             state.massageItems = remainMassage
             createMassage(action.payload)
