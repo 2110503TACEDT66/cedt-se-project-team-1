@@ -59,7 +59,7 @@ function RatingManagement() {
     }
   }
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" >("highToLow");
+  const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "Newest" | "Oldest" >("highToLow");
 
   const filteredRating = ratings.filter((ratings) =>
       ratings._id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -68,10 +68,14 @@ function RatingManagement() {
   const sortedRating = [...filteredRating].sort((a, b) => {
     if (sortOrder === "lowToHigh") {
         return a.overallRating - b.overallRating;
-    }else{
+    } else if (sortOrder === "highToLow") {
         return b.overallRating - a.overallRating;
+    } else if (sortOrder === "Newest") {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     }
-});
+  });
 
   return (
     <main className="p-5 flex flex-col justify-center items-center">
@@ -90,11 +94,13 @@ function RatingManagement() {
         <select
           title="Sort Order"
           value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value as "lowToHigh" | "highToLow")}
+          onChange={(e) => setSortOrder(e.target.value as "lowToHigh" | "highToLow" | "Newest" | "Oldest")}
           className="border border-gray-300 rounded-md px-2 py-1"
         >
           <option value="lowToHigh">Rating Low to High</option>
           <option value="highToLow">Rating High to Low</option>
+          <option value="Newest">Newest</option>
+          <option value="Oldest">Oldest</option>
         </select>       
         
       </div>
