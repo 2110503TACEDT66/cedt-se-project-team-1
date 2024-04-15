@@ -22,7 +22,7 @@ export default function MassageRating({ ratingJson }: { ratingJson: RatingJson})
             <h1 className="text-lg font-semibold">Overall Rating</h1>
             <div className="">
 
-                <h1>{isNaN(columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length) ? 0 : (columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length).toPrecision(2)}</h1>
+                <h1 data-testid="overall-rating">{isNaN(columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length) ? 0 : (columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length).toPrecision(2)}</h1>
                     <Rating
                         name="avg-rating"
                         value={columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length}
@@ -40,6 +40,7 @@ export default function MassageRating({ ratingJson }: { ratingJson: RatingJson})
                                         value={rating}
                                         precision={0.5}
                                         readOnly
+                                        data-testid="rating"
                                     />
                                 </div>
                             )

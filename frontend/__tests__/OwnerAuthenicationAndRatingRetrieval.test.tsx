@@ -1,6 +1,6 @@
 import getMassagesRating from "@/libs/Rating/getMassagesRating";
 import MassageRating from "@/components/MassageRating";
-import { render,screen,waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 describe('getReviews', () => {
     it('should fetch reviews successfully', async () => {
@@ -8,7 +8,7 @@ describe('getReviews', () => {
         const mid = "6602f1e55275387a7855d32e" // Haven Massage
         const reviews = await getMassagesRating(mid);
 
-        console.log(reviews)
+        // console.log(reviews)
 
         expect(reviews).toBeDefined();
         expect(reviews).not.toBeNull();
@@ -21,9 +21,7 @@ describe('getReviews', () => {
     }, 10000); // Increase the timeout value to 10000ms (10 seconds)
 });
 
-
-
-const mockdata = {
+const mockData = {
     "success": true,
     "data": [
         {
@@ -68,16 +66,28 @@ const mockdata = {
     ]
 }
 
+const columnsRating = [0, 0, 0, 0];
+
+for (let i = 0; i < mockData.data.length; i++) {
+    // Find average rating for each column
+    columnsRating[0] += mockData.data[i].serviceRating;
+    columnsRating[1] += mockData.data[i].transportRating;
+    columnsRating[2] += mockData.data[i].priceRating;
+    columnsRating[3] += mockData.data[i].hygieneRating;
+}
+
+for (let i = 0; i < columnsRating.length; i++) columnsRating[i] /= mockData.data.length;
+
 describe('getMassageRating', () => {
     it('should have correct reviews', async () => {
-        const reviews = await MassageRating({ ratingJson: mockdata})
+        const reviews = await MassageRating({ ratingJson: mockData})
 
         render(reviews)
         await waitFor(
             ()=>{
-                const avgrating = screen.getAllByRole('Rating', { name: 'avg-rating' });
-                const ratings = screen.getAllByRole('Rating', { name: 'rating' });
-                expect(avgrating.length).toBe(1);
+                const avgrating = screen.getByTestId('overall-rating')
+                const ratings = screen.queryAllByTestId('rating')
+                expect(avgrating.innerHTML).toBe((columnsRating.reduce((a, b) => a + b, 0) / columnsRating.length).toPrecision(2));
                 expect(ratings.length).toBe(4)
                 
             }
