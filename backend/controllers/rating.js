@@ -97,8 +97,8 @@ const addRating = async (req, res) => {
         }
 
         // Check if the user has reserved the massageShop
-        const Reservation = await Reservation.find({ user: req.user.id, massage: req.params.massageShopId })
-        if (Reservation.length === 0) {
+        const reservation = await Reservation.find({ user: req.user.id, massage: req.params.massageShopId })
+        if (reservation.length === 0) {
             return res.status(400).json({
                 succes: false,
                 message: `The user with ID ${req.user.id} has not reserved this massage shop`
