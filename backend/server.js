@@ -25,10 +25,10 @@ const app = express();
 
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000,
-    max: 5000
+    max: 5000,
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const server = app.listen(
     PORT,
     console.log(

@@ -1,5 +1,7 @@
 "use client"
 import Image from 'next/image';
+import { useState } from 'react';
+import { Rating } from '@mui/material';
 import InteractiveCard from './InteractiveCard';
 import { useSession } from 'next-auth/react';
 import { Role } from '../../interface';
@@ -15,6 +17,10 @@ export default function Card({ massageName, imgSrc, massageId,masssageDescriptio
 
     const {data:session} = useSession();
     const dispatch = useDispatch<AppDispatch>()
+    const [rating, setRating] = useState<number | null>(massageRating);
+    const handleRatingChange = (value: number | null) => {
+        setRating(value);
+    };
 
     
     return (
@@ -36,9 +42,18 @@ export default function Card({ massageName, imgSrc, massageId,masssageDescriptio
                 <p className="text-gray-600 text-sm">
                     {masssageDescription}
                 </p>
-                <p>
-                    Rating: {massageRating ? massageRating.toFixed(1) : ''}
-                </p>
+                <div className='flex flex-row mt-2 gap-2'>
+                    <Rating
+                        name="rating"
+                        value={massageRating}
+                        precision={0.5}
+                        readOnly
+                    />
+                    <p className='text-gray-500 text-sm flex justify-center items-center'>
+                        {massageRating ? massageRating.toFixed(1) : ''}
+                    </p>
+                </div>
+                    
                 { session?.user.data.role === Role.Admin ?
                 <div className='absolute bottom-0 right-0 p-4'>
                     <div className='flex gap-2 h-5/6'>

@@ -12,6 +12,8 @@ router.route('/:id')
     .delete(protect, authorize('admin'), deleteReport);
 
 router.route('/')
+    // .get(getReports)
+    // .post(addReport);
     .get(protect, authorize('admin'), getReports)
     .post(protect, authorize('admin', 'shopOwner'), addReport);
     

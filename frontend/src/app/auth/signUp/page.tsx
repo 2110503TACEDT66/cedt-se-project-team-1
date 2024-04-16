@@ -1,6 +1,6 @@
 "use client"
 import { TextField } from "@mui/material"
-import userRegister from "@/libs/userRegister"
+import userRegister from "@/libs/Authenticate/userRegister"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Role } from "../../../../interface"

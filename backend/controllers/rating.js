@@ -5,25 +5,35 @@ const mongoose = require('mongoose');
 
 // Get all ratings
 const getRatings = async (req, res) => {
+    let query;
+    if(req.user.role === 'user') {
+		query = Rating.find({ user: req.user.id }).populate({
+			path: 'massageShop',
+			select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+		});
+    }else if(req.user.role === 'shopOwner') {
+        query = Rating.find({ massageShop: req.user.id }).populate({
+            path: 'massageShop',
+            select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+        });
+    }else {
+        if (req.params.massageShopId) {
+            query = Rating.find({ massageShop: req.params.massageShopId }).populate({
+                path: 'massageShop',
+                select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+            });
+        } else {
+            query = Rating.find().populate({
+                path: 'massageShop',
+                select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+            });
+        }
+    }
     try {
-        if (!req.params.massageShopId) {
-            const ratings = await Rating.find();
-            res.status(200).json({ success: true, data: ratings });
-        }
-        else {
-            const massageShop = await Massage.findById(req.params.massageShopId);
-            if (!massageShop) {
-                return res.status(404).json({
-                    success: false,
-                    message: `No massageShop with the id of ${req.params.massageShopId}`
-                });
-            }
-
-            const ratings = await Rating.find({ massageShop: req.params.massageShopId });
-            res.status(200).json({ success: true, data: ratings });
-        }
+        const ratings = await query
+        res.status(200).json({ success: true,count: ratings.length, data: ratings });
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Internal server error' });
+        res.status(500).json({ success: false, error: 'Cannot find Rating' });
     }
 };
 
@@ -32,6 +42,9 @@ const getRating = async (req, res) => {
     const { id } = req.params;
     try {
         const rating = await Rating.findById(id);
+        if(req.user.role !== rating.user.toString() && req.user.role !== 'admin') {
+            return res.status(401).json({ success: false, error: 'Unauthorized' });
+        }
         if (!rating) {
             return res.status(404).json({ succes: false, error: 'Rating not found' });
         }

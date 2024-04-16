@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Massage = require('./Massage');
+const Report = require('./Report');
 
 const ratingSchema = new mongoose.Schema({
     serviceRating: {
@@ -103,5 +104,14 @@ ratingSchema.post("save", async function () {
     }
 
 });
+
+// Delete the reports of the rating before deleting the rating
+ratingSchema.pre("deleteOne", { document: true, query: false }, async function (next) {
+    const report = await Report.find({ rating: this._id });
+    if (report) {
+        await Report.deleteOne({ rating: this._id });
+    }
+    next();
+})
 
 module.exports = mongoose.model('Rating', ratingSchema);

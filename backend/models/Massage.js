@@ -41,6 +41,40 @@ const MassageSchema = new mongooes.Schema({
         type: mongooes.Schema.ObjectId,
         ref: 'User',
         required: true,
+    },
+    overallRating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    serviceRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    transportRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    priceRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
+    },
+    hygieneRating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+        default: 0
     }
 }, {
     toJSON: { virtuals: true },
@@ -56,7 +90,7 @@ MassageSchema.virtual('reservations', {
 
 MassageSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
     console.log(`Reservation being removed from massage ${this._id}`);
-    await this.model('Reservation').deleteMany({ message: this._id });
+    await this.model('Reservation').deleteMany({ massage: this._id });
     next();
 })
 

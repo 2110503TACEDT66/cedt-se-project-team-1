@@ -13,7 +13,7 @@ export default function TopMenu() {
     const {data: session} = useSession();
 
     return (
-        <div className="h-[80px] bg-[#DBE7C9] fixed top-0 left-0 right-0 z-30 flex flex-row justify-between">
+        <div className="h-[65px] bg-[#c3d6a7] fixed top-0 left-0 right-0 z-30 flex flex-row justify-between rounded-bl-lg rounded-br-lg">
                 <Link href='/' className='flex justify-center items-center m-3'>
                     <Image src={'/img/logo1.png'} className="h-[100%] w-auto"
                         alt='logo' width={0} height={0} sizes='100vh' />

@@ -4,7 +4,7 @@ import Card from "./Card";
 import { MassageItem } from "../../interface";
 
 export default function MassageCatalog({ massages }: { massages: MassageItem[] }) {
-    const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "AtoZ" | "ZtoA" >("lowToHigh");
+    const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "AtoZ" | "ZtoA" >("highToLow");
     const [searchTerm, setSearchTerm] = useState("");
 
     // Filter and sort the massages based on the search term and sort order
