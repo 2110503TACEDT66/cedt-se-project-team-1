@@ -58,6 +58,13 @@ const ratingSchema = new mongoose.Schema({
     }
 });
 
+//Cascade delete report when a Rating is deleted
+ratingSchema.pre('deleteOne',{document:true,query:false},async function(next){
+    console.log(`Reports being removed from Rating ${this._id}`);
+    await this.model('Report').deleteMany({ratingId:this._id});
+    next();
+});
+
 // Update the rating of the massage shop after saving the rating
 ratingSchema.post("save", async function () {
     const massageShop = this.massageShop.toString();
