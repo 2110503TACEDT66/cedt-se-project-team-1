@@ -50,7 +50,7 @@ export default function Card({ massageName, imgSrc, massageId,masssageDescriptio
                         readOnly
                     />
                     <p className='text-gray-500 text-sm flex justify-center items-center'>
-                        {massageRating ? massageRating.toFixed(1) : ''}
+                        {massageRating ? massageRating.toFixed(1) : 'No Rating'}
                     </p>
                 </div>
                     
