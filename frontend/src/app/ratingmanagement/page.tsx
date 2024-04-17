@@ -27,6 +27,7 @@ function RatingManagement() {
   const [updateModalOpen,setUpdateModalOpen] = useState(false);
   const [initialRatingData, setInitialRatingData] = useState<Rating | null>(null);
 
+  //Fetch data of ratings
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,7 +40,7 @@ function RatingManagement() {
 
     fetchData();
   }, [])
-
+  //Delete Function
   const handleDeleteRating = async (id: string) => {
     try {
       // await deleteRating(id)
@@ -48,7 +49,7 @@ function RatingManagement() {
       console.log('Error deleteing rating: ', error);
     }
   }
-
+  //Update Function
   const handleUpdateRating = async (id: string) => {
     setSelectedRatingId(id)
     setUpdateModalOpen(true)
@@ -58,6 +59,8 @@ function RatingManagement() {
       setInitialRatingData(ratingToUpdate);
     }
   }
+
+  //Search Function
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "Newest" | "Oldest" >("highToLow");
 
