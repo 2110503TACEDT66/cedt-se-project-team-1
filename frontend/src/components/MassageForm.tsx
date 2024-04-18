@@ -20,14 +20,18 @@ export default function MassageForm({
 }) {
     const { data: session } = useSession();
 
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [address, setAddress] = useState("");
-    const [district, setDistrict] = useState("");
-    const [province, setProvince] = useState("");
-    const [postalcode, setPostalcode] = useState("");
-    const [tel, setTel] = useState("");
-    const [picture, setPicture] = useState("no-photo");
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [address, setAddress] = useState("")
+    const [district, setDistrict] = useState("")
+    const [province, setProvince] = useState("")
+    const [postalcode, setPostalcode] = useState("")
+    const [tel, setTel] = useState("")
+    const [picture, setPicture] = useState("no-photo")
+    const [hygieneRating, setHygieneRating] = useState(0)
+    const [priceRating, setPriceRating] = useState(0)
+    const [serviceRating, setServiceRating] = useState(0)
+    const [transportRating, setTransportRating] = useState(0)
 
     const massageItems = useAppSelector(
         (state) => state.massageSlice.massageItems
@@ -42,14 +46,18 @@ export default function MassageForm({
                 (massage) => massage.id === id
             );
             if (massageTarget) {
-                setName(massageTarget.name || "");
-                setDescription(massageTarget.description || "");
-                setAddress(massageTarget.address || "");
-                setDistrict(massageTarget.district || "");
-                setProvince(massageTarget.province || "");
-                setPostalcode(massageTarget.postalcode || "");
-                setTel(massageTarget.tel || "");
-                setPicture(massageTarget.picture);
+                setName(massageTarget.name || "")
+                setDescription(massageTarget.description || "")
+                setAddress(massageTarget.address || "")
+                setDistrict(massageTarget.district || "")
+                setProvince(massageTarget.province || "")
+                setPostalcode(massageTarget.postalcode || "")
+                setTel(massageTarget.tel || "")
+                setPicture(massageTarget.picture)
+                setHygieneRating(massageTarget.hygieneRating)
+                setPriceRating(massageTarget.priceRating)
+                setServiceRating(massageTarget.serviceRating)
+                setTransportRating(massageTarget.transportRating)
             }
         }
     }, []);
@@ -69,12 +77,12 @@ export default function MassageForm({
             id: id === null ? "" : id,
             reservation: [],
             owner: session?.user.data._id || "",
-            hygieneRating: 0,
+            hygieneRating: hygieneRating,
             overallRating: 0,
-            priceRating: 0,
-            serviceRating: 0,
-            transportRating: 0,
-        };
+            priceRating: priceRating,
+            serviceRating: serviceRating,
+            transportRating: transportRating
+        }
 
         // validate date
         if (
