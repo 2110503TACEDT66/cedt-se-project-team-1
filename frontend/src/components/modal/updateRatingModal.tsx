@@ -1,12 +1,13 @@
 import { Dialog, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import updateRating from '@/libs/Rating/updateRating'
 import { useState } from 'react';
+import { RatingItem } from '../../../interface';
 
 interface Props {
     id: string,
     open: boolean,
     onClose: () => void;
-    initialRatingData: Rating | null;
+    initialRatingData: RatingItem | null;
 }
 
 interface Rating {

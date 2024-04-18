@@ -9,6 +9,7 @@ import UpdateRatingModal from "@/components/modal/updateRatingModal";
 import { useAppSelector } from "@/redux/store";
 import { store } from "@/redux/store";
 import { deleteRatingReducer, setRatingReducer, updateRatingReducer } from "@/redux/features/ratingSlice";
+import { RatingItem } from "../../../interface";
 
 interface Rating {
   _id: string;
@@ -28,7 +29,7 @@ function RatingManagement() {
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [selectedRatingId, setSelectedRatingId] = useState(""); // State to manage the selected rating ID
   const [updateModalOpen,setUpdateModalOpen] = useState(false);
-  const [initialRatingData, setInitialRatingData] = useState<Rating | null>(null);
+  const [initialRatingData, setInitialRatingData] = useState<RatingItem | null>(null);
 
   const ratingItems = useAppSelector(state => state.ratingSlice.ratingItems);
 
@@ -69,8 +70,8 @@ function RatingManagement() {
     // const ratingToUpdate = ratings.find(rating => rating._id === id);
     const ratingToUpdate = ratingItems.find(rating => rating._id === id);
     if (ratingToUpdate) {
+      setInitialRatingData(ratingToUpdate);
       store.dispatch(updateRatingReducer(ratingToUpdate))
-      // setInitialRatingData(ratingToUpdate);
     }
   }
 
