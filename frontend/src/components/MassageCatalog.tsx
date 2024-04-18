@@ -19,7 +19,12 @@ export default function MassageCatalog({
 
     const updatedMassages = filteredMassages.map((massage) => ({
         ...massage,
-        overallRating: (massage.hygieneRating + massage.priceRating + massage.serviceRating + massage.transportRating) / 4
+        overallRating:
+            (massage.hygieneRating +
+                massage.priceRating +
+                massage.serviceRating +
+                massage.transportRating) /
+            4,
     }));
 
     const sortedMassages = [...updatedMassages].sort((a, b) => {
@@ -33,7 +38,6 @@ export default function MassageCatalog({
             return b.name.localeCompare(a.name);
         }
     });
-
 
     return (
         <>
@@ -51,10 +55,10 @@ export default function MassageCatalog({
                     onChange={(e) =>
                         setSortOrder(
                             e.target.value as
-                            | "lowToHigh"
-                            | "highToLow"
-                            | "AtoZ"
-                            | "ZtoA"
+                                | "lowToHigh"
+                                | "highToLow"
+                                | "AtoZ"
+                                | "ZtoA"
                         )
                     }
                     className="border border-gray-300 rounded-md px-2 py-1"
@@ -70,7 +74,7 @@ export default function MassageCatalog({
                     <Link
                         href={`/massage/${massage.id}`}
                         key={massage.id}
-                        className=""
+                        className="rounded-lg"
                     >
                         <Card
                             key={massage.id}
