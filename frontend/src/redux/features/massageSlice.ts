@@ -30,7 +30,7 @@ const massageSlice = createSlice({
         },
         updateMassageReducer: (state, action: PayloadAction<MassageItem>) => {
             state.massageItems = state.massageItems.map((massage) => {
-                if (massage.id === action.payload.id) {
+                if (massage.id === action.payload.id  ) {
                     updateMassage(massage.id, action.payload)
                     return action.payload
                 }
