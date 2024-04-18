@@ -20,6 +20,10 @@ export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: stri
     const [postalcode, setPostalcode] = useState("")
     const [tel, setTel] = useState("")
     const [picture, setPicture] = useState("no-photo")
+    const [hygieneRating, setHygieneRating] = useState(0)
+    const [priceRating, setPriceRating] = useState(0)
+    const [serviceRating, setServiceRating] = useState(0)
+    const [transportRating, setTransportRating] = useState(0)
 
     const massageItems = useAppSelector(state => state.massageSlice.massageItems)
 
@@ -38,6 +42,10 @@ export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: stri
                 setPostalcode(massageTarget.postalcode || "")
                 setTel(massageTarget.tel || "")
                 setPicture(massageTarget.picture)
+                setHygieneRating(massageTarget.hygieneRating)
+                setPriceRating(massageTarget.priceRating)
+                setServiceRating(massageTarget.serviceRating)
+                setTransportRating(massageTarget.transportRating)
             }
         }
     }, [])
@@ -57,11 +65,11 @@ export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: stri
             id: (id === null) ? "" : id,
             reservation: [],
             owner: session?.user.data._id || "",
-            hygieneRating: 0,
+            hygieneRating: hygieneRating,
             overallRating: 0,
-            priceRating: 0,
-            serviceRating: 0,
-            transportRating: 0
+            priceRating: priceRating,
+            serviceRating: serviceRating,
+            transportRating: transportRating
         }
 
         // validate date
@@ -70,7 +78,8 @@ export default function MassageForm({isUpdate, id}: {isUpdate: boolean, id: stri
         if (name.length > 50) return alert("name is too long")
         if (description.length > 500) return alert("description is too long")
         if (postalcode.length > 5) return alert("postalcode is too long")
-
+        
+        console.log(data)
         // update data
         if (isUpdate) {
             // update data

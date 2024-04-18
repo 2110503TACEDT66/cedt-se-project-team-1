@@ -14,11 +14,11 @@ import { store } from "@/redux/store";
 import { setMassageReducer } from "@/redux/features/massageSlice";
 
 export default function Massage() {
-    const [massageItems, setMassageItems] = useState()
+    const massageItems = useAppSelector(state => state.massageSlice.massageItems)
 
     useEffect(() => {
         getMassages().then((res) => {
-            setMassageItems(res.data)
+            store.dispatch(setMassageReducer(res.data))
         })
     }, [])
     

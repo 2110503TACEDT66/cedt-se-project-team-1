@@ -28,6 +28,7 @@ export default function MassageCatalog({
         }
     });
 
+
     return (
         <>
             <div className="flex flex-row justify-center gap-4 my-10">
@@ -76,7 +77,7 @@ export default function MassageCatalog({
                             massageId={massage.id}
                             masssageDescription={massage.description}
                             massageDistricts={massage.district}
-                            massageRating={massage.overallRating}
+                            massageRating={(massage.priceRating + massage.serviceRating + massage.transportRating + massage.hygieneRating) / 4}
                         />
                     </Link>
                 ))}
