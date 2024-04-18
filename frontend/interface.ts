@@ -90,6 +90,10 @@ export interface RatingItem{
   createdAt: string,
   user: string,
   _id: string,
+  massageShop: {
+    _id: string,
+    id: string
+  }
 }
 
 export interface RatingUpdateData {

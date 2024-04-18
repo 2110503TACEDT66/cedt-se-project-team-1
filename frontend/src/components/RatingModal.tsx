@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Rating } from '@mui/material';
 import addRating from '@/libs/Rating/addRating';
 import { RatingItem } from '../../interface';
-import deleteReservation from '@/libs/Reservation/deleteReservation';
+
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, useAppSelector } from '@/redux/store';
+import { store } from '@/redux/store';
 import { deleteReservationReducer } from '@/redux/features/reservationSlice';
+import getRatings from '@/libs/Rating/getRatings';
+import { setRatingReducer, updateRatingReducer } from '@/redux/features/ratingSlice';
 
 const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID: string }) => {
+
+    // const ratingItems = useAppSelector(state => state.ratingSlice.ratingItems);
+
+    // useEffect(() => {
+    //     getRatings().then((res) => {
+    //         store.dispatch(setRatingReducer(res.data))
+    //     })
+    // })
+
+
     // State variables to store rating values for different categories
     const [serviceRating, setServiceRating] = useState<number | null>(null);
     const [transportationRating, setTransportationRating] = useState<number | null>(null);
@@ -58,9 +71,14 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
             comment: comment,
             createdAt: '',
             user: '',
-            _id: ''
+            _id: shopID,
+            massageShop: {
+                _id: '',
+                id: ''
+            }
         };
-    
+        
+        // store.dispatch(updateRatingReducer(ratingItem))
         const response = await addRating(shopID, ratingItem);
     
         if (response.success) {
