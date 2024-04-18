@@ -71,7 +71,7 @@ function RatingManagement() {
     const ratingToUpdate = ratingItems.find(rating => rating._id === id);
     if (ratingToUpdate) {
       setInitialRatingData(ratingToUpdate);
-      store.dispatch(updateRatingReducer(ratingToUpdate))
+      // store.dispatch(updateRatingReducer(ratingToUpdate))
     }
   }
 
