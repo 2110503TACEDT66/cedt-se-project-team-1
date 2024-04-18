@@ -57,7 +57,7 @@ export default function Card({ massageName, imgSrc, massageId,masssageDescriptio
                 { session?.user.data.role === Role.Admin ?
                 <div className='absolute bottom-0 right-0 p-4'>
                     <div className='flex gap-2 h-5/6'>
-                        <ModalButton text='Edit' color='yellow'>
+                        <ModalButton text='Edit' color='gray'>
                             <MassageForm isUpdate={true} id={massageId}/>
                         </ModalButton>
                         <div>
