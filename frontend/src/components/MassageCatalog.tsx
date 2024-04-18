@@ -16,7 +16,13 @@ export default function MassageCatalog({
     const filteredMassages = massages.filter((massage) =>
         massage.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    const sortedMassages = [...filteredMassages].sort((a, b) => {
+
+    const updatedMassages = filteredMassages.map((massage) => ({
+        ...massage,
+        overallRating: (massage.hygieneRating + massage.priceRating + massage.serviceRating + massage.transportRating) / 4
+    }));
+
+    const sortedMassages = [...updatedMassages].sort((a, b) => {
         if (sortOrder === "lowToHigh") {
             return a.overallRating - b.overallRating;
         } else if (sortOrder === "highToLow") {
@@ -45,10 +51,10 @@ export default function MassageCatalog({
                     onChange={(e) =>
                         setSortOrder(
                             e.target.value as
-                                | "lowToHigh"
-                                | "highToLow"
-                                | "AtoZ"
-                                | "ZtoA"
+                            | "lowToHigh"
+                            | "highToLow"
+                            | "AtoZ"
+                            | "ZtoA"
                         )
                     }
                     className="border border-gray-300 rounded-md px-2 py-1"
@@ -77,7 +83,7 @@ export default function MassageCatalog({
                             massageId={massage.id}
                             masssageDescription={massage.description}
                             massageDistricts={massage.district}
-                            massageRating={(massage.priceRating + massage.serviceRating + massage.transportRating + massage.hygieneRating) / 4}
+                            massageRating={massage.overallRating}
                         />
                     </Link>
                 ))}
