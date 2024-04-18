@@ -6,7 +6,7 @@ const router = express.Router({ mergeParams: true });
 const { protect, authorize } = require('../middleware/auth');
 
 router.route('/:id')
-    .get(getRating)
+    .get(protect,getRating)
     .put(protect, authorize('admin', 'user'), updateRating)
     .delete(protect, authorize('admin', 'user'), deleteRating);
 
