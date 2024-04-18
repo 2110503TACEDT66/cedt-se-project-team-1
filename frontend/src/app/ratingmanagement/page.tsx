@@ -125,8 +125,8 @@ function RatingManagement() {
                 <div className="flex flex-col items-left">
                   <p>Service: <span className="text-[#838383] font-light">{rating.serviceRating}/5</span></p>
                   <p>Price: <span className="text-[#838383] font-light">{rating.priceRating}/5</span></p>
-                  <p>Transportation: <span className="text-[#838383] font-light">{rating.transportRating}</span></p>
-                  <p>Hygiene: <span className="text-[#838383] font-light">{rating.hygieneRating}</span></p>
+                  <p>Transportation: <span className="text-[#838383] font-light">{rating.transportRating}/5</span></p>
+                  <p>Hygiene: <span className="text-[#838383] font-light">{rating.hygieneRating}/5</span></p>
                   <p>Comment: <span className="text-[#838383] font-light">{rating.comment}</span></p>
                   <p>Date: <span className="text-[#838383] font-light">{new Date(rating.createdAt).toLocaleDateString('en-US')}</span></p>
                   {/* User กับ Massage Store ไม่ได้เอามาแสดงเพราะเป็น id ไม่ได้เป็นชื่อจริงๆ */}
