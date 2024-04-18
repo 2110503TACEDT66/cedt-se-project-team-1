@@ -26,6 +26,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   font-family: 'Inter','Kanit';
+  margin-top: 57px;
 }
 
 ::-webkit-scrollbar {
