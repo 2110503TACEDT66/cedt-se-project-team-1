@@ -19,7 +19,7 @@ const getRatings = async (req, res) => {
             });
         }
     } else if (req.user.role === 'shopOwner') {
-        query = Rating.find({ massageShop: req.user.id }).populate({
+        query = Rating.find({ massageShop: req.params.massageShopId }).populate({
             path: 'massageShop',
             select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
         });
