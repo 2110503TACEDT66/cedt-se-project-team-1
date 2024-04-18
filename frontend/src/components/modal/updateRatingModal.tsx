@@ -1,7 +1,11 @@
+'use client'
 import { Dialog, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import updateRating from '@/libs/Rating/updateRating'
 import { useState } from 'react';
 import { RatingItem } from '../../../interface';
+import { useAppSelector } from "@/redux/store";
+import { store } from "@/redux/store";
+import { updateRatingReducer } from "@/redux/features/ratingSlice";
 
 interface Props {
     id: string,
@@ -19,6 +23,9 @@ interface Rating {
 }
 
 function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
+
+    const ratingItems = useAppSelector(state => state.ratingSlice.ratingItems);
+
     const [formValues, setFormValues] = useState<Rating>({
         serviceRating: initialRatingData ? initialRatingData.serviceRating : 0,
         transportRating: initialRatingData ? initialRatingData.transportRating : 0,
@@ -27,14 +34,23 @@ function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
         comment: initialRatingData ? initialRatingData.comment : '',
     });
 
+    const [serviceRating, setServiceRating] = useState(initialRatingData ? initialRatingData.serviceRating : 0)
+    const [transportRating, setTransportRating] = useState(initialRatingData ? initialRatingData.transportRating : 0)
+    const [priceRating, setPriceRating] = useState(initialRatingData ? initialRatingData.priceRating : 0)
+    const [hygieneRating, setHygieneRating] = useState(initialRatingData ? initialRatingData.hygieneRating : 0)
+    const [comment, setComment] = useState(initialRatingData ? initialRatingData.comment : '')
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await updateRating(id, formValues)
-            onClose()
+            const ratingTarget = ratingItems.find((rating) => rating._id === id);
+            if (ratingTarget) {
+                store.dispatch(updateRatingReducer({...ratingTarget, serviceRating, transportRating, priceRating, hygieneRating, comment}));
+            }
+            onClose();
         } catch (error) {
             console.error('Failed to update rating:', error);
-            window.alert('Failed to update rating. Please try again.')
+            window.alert('Failed to update rating. Please try again.');
         }
     }
 
@@ -65,8 +81,10 @@ function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
                         variant="outlined"
                         type="number"
                         name="serviceRating"
-                        value={formValues.serviceRating}
-                        onChange={handleChange}
+                        // value={formValues.serviceRating}
+                        // onChange={handleChange}
+                        value={serviceRating}
+                        onChange={(e) => setServiceRating(parseFloat(e.target.value))}
                     />
                     <TextField
                         fullWidth
@@ -75,8 +93,10 @@ function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
                         variant="outlined"
                         type="number"
                         name="transportRating"
-                        value={formValues.transportRating}
-                        onChange={handleChange}
+                        // value={formValues.transportRating}
+                        // onChange={handleChange}
+                        value={transportRating}
+                        onChange={(e) => setTransportRating(parseFloat(e.target.value))}
                     />
                     <TextField
                         fullWidth
@@ -85,8 +105,10 @@ function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
                         variant="outlined"
                         type="number"
                         name="priceRating"
-                        value={formValues.priceRating}
-                        onChange={handleChange}
+                        // value={formValues.priceRating}
+                        // onChange={handleChange}
+                        value={priceRating}
+                        onChange={(e) => setPriceRating(parseFloat(e.target.value))}
                     />
                     <TextField
                         fullWidth
@@ -95,8 +117,10 @@ function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
                         variant="outlined"
                         type="number"
                         name="hygieneRating"
-                        value={formValues.hygieneRating}
-                        onChange={handleChange}
+                        // value={formValues.hygieneRating}
+                        // onChange={handleChange}
+                        value={hygieneRating}
+                        onChange={(e) => setHygieneRating(parseFloat(e.target.value))}
                     />
                     <TextField
                         fullWidth
@@ -105,8 +129,10 @@ function UpdateRatingModal({ id, open, onClose, initialRatingData }: Props) {
                         variant="outlined"
                         type="string"
                         name="comment"
-                        value={formValues.comment}
-                        onChange={handleChange}
+                        // value={formValues.comment}
+                        // onChange={handleChange}
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                     />
                     
                 </form>
