@@ -28,6 +28,11 @@ export default function TopMenu() {
                     <div className='flex'>
                     <TopMenuItem title='Massage' pageRef='/massage'/>
                     <TopMenuItem title='My Reservation' pageRef='/myreservation'/>
+                    {
+                        session?.user.data.role === 'admin' ?<TopMenuItem title= 'Ratings' pageRef='/ratingmanagement'/>:
+                        null
+                    }
+                    
                     <div className='w-[150px] flex justify-center items-center'>
                        {
                         session ? <Link href='/api/auth/signout' className='flex justify-center items-center m-3 bg-[#426B1F] text-[#FFFFFF] px-6 py-2 rounded-xl no-underline'><p>Sign-Out</p></Link>

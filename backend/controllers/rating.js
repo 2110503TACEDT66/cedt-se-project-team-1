@@ -7,16 +7,6 @@ const mongoose = require('mongoose');
 const getRatings = async (req, res) => {
     let query;
     if(req.user.role === 'user') {
-		query = Rating.find({ user: req.user.id }).populate({
-			path: 'massageShop',
-			select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
-		});
-    }else if(req.user.role === 'shopOwner') {
-        query = Rating.find({ massageShop: req.user.id }).populate({
-            path: 'massageShop',
-            select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
-        });
-    }else {
         if (req.params.massageShopId) {
             query = Rating.find({ massageShop: req.params.massageShopId }).populate({
                 path: 'massageShop',
@@ -28,6 +18,24 @@ const getRatings = async (req, res) => {
                 select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
             });
         }
+    }else if(req.user.role === 'shopOwner') {
+        query = Rating.find({ massageShop: req.user.id }).populate({
+            path: 'massageShop',
+            select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+        });
+    }else {
+        if (req.params.massageShopId) {
+            query = Rating.find({ massageShop: req.params.massageShopId }).populate({
+                path: 'massageShop',
+                select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+            });
+        } 
+        // else {
+        //     query = Rating.find().populate({
+        //         path: 'massageShop',
+        //         select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+        //     });
+        // }
     }
     try {
         const ratings = await query
