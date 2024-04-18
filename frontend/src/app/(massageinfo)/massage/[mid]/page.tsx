@@ -68,7 +68,7 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
         <>
         {
             massage !== undefined ? (
-                <div className="bg-[#f6edd8e0] mx-6 mb-8 mt-20 rounded-lg">
+                <div className="bg-[#f6edd8e0] mx-6 mb-8 mt-10 rounded-lg">
 
 
                 <main className="p-5 items-center">

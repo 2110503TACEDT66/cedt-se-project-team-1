@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // Get all ratings
 const getRatings = async (req, res) => {
     let query;
-    if(req.user.role === 'user') {
+    if (req.user.role === 'user') {
         if (req.params.massageShopId) {
             query = Rating.find({ massageShop: req.params.massageShopId }).populate({
                 path: 'massageShop',
@@ -18,28 +18,28 @@ const getRatings = async (req, res) => {
                 select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
             });
         }
-    }else if(req.user.role === 'shopOwner') {
+    } else if (req.user.role === 'shopOwner') {
         query = Rating.find({ massageShop: req.user.id }).populate({
             path: 'massageShop',
             select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
         });
-    }else {
+    } else {
         if (req.params.massageShopId) {
             query = Rating.find({ massageShop: req.params.massageShopId }).populate({
                 path: 'massageShop',
                 select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
             });
-        } 
-        // else {
-        //     query = Rating.find().populate({
-        //         path: 'massageShop',
-        //         select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
-        //     });
-        // }
+        }
+        else {
+            query = Rating.find().populate({
+                path: 'massageShop',
+                select: 'serviceRatings transportRating priceRating hygieneRating overallRating comment'
+            });
+        }
     }
     try {
         const ratings = await query
-        res.status(200).json({ success: true,count: ratings.length, data: ratings });
+        res.status(200).json({ success: true, count: ratings.length, data: ratings });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Cannot find Rating' });
     }
@@ -50,7 +50,7 @@ const getRating = async (req, res) => {
     const { id } = req.params;
     try {
         const rating = await Rating.findById(id);
-        if(req.user.role !== rating.user.toString() && req.user.role !== 'admin') {
+        if (req.user.role !== rating.user.toString() && req.user.role !== 'admin') {
             return res.status(401).json({ success: false, error: 'Unauthorized' });
         }
         if (!rating) {
@@ -66,7 +66,7 @@ const getRating = async (req, res) => {
 const updateRating = async (req, res) => {
     const { id } = req.params;
     const { serviceRating, transportRating, priceRating, hygieneRating, comment } = req.body;
-    const overallRating = (serviceRating + transportRating + priceRating + hygieneRating ) /4.0
+    const overallRating = (serviceRating + transportRating + priceRating + hygieneRating) / 4.0
     try {
         const updatedRating = await Rating.findByIdAndUpdate(id, { serviceRating, transportRating, priceRating, hygieneRating, overallRating, comment }, { new: true });
         if (!updatedRating) {
