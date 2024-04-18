@@ -37,7 +37,7 @@ function RatingManagement() {
       getRatings().then((res) => {
           store.dispatch(setRatingReducer(res.data))
       })
-  })
+  }, [])
 
   //Fetch data of ratings
   // useEffect(() => {
