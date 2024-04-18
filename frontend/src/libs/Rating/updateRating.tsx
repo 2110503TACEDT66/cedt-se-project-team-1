@@ -1,7 +1,7 @@
 "use server"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { RatingUpdateData } from "../../interface";
+import { RatingUpdateData } from "../../../interface";
 
 export default async function updateRating(id:string, ratingData: RatingUpdateData) {
 

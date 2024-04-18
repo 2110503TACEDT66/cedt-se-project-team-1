@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogActions, Button, TextField } from '@mui/material';
-import updateRating from '@/libs/updateRating'
+import updateRating from '@/libs/Rating/updateRating'
 import { useState } from 'react';
 
 interface Props {

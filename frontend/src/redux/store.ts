@@ -1,6 +1,7 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from "@reduxjs/toolkit";
 import massageSlice from "./features/massageSlice";
 import reservationSlice from "./features/reservationSlice";
+import ratingSlice from "./features/ratingSlice";
 import { useSelector, TypedUseSelectorHook } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -10,7 +11,7 @@ const persistConfig = {
     storage
 }
 
-const rootReducer = combineReducers({ massageSlice, reservationSlice })
+const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice })
 const reduxPersistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({

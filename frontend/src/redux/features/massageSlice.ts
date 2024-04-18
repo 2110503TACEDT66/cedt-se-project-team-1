@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MassageItem, MassageJson } from "../../../interface";
-import { store } from "../store";
+import { MassageItem } from "../../../interface";
 
-import getMassages from "@/libs/Massage/getMassages";
 import createMassage from "@/libs/Massage/createMassage";
 import updateMassage from "@/libs/Massage/updateMassage";
 import deleteMassage from "@/libs/Massage/deleteMassage";
@@ -47,8 +45,3 @@ const massageSlice = createSlice({
 export const { setMassageReducer, addMassageReducer, updateMassageReducer, deleteMassageReducer } = massageSlice.actions
 
 export default massageSlice.reducer
-
-// Fetch data and update initialState
-// getMassages().then((res:MassageJson) => {
-//     store.dispatch(setMassageReducer(res.data));
-// });
