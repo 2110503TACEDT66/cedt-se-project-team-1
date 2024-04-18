@@ -78,8 +78,8 @@ function RatingManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "Newest" | "Oldest" >("highToLow");
 
-  const filteredRating = ratings.filter((ratings) =>
-      ratings._id.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredRating = ratingItems.filter((rating) =>
+      rating._id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedRating = [...filteredRating].sort((a, b) => {
