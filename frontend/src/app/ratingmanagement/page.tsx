@@ -116,7 +116,7 @@ function RatingManagement() {
             <div className="bg-[#B1B1B1] flex flex-col justify-center w-full h-[30px]">
                 <h3 className="font-light text-sm text-white text-center">Id : {rating._id}</h3>
             </div>
-            <div className="flex flex-col px-4 pt-2 flex-grow">
+            <div className="relative flex flex-col px-4 pt-2 flex-grow ">
               <div className="flex flex-col flex-grow">
                 <p className="text-xl font-medium">Overall: {rating.overallRating}/5</p>
                 <Rating name="half-rating-read" sx={{ fontSize: 20 }} precision={0.25} value={rating.overallRating} readOnly />
@@ -132,7 +132,7 @@ function RatingManagement() {
                   {/* User กับ Massage Store ไม่ได้เอามาแสดงเพราะเป็น id ไม่ได้เป็นชื่อจริงๆ */}
                 </div>
                 
-                <div className="flex flex-row gap-x-2 items-center justify-center py-2">
+                <div className="relative flex gap-x-2 items-center justify-center py-2 mb-0">
                   <button title="update" onClick={() => handleUpdateRating(rating._id)}><FaEdit size={20} color="#B1B1B1"/></button>
                   <button title="delete" onClick={() => handleDeleteRating(rating._id)}><MdDelete size={22} color="#B1B1B1"/></button>
                 </div>
