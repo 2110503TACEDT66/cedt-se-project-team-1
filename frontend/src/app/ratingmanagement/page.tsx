@@ -1,11 +1,15 @@
 'use client'
 import { useState, useEffect } from "react";
-import deleteRating from '@/libs/deleteRating'
-import getRatings from "@/libs/getRatings";
+import deleteRating from '@/libs/Rating/deleteRating'
+import getRatings from "@/libs/Rating/getRatings";
 import { Rating } from "@mui/material";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import UpdateRatingModal from "@/components/modal/updateRatingModal";
+import { useAppSelector } from "@/redux/store";
+import { store } from "@/redux/store";
+import { deleteRatingReducer, setRatingReducer, updateRatingReducer } from "@/redux/features/ratingSlice";
+import { RatingItem } from "../../../interface";
 
 interface Rating {
   _id: string;
@@ -25,26 +29,35 @@ function RatingManagement() {
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [selectedRatingId, setSelectedRatingId] = useState(""); // State to manage the selected rating ID
   const [updateModalOpen,setUpdateModalOpen] = useState(false);
-  const [initialRatingData, setInitialRatingData] = useState<Rating | null>(null);
+  const [initialRatingData, setInitialRatingData] = useState<RatingItem | null>(null);
+
+  const ratingItems = useAppSelector(state => state.ratingSlice.ratingItems);
+
+  useEffect(() => {
+      getRatings().then((res) => {
+          store.dispatch(setRatingReducer(res.data))
+      })
+  }, [])
 
   //Fetch data of ratings
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const allRatings = await getRatings();
-        setRatings(allRatings.data);
-      } catch (error) {
-        console.log('Error fetching ratings ' + error);
-      }
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const allRatings = await getRatings();
+  //       setRatings(allRatings.data);
+  //     } catch (error) {
+  //       console.log('Error fetching ratings ' + error);
+  //     }
+  //   }
 
-    fetchData();
-  }, [])
+  //   fetchData();
+  // }, [])
   //Delete Function
   const handleDeleteRating = async (id: string) => {
     try {
       // await deleteRating(id)
-      setRatings(prevRatings => prevRatings.filter(rating => rating._id !== id))
+      // setRatings(prevRatings => prevRatings.filter(rating => rating._id !== id))
+      store.dispatch(deleteRatingReducer(id))
     } catch (error) {
       console.log('Error deleteing rating: ', error);
     }
@@ -54,9 +67,11 @@ function RatingManagement() {
     setSelectedRatingId(id)
     setUpdateModalOpen(true)
 
-    const ratingToUpdate = ratings.find(rating => rating._id === id);
+    // const ratingToUpdate = ratings.find(rating => rating._id === id);
+    const ratingToUpdate = ratingItems.find(rating => rating._id === id);
     if (ratingToUpdate) {
       setInitialRatingData(ratingToUpdate);
+      // store.dispatch(updateRatingReducer(ratingToUpdate))
     }
   }
 
@@ -64,8 +79,8 @@ function RatingManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"lowToHigh" | "highToLow" | "Newest" | "Oldest" >("highToLow");
 
-  const filteredRating = ratings.filter((ratings) =>
-      ratings._id.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredRating = ratingItems.filter((rating) =>
+      rating._id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedRating = [...filteredRating].sort((a, b) => {
