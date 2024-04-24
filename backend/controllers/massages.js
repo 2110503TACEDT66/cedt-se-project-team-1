@@ -1,4 +1,11 @@
 const Massage = require('../models/Massage');
+const Coupon = require('../models/Coupon');
+
+
+exports.getCoupons = async (req, res, next) => {
+ //get all of the shop's coupons
+}
+
 
 exports.getMassages = async (req, res, next) => {
     let query;
@@ -97,6 +104,8 @@ exports.updateMassage = async (req, res, next) => {
         res.status(400).json({ success: false });
     }
 };
+
+
 
 exports.deleteMassage = async (req, res, next) => {
     try {
