@@ -9,7 +9,8 @@ const CouponSchema = new mongoose.Schema({
     discount: {
         type: Number,
         required: [true, 'Please add a discount percentage'],
-        min: 0
+        min: 0,
+        max: 100
     },
     coverage: {
         type: Number,
@@ -22,7 +23,8 @@ const CouponSchema = new mongoose.Schema({
     },
     expireAt: {
         type: Date,
-        required: [true, 'Please add an expire date']
+        required: [true, 'Please add an expire date'],
+      
     },
     usableUserType: {
         type: String,

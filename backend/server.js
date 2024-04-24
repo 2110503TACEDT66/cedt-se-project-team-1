@@ -7,6 +7,8 @@ const massages = require("./routes/massages");
 const reservations = require("./routes/reservations");
 const ratings = require("./routes/rating.js");
 const reports = require("./routes/report.js");
+const coupons = require("./routes/coupon.js");
+
 
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
@@ -72,6 +74,7 @@ app.use("/api/auth", auth);
 app.use("/api/reservations", reservations);
 app.use("/api/ratings", ratings);
 app.use("/api/reports", reports);
+app.use("/api/coupons", coupons);
 
 // process.on('unhandledRejection', (err, promise) => {
 //     console.log(`Error: ${err.message}`);
