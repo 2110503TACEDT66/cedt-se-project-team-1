@@ -58,6 +58,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 app.use(xss());
 app.use(helmet());
