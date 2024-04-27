@@ -16,6 +16,7 @@ export default async function createReservation(reservationData: ReservationItem
         body: JSON.stringify({
             apptDate: reservationData.apptDate,
             user: reservationData.user,
+            price: reservationData.price
         })
     });
 

@@ -12,6 +12,10 @@ export interface CustomerCouponJson {
   data: CustomerCouponItem[]
 
 }
+export interface CouponItemOne{
+  success: boolean,
+  data: CouponItem
+}
 export interface CouponItem{
   _id: string,
   massageShop: string,
@@ -58,6 +62,7 @@ export interface ReservationItem {
     picture: string;
     id: string;
   };
+  price: number;
   _id: string;
   __v: number;
   id: string;
@@ -88,6 +93,7 @@ export interface MassageItem {
   serviceRating: number;
   transportRating: number;
   owner: string;
+  price: number;
 }
 
 export interface MassageJson {

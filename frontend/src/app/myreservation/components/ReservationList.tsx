@@ -40,15 +40,16 @@ export default function BookingList() {
                 reservationItems.map((reservation) => (
                     
 
-                    <div className="bg-[#FFFFFF] rounded-xl mx-5 my-2 h-[180px] flex overflow-hidden shadow-md w-[800px]" key={reservation._id}>
-                        <div className="w-[200px] h-full overflow-hidden">
+                    <div className="bg-[#FFFFFF] rounded-xl mx-5 my-2 h-52 flex overflow-hidden shadow-md w-[800px]" key={reservation._id}>
+                        <div className="w-[300px] h-full overflow-hidden">
                             <Image src={reservation.massage.picture == "no-photo" ? "/img/massage-default.jpg" : reservation.massage.picture} alt="Reservation image" width={0} height={0} sizes="10vw" className="w-[200px] h-full"/>
                         </div>
                         <div className="p-6 flex flex-col w-full">
                             <div>
                                 <div className="text-xl">Date of Reservation : {dayjs(reservation.apptDate).format('DD-MMM-YYYY')} </div>
                                 <div className="text-lg text-gray-400">Massage : {reservation.massage.name}</div>
-                            </div>
+                                <div className="text-lg text-gray-400">Price : {reservation.price}฿</div>
+                            </div>  
 
                             <div className="flex flex-row gap-5 justify-end">
                                 <ModalButton text = "Finish" color="green">

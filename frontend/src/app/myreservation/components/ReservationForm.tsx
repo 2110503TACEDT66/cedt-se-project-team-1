@@ -9,8 +9,10 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import { addReservationReducer, updateReservationReducer } from "@/redux/features/reservationSlice";
 
 import dayjs, { Dayjs } from "dayjs";
-import { CustomerCouponItem, CustomerCouponJson, ReservationItem } from "../../../../interface";
+import { CouponItem, CouponItemOne, CustomerCouponItem, CustomerCouponJson, MassageItem, MassageOne, ReservationItem } from "../../../../interface";
 import getCustomerCouponByMassage from "@/libs/CustomerCoupon/getCustomerCouponByMassage";
+import getMassage from "@/libs/Massage/getMassage";
+import getCouponById from "@/libs/Coupon/getCouponById";
 
 export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, id: string | null }) {
 
@@ -21,11 +23,17 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
     const reservationItems = useAppSelector(state => state.reservationSlice.reservationItems)
     const dispatch = useDispatch<AppDispatch>()
 
-    const [massage, setMassage] = useState<string>("")
+    const [ massage, setMassage] = useState<string>("")
     const [datePicker, setDatePicker] = useState<Dayjs | null>(null)
     const [resertionID, setReservationID] = useState<string>("")
     const [couponItems, setCouponItems] = useState< CustomerCouponJson|null>(null);
-    const [discount,setDiscount] = useState< string | null>(""); 
+    
+    const [coupon,setCoupon] = useState< string | null>(""); 
+    const [price, setPrice] = useState<number>(0);
+    const [discount, setDiscount] = useState<number|null>(0);
+
+    const [total, setTotal] = useState<number | null>(0);
+    const [maxDiscount, setMaxDiscount] = useState<number | null>(0);
 
     useEffect(() => {
         if (isUpdate) {
@@ -39,6 +47,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
         }
     }, [])
 
+    //coupon
     useEffect(() => {
         const fetchData = async () => {
           if (massage !== "" && massage !== null) {
@@ -46,6 +55,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
             try {
               const coupon: CustomerCouponJson = await getCustomerCouponByMassage(massage);
               setCouponItems(coupon);
+
+              
             } catch (error) {
               console.error("Error fetching coupon:", error);
 
@@ -54,12 +65,68 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
         };
       
         fetchData();
-        setDiscount(null);
+        setCoupon(null);
       }, [massage]);
 
-    useEffect(() => {
+      //price
+      useEffect(() => {
+        const fetchData = async () => {
+          if (massage !== "" && massage !== null) {
+           setPrice(0);
+            try {
+                const massageShop :MassageOne = await getMassage(massage);
+                console.log(massageShop.data.price);
+                setPrice(massageShop.data.price);
+                setDiscount(0);
+              
+            } catch (error) {
+              console.error("Error fetching coupon:", error);
 
-    }, [massage]);
+            }
+          }
+        };
+      
+        fetchData();
+
+      }, [massage]);
+
+      //discount 
+      useEffect(() => {
+        const fetchData = async () => {
+          if (coupon !== "" && coupon !== null ) {
+            setDiscount(null);
+            try {
+                const usingTicket : CouponItemOne = await getCouponById(coupon);
+                setMaxDiscount(usingTicket.data.coverage);
+                console.log(usingTicket.data.discount);
+                setDiscount(Math.min(usingTicket.data.discount/100.0 * price, usingTicket.data.coverage));
+               
+              
+            } catch (error) {
+              console.error("Error fetching coupon:", error);
+
+            }
+          }
+        };
+      
+        fetchData();
+      }, [coupon]);
+      
+      //total
+      useEffect(() => {
+        const fetchData = async () => {
+            if(discount != null && price != null && maxDiscount != null ){
+                const finalTotal = price - discount;
+                setTotal(finalTotal);
+            }
+
+        };
+      
+        fetchData();
+      }, [discount,price,maxDiscount]);
+
+      
+
 
     const onSumbit = async () => {
 
@@ -76,6 +143,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                 id: massage,
                 picture: ""
             },
+            price: total || 0,
             id: resertionID,
             _id: resertionID,
             __v: 0
@@ -105,26 +173,40 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                         setDatePicker(value);
                     }} defaultDate={datePicker} />
                 
-
                     <Select
                     variant="standard"
                     name="coupon"
                     id="coupon"
                     className="w-full"
-                    value={discount}
-                    onChange={(event) => setDiscount(event.target.value)}
+                    value={coupon}
+                    onChange={(event) => setCoupon(event.target.value)}
                     >
                         {couponItems === null ? (
                             <MenuItem disabled>No coupons for this shop...</MenuItem>
                         ) : couponItems?.data?.map((couponItem: CustomerCouponItem) => (
                             <MenuItem key={couponItem.coupon._id} value={couponItem.coupon._id}>
-                            {couponItem.coupon.discount}
+                            Discount {couponItem.coupon.discount}% Maximum {couponItem.coupon.coverage} ฿
                             </MenuItem>
                         ))}
                     </Select>
-                
-        
 
+                    <div className="w-full bg-slate-500 rounded-lg px-2 py-4 text-white">
+                        <div className="flex justify-between">
+                            <h2>Price</h2>
+                            <h2>{price}</h2>
+                        </div>
+
+                        <div className="flex justify-between">
+                            <h2>Discount</h2>
+                            <h2>{discount}</h2>
+                        </div>
+                        <div className="flex justify-between">
+                            <h2>Total</h2>
+                            <h2>{total}</h2>
+                        </div>
+                        
+                    </div>
+                    
                     <button name="Book Vaccine" className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5" 
                     onClick={() => { 
                         if (reservationItems.length >= 3) {
