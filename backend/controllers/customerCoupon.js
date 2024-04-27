@@ -3,6 +3,7 @@ const Massage = require('../models/Massage');
 const User = require('../models/User');
 
 const CustomerCoupon = require('../models/CustomerCoupon');
+const { get } = require('mongoose');
 
 
 const getCustomerCoupons = async (req, res) => {
@@ -27,6 +28,19 @@ const getCustomerCoupon = async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
+
+const getCustomerCouponByUser = async (req, res) => {
+    try{
+        const customerCoupon = await CustomerCoupon.find({user: req.params.id});
+        if(!customerCoupon){
+            return res.status(404).json({ success: false, error: 'Customer coupon not found' });
+        }
+        res.status(200).json({ success: true, data: customerCoupon });
+    }
+    catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+}
 
 const getCustomerCouponByMassage = async (req, res) => {
     const { massageId } = req.params;
@@ -93,6 +107,7 @@ module.exports = {
     getCustomerCoupons,
     getCustomerCoupon,
     addCustomerCoupon,
+    getCustomerCouponByUser,
     updateCustomerCoupon,
     deleteCustomerCoupon,
     getCustomerCouponByMassage
