@@ -1,4 +1,11 @@
 const Massage = require('../models/Massage');
+const Coupon = require('../models/Coupon');
+
+
+exports.getCoupons = async (req, res, next) => {
+ //get all of the shop's coupons
+}
+
 
 exports.getMassages = async (req, res, next) => {
     let query;
@@ -73,9 +80,9 @@ exports.getMassage = async (req, res, next) => {
 
 exports.createMassage = async (req, res, next) => {
     try {
-        req.body.user = req.user.id;
-
+        req.body.owner = req.user.id;
         const massage = await Massage.create(req.body);
+   
         res.status(201).json({ success: true, data: massage });
     }
     catch (err) {
