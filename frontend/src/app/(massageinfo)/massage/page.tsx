@@ -1,12 +1,12 @@
 "use client"
 import getMassages from "@/libs/Massage/getMassages";
-import MassageCatalog from "@/components/MassageCatalog";
+import MassageCatalog from "@/app/(massageinfo)/components/MassageCatalog";
 import { Suspense } from "react";
 import { LinearProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import ModalButton from "@/components/ModalButton";
-import MassageForm from "@/components/MassageForm";
+import MassageForm from "@/app/(massageinfo)/components/MassageForm";
 import TextHeader from "@/components/TextHeader";
 
 import { useAppSelector } from "@/redux/store";

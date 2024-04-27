@@ -1,5 +1,5 @@
 import getMassagesRating from "@/libs/Rating/getMassagesRating";
-import MassageRating from "@/components/MassageRating";
+import MassageRating from "@/app/(massageinfo)/components/MassageRating";
 import { render, screen, waitFor } from "@testing-library/react";
 
 describe('getReviews', () => {

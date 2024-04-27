@@ -4,16 +4,16 @@ import { useDispatch } from "react-redux"
 import Image from 'next/image'
 
 import { deleteReservationReducer } from "@/redux/features/reservationSlice"
-import ModalButton from "./ModalButton"
+import ModalButton from "../../../components/ModalButton"
 import ReservationForm from "./ReservationForm"
 import getReservations from "@/libs/Reservation/getReservations"
 import { setReservationReducer } from "@/redux/features/reservationSlice"
 import { useEffect } from "react"
-import { ReservationJson } from "../../interface"
-import TextHeader from "./TextHeader"
+import { ReservationJson } from "../../../../interface"
+import TextHeader from "../../../components/TextHeader"
 import dayjs from "dayjs"
 
-import RatingModal from "./RatingModal"
+import RatingModal from "../../ratingmanagement/components/RatingModal"
 
 
   

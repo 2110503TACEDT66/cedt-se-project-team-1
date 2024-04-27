@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
-import { MassageItem } from "../../interface";
+import { MassageItem } from "../../../../interface";
 
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
