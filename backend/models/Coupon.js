@@ -6,6 +6,11 @@ const CouponSchema = new mongoose.Schema({
         ref: 'Massage',
         required: true
     },
+    point:{
+        type: Number,
+        required: [true, 'Please add a Number of point'],
+        min: 0,
+    },
     discount: {
         type: Number,
         required: [true, 'Please add a discount percentage'],

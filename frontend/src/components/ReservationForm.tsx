@@ -78,6 +78,13 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                     <DateReserve onDateChange={(value: Dayjs) => {
                         setDatePicker(value);
                     }} defaultDate={datePicker} />
+                                        <Select variant="standard" name="coupon" id="coupon" className="h-[2em] w-full" value={massage} onChange={(event) => setMassage(event.target.value)}>
+                        {
+                            massageItems.map((massageItem) => (
+                                <MenuItem key={massageItem.id} value={massageItem.id}>{massageItem.name}</MenuItem>
+                            ))
+                        }
+                    </Select>
 
                     <button name="Book Vaccine" className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5" 
                     onClick={() => { 

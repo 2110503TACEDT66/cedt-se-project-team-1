@@ -80,9 +80,9 @@ exports.getMassage = async (req, res, next) => {
 
 exports.createMassage = async (req, res, next) => {
     try {
-        req.body.user = req.user.id;
-
+        req.body.owner = req.user.id;
         const massage = await Massage.create(req.body);
+   
         res.status(201).json({ success: true, data: massage });
     }
     catch (err) {
@@ -104,8 +104,6 @@ exports.updateMassage = async (req, res, next) => {
         res.status(400).json({ success: false });
     }
 };
-
-
 
 exports.deleteMassage = async (req, res, next) => {
     try {

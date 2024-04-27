@@ -38,6 +38,7 @@ const addCoupon = async (req, res) => {
         
         // Set expireAt to current time
         const {expireAt} = req.body;
+        
         if(!expireAt){
             req.body.expireAt = new Date();
         }
