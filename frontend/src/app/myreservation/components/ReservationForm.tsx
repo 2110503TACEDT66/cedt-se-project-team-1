@@ -196,16 +196,16 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                     <div className="w-full px-2 py-4 ">
                         <div className="flex justify-between">
                             <h2>Price</h2>
-                            <h2>{price}฿</h2>
+                            <h2>{price} ฿</h2>
                         </div>
 
                         <div className="flex justify-between text-rose-500">
                             <h2>Discount</h2>
-                            <h2>-{discount}฿</h2>
+                            <h2>-{discount} ฿</h2>
                         </div>
                         <div className="flex justify-between text-green-500">
                             <h2>Total</h2>
-                            <h2>{total}฿</h2>
+                            <h2>{total} ฿</h2>
                         </div>
                         
                     </div>
