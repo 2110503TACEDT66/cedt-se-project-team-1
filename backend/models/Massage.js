@@ -50,31 +50,33 @@ const MassageSchema = new mongooes.Schema({
     },
     serviceRating: {
         type: Number,
-        required: true,
         min: 0,
         max: 5,
         default: 0
     },
     transportRating: {
         type: Number,
-        required: true,
         min: 0,
         max: 5,
         default: 0
     },
     priceRating: {
         type: Number,
-        required: true,
         min: 0,
         max: 5,
         default: 0
     },
     hygieneRating: {
         type: Number,
-        required: true,
         min: 0,
         max: 5,
         default: 0
+    },
+    price:{
+        type: Number,
+        required: true,
+        min: 0,
+        default: 300
     }
 }, {
     toJSON: { virtuals: true },

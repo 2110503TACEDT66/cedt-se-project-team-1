@@ -7,6 +7,9 @@ const massages = require("./routes/massages");
 const reservations = require("./routes/reservations");
 const ratings = require("./routes/rating.js");
 const reports = require("./routes/report.js");
+const coupons = require("./routes/coupon.js");
+const memberships = require("./routes/membership.js");
+const customerCoupons = require("./routes/customerCoupon.js")
 
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
@@ -58,6 +61,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 app.use(xss());
 app.use(helmet());
@@ -71,6 +75,9 @@ app.use("/api/auth", auth);
 app.use("/api/reservations", reservations);
 app.use("/api/ratings", ratings);
 app.use("/api/reports", reports);
+app.use("/api/coupons", coupons);
+app.use("/api/memberships", memberships);
+app.use("/api/customerCoupons",customerCoupons );
 
 // process.on('unhandledRejection', (err, promise) => {
 //     console.log(`Error: ${err.message}`);

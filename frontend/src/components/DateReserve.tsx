@@ -11,11 +11,15 @@ export default function DateReserve({ onDateChange, defaultDate }: { onDateChang
     const [reserveDate, setReserveDate] = useState<Dayjs | null>(defaultDate);
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker className="bg-white" 
-            value= {reserveDate}
-            onChange={(value) => {setReserveDate(value); onDateChange(value)}}/>
-        </LocalizationProvider>
+            <div className="w-full h-full">
+                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DatePicker className="bg-white w-full" 
+                value= {reserveDate}
+                onChange={(value) => {setReserveDate(value); onDateChange(value)}}/>
+             </LocalizationProvider>
+            </div>
+
+       
     )
 }
 

@@ -24,8 +24,8 @@ const UserSchema = new mongoose.Schema({
         ]
     },
     role: {
-        type:String,
-        enum: ['user','admin', 'shopOwner'],
+        type: String,
+        enum: ['user', 'admin', 'shopOwner'],
         default: 'user'
     },
     password: {
@@ -39,6 +39,10 @@ const UserSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    point: {
+        type: Number,
+        default: 0
     }
 });
 
