@@ -21,6 +21,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
     const { data: session } = useSession();
     if (!session || !session.user.token) return null
 
+ 
+
     const massageItems = useAppSelector(state => state.massageSlice.massageItems)
     const reservationItems = useAppSelector(state => state.reservationSlice.reservationItems)
     const dispatch = useDispatch<AppDispatch>()
@@ -176,9 +178,10 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                 console.log("Selected coupon item details:", selectedCouponItem);
              
                 deleteCustomerCoupon(selectedCouponItem._id);
-                setMassage("");
+                
               }
-    
+            
+              setMassage("");
         
         }
 
