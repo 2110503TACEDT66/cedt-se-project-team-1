@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCustomerCoupons, getCustomerCoupon, updateCustomerCoupon, deleteCustomerCoupon, addCustomerCoupon } = require('../controllers/customerCoupon.js');
+const { getCustomerCoupons, getCustomerCoupon, updateCustomerCoupon, deleteCustomerCoupon, addCustomerCoupon, getCustomerCouponByMassage } = require('../controllers/customerCoupon.js');
 
 const router = express.Router({ mergeParams: true });
 
@@ -9,6 +9,9 @@ router.route('/:id')
     .get(protect,getCustomerCoupon)
     .put(protect, authorize('admin', 'shopOwner', 'user'), updateCustomerCoupon)
     .delete(protect, authorize('admin', 'shopOwner','user'), deleteCustomerCoupon);
+
+router.route('/massage/:massageId')
+    .get(protect, authorize('admin', 'shopOwner', 'user'), getCustomerCouponByMassage)
 
 router.route('/')
     .get(protect, authorize('admin', 'shopOwner','user'), getCustomerCoupons)

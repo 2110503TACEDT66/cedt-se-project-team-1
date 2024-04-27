@@ -28,6 +28,19 @@ const getCustomerCoupon = async (req, res) => {
     }
 };
 
+const getCustomerCouponByMassage = async (req, res) => {
+    const { massageId } = req.params;
+    try {
+        const customerCoupons = await CustomerCoupon.find({ massage: massageId, user: req.user.id }).populate('coupon user massage');
+        if (customerCoupons.length === 0) {
+            return res.status(404).json({ success: false, error: 'Customer coupons not found for the given massage' });
+        }
+        res.status(200).json({ success: true, count: customerCoupons.length, data: customerCoupons });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+};
+
 
 const addCustomerCoupon = async (req, res) => {
     try {
@@ -75,5 +88,6 @@ module.exports = {
     getCustomerCoupon,
     addCustomerCoupon,
     updateCustomerCoupon,
-    deleteCustomerCoupon
+    deleteCustomerCoupon,
+    getCustomerCouponByMassage
 };
