@@ -2,7 +2,7 @@
 import Image from "next/image"
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
-import MassageRating from "@/components/MassageRating";
+import MassageRating from "@/app/(massageinfo)/components/MassageRating";
 import getMassagesRating from "@/libs/Rating/getMassagesRating";
 import { MassageItem, RatingJson } from "../../../../../interface";
 

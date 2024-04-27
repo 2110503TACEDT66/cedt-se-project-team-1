@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['drive.google.com','thethaiger.com']
+        domains: [
+            'drive.google.com',
+            'thethaiger.com'
+        ]
     },
     async headers() {
         return [
@@ -21,7 +24,7 @@ const nextConfig = {
         FRONTEND_URL: process.env.FRONTEND_URL,
         BACKEND_URL: process.env.BACKEND_URL,
     },
-    experimental:{
+    experimental: {
         serverActions: true
     }
 }

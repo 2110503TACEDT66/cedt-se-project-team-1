@@ -1,7 +1,7 @@
 import { Rating } from "@mui/material"
-import { RatingJson } from "../../interface"
-import ModalButton from "./ModalButton";
-import RatingCatalog from "./RatingCatalog";
+import { RatingJson } from "../../../../interface"
+import ModalButton from "../../../components/ModalButton";
+import RatingCatalog from "../../ratingmanagement/components/RatingCatalog";
 
 export default function MassageRating({ ratingJson }: { ratingJson: RatingJson}) {
 

@@ -1,5 +1,5 @@
-import ReservationList from "@/components/ReservationList";
-import ReservationForm from "@/components/ReservationForm";
+import ReservationList from "@/app/myreservation/components/ReservationList";
+import ReservationForm from "@/app/myreservation/components/ReservationForm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
