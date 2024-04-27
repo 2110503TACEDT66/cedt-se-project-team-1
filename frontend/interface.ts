@@ -1,9 +1,9 @@
 export interface RegisterJson {
-  name: string,
-  telephone: string,
-  email: string,
-  role: string,
-  password: string
+  name: string;
+  telephone: string;
+  email: string;
+  role: string;
+  password: string;
 }
 
 export interface CustomerCouponJson {
@@ -29,13 +29,13 @@ export interface CustomerCouponItem{
 }
 
 export enum Role {
-  User = 'user',
-  Admin = 'admin',
-  ShopOwner = 'shopOwner'
+  User = "user",
+  Admin = "admin",
+  ShopOwner = "shopOwner",
 }
 
 export interface UserProfile {
-  success: boolean,
+  success: boolean;
   data: {
     _id: string,
     name: string,
@@ -48,75 +48,75 @@ export interface UserProfile {
 }
 
 export interface ReservationItem {
-  apptDate: string,
-  user: string,
+  apptDate: string;
+  user: string;
   massage: {
-    _id: string,
-    name: string,
-    province: string,
-    tel: string,
-    picture: string,
-    id: string
-  },
-  _id: string,
-  __v: number,
-  id: string
+    _id: string;
+    name: string;
+    province: string;
+    tel: string;
+    picture: string;
+    id: string;
+  };
+  _id: string;
+  __v: number;
+  id: string;
 }
 
 export interface ReservationJson {
-  success: boolean,
-  count: number,
-  data: ReservationItem[]
+  success: boolean;
+  count: number;
+  data: ReservationItem[];
 }
 
 export interface MassageItem {
-  name: string,
-  address: string,
-  district: string,
-  province: string,
-  postalcode: string,
-  tel: string,
-  picture: string,
-  description: string,
-  reservation: ReservationItem[],
-  _id: string,
-  __v: number,
-  id: string,
-  hygieneRating:number,
-  overallRating:number,
-  priceRating:number,
-  serviceRating:number,
-  transportRating:number,
-  owner: string
+  name: string;
+  address: string;
+  district: string;
+  province: string;
+  postalcode: string;
+  tel: string;
+  picture: string;
+  description: string;
+  reservation: ReservationItem[];
+  _id: string;
+  __v: number;
+  id: string;
+  hygieneRating: number;
+  overallRating: number;
+  priceRating: number;
+  serviceRating: number;
+  transportRating: number;
+  owner: string;
 }
 
 export interface MassageJson {
-  success: boolean,
-  count: number,
-  pagination: Object,
-  data: MassageItem[]
+  success: boolean;
+  count: number;
+  pagination: Object;
+  data: MassageItem[];
 }
 
 export interface MassageOne {
-  success: boolean,
-  data: MassageItem
+  success: boolean;
+  data: MassageItem;
 }
 
-export interface RatingItem{
-  serviceRating:number,
-  transportRating:number,
-  priceRating:number,
-  hygieneRating:number,
-  overallRating:number,
-  comment:string,
+export interface RatingItem {
+  serviceRating: number;
+  transportRating: number;
+  priceRating: number;
+  hygieneRating: number;
+  overallRating: number;
+  comment: string;
   // Add for retrieval of all ratings
-  createdAt: string,
-  user: string,
-  _id: string,
+  createdAt: string;
+  user: string;
+  _id: string;
   massageShop: {
-    _id: string,
-    id: string
-  }
+    _id: string;
+    id: string;
+  };
 }
 
 export interface RatingUpdateData {
@@ -124,10 +124,24 @@ export interface RatingUpdateData {
   transportRating: number;
   priceRating: number;
   hygieneRating: number;
-  comment: string
+  comment: string;
 }
 
 export interface RatingJson {
-    success: boolean,
-    data: RatingItem[]
+  success: boolean;
+  data: RatingItem[];
+}
+
+
+export interface MembershipItem {
+  _id: string;
+  user: string;
+  massageShop: string;
+  startAt: string;
+  expireAt: string;
+}
+
+export interface MembershipJson {
+  success: boolean;
+  data: MembershipItem[];
 }
