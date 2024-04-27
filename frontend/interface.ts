@@ -10,6 +10,7 @@ export interface CustomerCouponJson {
   success: boolean,
   count: number,
   data: CustomerCouponItem[]
+  
 
 }
 export interface CouponItemOne{
@@ -26,6 +27,7 @@ export interface CouponItem{
   __v : number
 }
 export interface CustomerCouponItem{
+  _id : string,
   coupon : CouponItem,
   user: UserProfile["data"],
   massageItem: MassageItem,
