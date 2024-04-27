@@ -8,22 +8,28 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { addReservationReducer, updateReservationReducer } from "@/redux/features/reservationSlice";
 
+
 import dayjs, { Dayjs } from "dayjs";
-import { ReservationItem } from "../../interface";
+import { CustomerCouponItem, CustomerCouponJson, ReservationItem } from "../../interface";
+import getCustomerCouponByMassage from "@/libs/CustomerCoupon/getCustomerCouponByMassage";
 
 export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, id: string | null }) {
 
     const { data: session } = useSession();
     if (!session || !session.user.token) return null
 
-    const massageItems = useAppSelector(state => state.massageSlice.massageItems)
-    const reservationItems = useAppSelector(state => state.reservationSlice.reservationItems)
-    const dispatch = useDispatch<AppDispatch>()
+    const massageItems = useAppSelector(state => state.massageSlice.massageItems);
+    const reservationItems = useAppSelector(state => state.reservationSlice.reservationItems);
+   
 
-    const [massage, setMassage] = useState<string>("")
-    const [datePicker, setDatePicker] = useState<Dayjs | null>(null)
-    const [resertionID, setReservationID] = useState<string>("")
+    const dispatch = useDispatch<AppDispatch>();
 
+    const [massage, setMassage] = useState<string>("");
+    const [datePicker, setDatePicker] = useState<Dayjs | null>(null);
+    const [resertionID, setReservationID] = useState<string>("");
+    const [couponItems, setCouponItems] = useState< CustomerCouponJson|null>(null);
+    const [discount,setDiscount] = useState< string | null>(""); 
+    
     useEffect(() => {
         if (isUpdate) {
             if (id === null) return;
@@ -37,8 +43,21 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
     }, [])
 
     useEffect(() => {
-
-    }, [massage]);
+        const fetchData = async () => {
+          if (massage !== "" && massage !== null) {
+            setCouponItems(null);
+            try {
+              const coupon: CustomerCouponJson = await getCustomerCouponByMassage(massage);
+              setCouponItems(coupon);
+            } catch (error) {
+              console.error("Error fetching coupon:", error);
+            }
+          }
+        };
+      
+        fetchData();
+        setDiscount(null);
+      }, [massage]);
 
     const onSumbit = async () => {
 
@@ -68,7 +87,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
     }
 
     return (
-        <>
+      
             <div className="h-[calc(100vh-75px)] grid justify-center items-center w-[500px]">
                 <div className="bg-[#FFFFFF] shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-96 gap-4">
                     <h1 className="text-2xl text-center mb-5">Massage Reservation</h1>
@@ -85,12 +104,21 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                     }} defaultDate={datePicker} />
                 
 
-                    <Select variant="standard" name="coupon" id="coupon" className="w-full" value={massage} onChange={(event) => setMassage(event.target.value)}>
-                        {
-                            massageItems.map((massageItem) => (
-                                <MenuItem key={massageItem.id} value={massageItem.id}>{massageItem.name}</MenuItem>
-                            ))
-                        }
+                    <Select
+                    variant="standard"
+                    name="coupon"
+                    id="coupon"
+                    className="w-full"
+                    value={discount}
+                    onChange={(event) => setDiscount(event.target.value)}
+                    >
+                        {couponItems === null ? (
+                            <MenuItem disabled>No usable coupons for this shop...</MenuItem>
+                        ) : couponItems?.data?.map((couponItem: CustomerCouponItem) => (
+                            <MenuItem key={couponItem.coupon._id} value={couponItem.coupon._id}>
+                            {couponItem.coupon.discount}
+                            </MenuItem>
+                        ))}
                     </Select>
 
                     <button name="Book Vaccine" className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5" 
@@ -103,7 +131,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                         }}>Reserve Massage</button>
                 </div>
             </div>
-        </>
+     
     )
 
 }

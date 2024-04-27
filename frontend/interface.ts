@@ -6,6 +6,28 @@ export interface RegisterJson {
   password: string
 }
 
+export interface CustomerCouponJson {
+  success: boolean,
+  count: number,
+  data: CustomerCouponItem[]
+
+}
+export interface CouponItem{
+  _id: string,
+  massageShop: string,
+  discount : number,
+  coverage : number,
+  expireAt : string,
+  usableUserType : string,
+  __v : number
+}
+export interface CustomerCouponItem{
+  coupon : CouponItem,
+  user: UserProfile["data"],
+  massageItem: MassageItem,
+  __v: number,
+}
+
 export enum Role {
   User = 'user',
   Admin = 'admin',
@@ -21,6 +43,7 @@ export interface UserProfile {
     email: string,
     role: Role,
     __v: number,
+    point: number
   }
 }
 

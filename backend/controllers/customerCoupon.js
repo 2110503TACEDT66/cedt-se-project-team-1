@@ -68,8 +68,6 @@ const updateCustomerCoupon = async (req, res) => {
     }
 };
 
-// @desc    Delete customer coupon by ID
-// @route   DELETE /api/customer-coupons/:id
 const deleteCustomerCoupon = async (req, res) => {
     const { id } = req.params;
     try {

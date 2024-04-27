@@ -1,10 +1,11 @@
+'use server'
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default async function getCustomerCoupon(mid: string) {
+export default async function getCustomerCouponByMassage(mid: string) {
     const session = await getServerSession(authOptions);
-   
-    const response = await fetch(`${process.env.BACKEND_URL}/api/customerCoupons`, {
+    console.log(mid);
+    const response = await fetch(`${process.env.BACKEND_URL}/api/customerCoupons/massage/${mid}/`, {
         method: 'GET',
         headers: {
             authorization: `Bearer ${session?.user.token}`
@@ -12,7 +13,7 @@ export default async function getCustomerCoupon(mid: string) {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to fetch massage rating")
+        throw new Error("Failed to fetch customerCoupon")
     }
 
     return await response.json();
