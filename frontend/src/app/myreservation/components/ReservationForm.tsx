@@ -65,7 +65,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
 
             }
           }else{
-
+            setCouponItems(null);
           }
         };
       
@@ -89,7 +89,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
 
             }
           }else{
-        
+            setPrice(0);
 
         
           }
@@ -115,6 +115,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
               console.error("Error fetching coupon:", error);
 
             }
+          }else{
+            setDiscount(null);
           }
         };
       
@@ -127,6 +129,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
             if(discount != null && price != null && maxDiscount != null ){
                 const finalTotal = price - discount;
                 setTotal(finalTotal);
+            }else{
+                setTotal(0);
             }
 
         };
@@ -170,8 +174,9 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
               
               if (selectedCouponItem) {
                 console.log("Selected coupon item details:", selectedCouponItem);
-                deleteCoupon(selectedCouponItem.coupon._id);
+             
                 deleteCustomerCoupon(selectedCouponItem._id);
+                setMassage("");
               }
     
         
