@@ -19,7 +19,7 @@ export default function UserInfo() {
                 </div>
                 <div className='flex flex-row gap-2'>
                     <AiOutlineGift size={24} color='white'/>
-                    <p className='text-white'>23312 point</p>
+                    <p className='text-white'>{session.user.data.point} point</p>
                 </div>
                
             </div>
