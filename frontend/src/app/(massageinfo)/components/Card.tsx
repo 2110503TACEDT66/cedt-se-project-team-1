@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Rating } from '@mui/material';
 import InteractiveCard from './InteractiveCard';
 import { useSession } from 'next-auth/react';
-import { Role } from '../../interface';
-import ModalButton from './ModalButton';
+import { Role } from '../../../../interface';
+import ModalButton from '../../../components/ModalButton';
 import MassageForm from './MassageForm';
 
 import { useAppSelector, AppDispatch } from '@/redux/store';

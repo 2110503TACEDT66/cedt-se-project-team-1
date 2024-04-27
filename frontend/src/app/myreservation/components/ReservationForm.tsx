@@ -9,7 +9,7 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import { addReservationReducer, updateReservationReducer } from "@/redux/features/reservationSlice";
 
 import dayjs, { Dayjs } from "dayjs";
-import { ReservationItem } from "../../interface";
+import { ReservationItem } from "../../../../interface";
 
 export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, id: string | null }) {
 

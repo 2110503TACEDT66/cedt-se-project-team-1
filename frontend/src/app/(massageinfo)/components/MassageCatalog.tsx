@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Card from "./Card";
-import { MassageItem } from "../../interface";
+import { MassageItem } from "../../../../interface";
 
 export default function MassageCatalog({
     massages,
