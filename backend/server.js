@@ -10,7 +10,7 @@ const reports = require("./routes/report.js");
 const coupons = require("./routes/coupon.js");
 const memberships = require("./routes/membership.js");
 const customerCoupons = require("./routes/customerCoupon.js")
-const points = require("./routes/point.js");
+const points = require("./routes/user.js");
 
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
