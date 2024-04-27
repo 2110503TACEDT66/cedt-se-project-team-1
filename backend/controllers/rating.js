@@ -152,9 +152,15 @@ const addRating = async (req, res) => {
         // Save the rating to MongoDB
         const savedRating = await rating.save();
 
+        const spent = massageShop.price;
+        const addPoint = Math.floor(spent / 200);
+        const newPoint = req.user.point + addPoint;
+        const updatedUser = await User.findByIdAndUpdate(req.user.id, { point: newPoint }, { new: true });
+
         res.status(201).json({
             success: true,
-            data: savedRating
+            data: savedRating,
+            user: updatedUser
         });
     }
     catch (err) {

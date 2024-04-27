@@ -77,7 +77,7 @@ const updateCoupon = async (req, res) => {
         if (usableUserType) updateFields.usableUserType = usableUserType;
         
         const updatedCoupon = await Coupon.findByIdAndUpdate(id, updateFields, { new: true });
-      
+
         if (!updatedCoupon) {
             console.log("here");
             return res.status(404).json({ success: false, error: 'Coupon not found' });
