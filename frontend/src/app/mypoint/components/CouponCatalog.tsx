@@ -10,8 +10,6 @@ export default function CouponCatalog({ coupon, userPoint, updateUserPoint, sess
     session: any
   }) 
   
-  
-  
   {
   return (
     <div className='flex justify-center h-full'>
@@ -28,6 +26,7 @@ export default function CouponCatalog({ coupon, userPoint, updateUserPoint, sess
           ))
         )}
       </div>
+  
     </div>
   )
 }

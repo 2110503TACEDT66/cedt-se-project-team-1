@@ -47,6 +47,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
 
     return (
         <div className='w-[350px] h-[180px] bg-white shadow-md'>
+
             <div className='flex flex-row'>
                 <div className='bg-[#426B1F] h-[180px] w-[120px] flex justify-center items-center'>
                     <Image src='/img/discount.png' width={60} height={60} alt='coupon' />
@@ -77,8 +78,6 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 }

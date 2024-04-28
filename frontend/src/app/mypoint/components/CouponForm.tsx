@@ -63,8 +63,6 @@ export default function CouponForm({
             __v: 0
         };
 
-        console.log(data);
-
         // validate date
         if (
             discount < 0 ||
@@ -85,6 +83,7 @@ export default function CouponForm({
             dispatch(updateCouponReducer(data));
         } else {
             // create data
+            console.log("create data", data);
             dispatch(addCouponReducer(data));
         }
     };

@@ -1,9 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CouponItem } from "../../../interface";
+import {store} from "../store";
 
 import updateCoupon from "@/libs/Coupon/updateCoupon";
 import createCoupon from "@/libs/Coupon/createCupon";
 import deleteCoupon from "@/libs/Coupon/deleteCoupon";
+import getCouponsByMassageId from "@/libs/Coupon/getCouponsByMassageId";
 
 type CouponState = {
     couponItems: CouponItem[]
@@ -11,6 +13,11 @@ type CouponState = {
 
 const initialState: CouponState = {
     couponItems: []
+}
+
+interface CouponCreated {
+    success: boolean,
+    data: CouponItem
 }
 
 const couponSlice = createSlice({
@@ -21,10 +28,13 @@ const couponSlice = createSlice({
             state.couponItems = action.payload
         },
         addCouponReducer: (state, action: PayloadAction<CouponItem>) => {
-            const remainCoupon = state.couponItems.filter((coupon: CouponItem) => coupon._id !== action.payload._id)
-            remainCoupon.push(action.payload)
-            state.couponItems = remainCoupon
-            createCoupon(action.payload)
+            createCoupon(action.payload).then((res: CouponCreated) => {
+                if (res.success) {
+                    getCouponsByMassageId(action.payload.massageShop).then((res) => {
+                        store.dispatch(setCouponReducer(res.data))
+                    })
+                }
+            })
         },
         updateCouponReducer: (state, action: PayloadAction<CouponItem>) => {
             state.couponItems = state.couponItems.map((coupon) => {
