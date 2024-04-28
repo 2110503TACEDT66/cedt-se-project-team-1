@@ -52,13 +52,13 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                 </div>
                 <div className='w-full h-[180px] p-4'>
                     <div className='flex'>
-                        <div>
+                        <div className='w-2/3'>
                             <Typography variant='h5' fontWeight={"bold"}>{couponItems.discount}%</Typography>
                             <Typography variant='body1' fontWeight={"bold"}>Max {couponItems.coverage} Bath</Typography>
                             <Typography variant='body2'>{couponItems.point} point</Typography>
                             <Typography variant='body2'>{massageShop.name}</Typography>
                         </div>
-                        <div className='flex flex-col ml-4 gap-1 mt-[-10px]'>
+                        <div className='flex flex-col items-end ml-4 gap-1 w-1/3 mt-[-4.5vh]'>
                             <ModalButton text='Edit' color='gray'>
                                 <></>
                             </ModalButton>
@@ -68,7 +68,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                             </div>
                         </div>
                     </div>
-                    <div className='flex justify-end items-end mt-5'>
+                    <div className='flex justify-end  mt-5'>
                         {canBuy ?
                             <RedeemButton onClick={handleBuy}>Buy this Coupon</RedeemButton> :
                             <Button variant='contained' disabled>Bought</Button>
