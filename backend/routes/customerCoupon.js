@@ -6,7 +6,7 @@ const router = express.Router({ mergeParams: true });
 const { protect, authorize } = require('../middleware/auth');
 
 router.route('/:id')
-.get(protect, getCustomerCouponByUser)
+.get(protect, getCustomerCouponsByUserId)
     .get(protect,getCustomerCoupon)
     .put(protect, authorize('admin', 'shopOwner', 'user'), updateCustomerCoupon)
     .delete(protect, authorize('admin', 'shopOwner','user'), deleteCustomerCoupon);
