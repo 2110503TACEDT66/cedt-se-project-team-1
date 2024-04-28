@@ -44,7 +44,7 @@ export default function page() {
     }, []);
 
     const unusedCoupon = couponItems.filter((coupon) => {
-      return !customerCoupon.some((customerCoupon) => customerCoupon.coupon && ((customerCoupon.coupon._id === coupon._id) && (customerCoupon.user._id === session?.user.data._id)));
+      return !customerCoupon.some((customerCoupon) => customerCoupon.coupon && ((customerCoupon.coupon._id === coupon._id) && (customerCoupon.user?._id === session?.user.data._id)));
       // return !customerCoupon.some((customerCoupon) => customerCoupon.coupon && ((customerCoupon.coupon._id === coupon._id)));
     });
 
