@@ -94,7 +94,7 @@ function page({ params }: { params: { mid: string } }) {
                     {isMember ? `Welcome back, You are one of ${massage.name} Membership` : `Join ${massage.name} Membership`}
 
                   </h1>
-                  <Button onClick={() => { handleJoin() }}>{isMember ? "Join" : "Continue Membership"}</Button>
+                  <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Member" : "shipJoin"}</Button>
                 </div>
 
               </div>
