@@ -1,11 +1,12 @@
 const express = require('express');
-const { getCustomerCoupons, getCustomerCoupon, updateCustomerCoupon, deleteCustomerCoupon, addCustomerCoupon, getCustomerCouponByMassage } = require('../controllers/customerCoupon.js');
+const { getCustomerCoupons, getCustomerCoupon, updateCustomerCoupon, deleteCustomerCoupon, addCustomerCoupon, getCustomerCouponByMassage, getCustomerCouponByUser } = require('../controllers/customerCoupon.js');
 
 const router = express.Router({ mergeParams: true });
 
 const { protect, authorize } = require('../middleware/auth');
 
 router.route('/:id')
+.get(protect, getCustomerCouponByUser)
     .get(protect,getCustomerCoupon)
     .put(protect, authorize('admin', 'shopOwner', 'user'), updateCustomerCoupon)
     .delete(protect, authorize('admin', 'shopOwner','user'), deleteCustomerCoupon);

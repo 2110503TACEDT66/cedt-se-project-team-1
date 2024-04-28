@@ -3,6 +3,7 @@ const Massage = require('../models/Massage');
 const User = require('../models/User');
 
 const CustomerCoupon = require('../models/CustomerCoupon');
+const { get } = require('mongoose');
 
 
 const getCustomerCoupons = async (req, res) => {
@@ -28,6 +29,19 @@ const getCustomerCoupon = async (req, res) => {
     }
 };
 
+const getCustomerCouponByUser = async (req, res) => {
+    try{
+        const customerCoupon = await CustomerCoupon.find({user: req.params.id});
+        if(!customerCoupon){
+            return res.status(404).json({ success: false, error: 'Customer coupon not found' });
+        }
+        res.status(200).json({ success: true, data: customerCoupon });
+    }
+    catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+}
+
 const getCustomerCouponByMassage = async (req, res) => {
     const { massageId } = req.params;
     try {
@@ -45,7 +59,15 @@ const getCustomerCouponByMassage = async (req, res) => {
 const addCustomerCoupon = async (req, res) => {
     try {
         const customerCoupon = await CustomerCoupon.create(req.body);
-        res.status(201).json({ success: true, data: customerCoupon });
+        const pointDeduct = req.body.coupon.point;
+        const user = await User.findById(req.body.user);
+        const userPoint = user.point;
+        const newPoint = userPoint - pointDeduct;
+        if(newPoint < 0){
+            return res.status(400).json({ success: false, error: 'Not enough point' });
+        }
+        const updatedUserPoint = await User.findByIdAndUpdate(req.body.user, { point: newPoint }, { new: true })
+        res.status(201).json({ success: true, data: customerCoupon, userPoint: updatedUserPoint.point});
     } catch (error) {
         res.status(400).json({ success: false, error: 'Bad request' });
     }
@@ -68,8 +90,6 @@ const updateCustomerCoupon = async (req, res) => {
     }
 };
 
-// @desc    Delete customer coupon by ID
-// @route   DELETE /api/customer-coupons/:id
 const deleteCustomerCoupon = async (req, res) => {
     const { id } = req.params;
     try {
@@ -87,6 +107,7 @@ module.exports = {
     getCustomerCoupons,
     getCustomerCoupon,
     addCustomerCoupon,
+    getCustomerCouponByUser,
     updateCustomerCoupon,
     deleteCustomerCoupon,
     getCustomerCouponByMassage
