@@ -27,17 +27,17 @@ function page({ params }: { params: { mid: string } }) {
       if (!session || !session.user.token) return;
       try {
         const response = await getMemberships();
-        const data: MembershipItem[] = response.data;
+        const membershipItem: MembershipItem[] = response.data;
 
-        data.filter((membership) => {
+        const filteredMemberships = await membershipItem.filter((membership) => {
           return membership.massageShop === params.mid && membership.user === session.user.data._id;
-        })
-        setIsMember(data.length > 0);
-        if (isMember) {
-          setMemberData(data[0]);
+        });
+
+        setIsMember(() => filteredMemberships.length > 0);
+        if (filteredMemberships.length > 0) {
+          setMemberData(filteredMemberships[0]);
         }
-      }
-      catch (err) {
+      } catch (err) {
         console.log(err);
       }
     }
@@ -45,24 +45,32 @@ function page({ params }: { params: { mid: string } }) {
   }, []);
 
 
+  useEffect(() => {
+    console.log(isMember, memberData);
+  }, [isMember])
+
+
   const handleJoin = async () => {
     if (!session || !session.user.token) {
       router.push("/auth/signin");
       return;
     }
-    if (!memberData) return;
+
     try {
       if (isMember) {
+        if (!memberData) { return; }
         const oldExpireAt = new Date(memberData.expireAt);
         const next30Days = new Date(oldExpireAt.getTime() + 30 * 24 * 60 * 60 * 1000);
         const expireAt = next30Days.toISOString();
+        console.log(expireAt);
 
         const item: MembershipItem = {
           _id: memberData._id,
           user: memberData.user,
           massageShop: memberData.massageShop,
           startAt: memberData.startAt,
-          expireAt
+          expireAt,
+          __v: memberData.__v
         }
         const response = await updateMembership(params.mid, item);
         alert("Continue Membership Successfully")
@@ -94,7 +102,7 @@ function page({ params }: { params: { mid: string } }) {
                     {isMember ? `Welcome back, You are one of ${massage.name} Membership` : `Join ${massage.name} Membership`}
 
                   </h1>
-                  <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Member" : "shipJoin"}</Button>
+                  <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Membership" : "Join"}</Button>
                 </div>
 
               </div>
