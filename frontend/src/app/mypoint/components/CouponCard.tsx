@@ -11,6 +11,7 @@ import { deleteCouponReducer } from '@/redux/features/couponSlice'
 import { useSession } from 'next-auth/react';
 import addCustomerCoupon from '@/libs/CustomerCoupon/addCustomerCoupon'
 import updateUserPoint from '@/libs/User/updateUserPoint'
+import { setPoint } from '@/redux/features/userSlide'
 
 export default function CouponCard({couponItems}:{couponItems:CouponItem}) {
     const {data: session} = useSession();
@@ -37,14 +38,15 @@ export default function CouponCard({couponItems}:{couponItems:CouponItem}) {
         
     }
 return (
-    <div className='w-[350px] h-[160px] bg-white shadow-md'>
+    <div className='w-[350px] h-[180px] bg-white shadow-md'>
             <div className='flex flex-row'>
-                    <div className='bg-[#426B1F] h-[160px] w-[120px] flex justify-center items-center'>
+                    <div className='bg-[#426B1F] h-[180px] w-[120px] flex justify-center items-center'>
                             <Image src='/img/discount.png' width={60} height={60} alt='coupon'/>
                     </div>
-                    <div className='w-full h-[160px] p-4'>
-                            <Typography variant='h5' fontWeight={"bold"}>{couponItems.discount} Bath</Typography>
-                            <Typography variant='body1'>{couponItems.point} point</Typography>
+                    <div className='w-full h-[180px] p-4'>
+                            <Typography variant='h5' fontWeight={"bold"}>{couponItems.discount}%</Typography>
+                            <Typography variant='body1' fontWeight={"bold"}>Max {couponItems.coverage} Bath</Typography>
+                            <Typography variant='body2'>{couponItems.point} point</Typography>
                             <Typography variant='body2'>{massageShop.name}</Typography>
                             <div className='flex justify-end items-end mt-5'>
                                 { canBuy ?

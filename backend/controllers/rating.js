@@ -1,6 +1,7 @@
 const Rating = require('../models/Rating');
 const Massage = require('../models/Massage.js');
 const Reservation = require('../models/Reservation.js');
+const User = require('../models/User.js');
 const mongoose = require('mongoose');
 
 // Get all ratings
