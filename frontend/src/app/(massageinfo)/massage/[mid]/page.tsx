@@ -107,10 +107,6 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                                     Join Membership
                                 </Link>
                                 <MassageRating ratingJson={ratingJson} />
-                                <Link href={`/mypoint/${params.mid}`}
-                                    className="p-3 px-5 text-lg bg-orange-300 rounded-lg font-medium shadow-lg hover:bg-amber-600 hover:text-white ease-i-out duration-300">
-                                    Get Coupon
-                                </Link>
                             </div>
                             {/* Coupon Massage Shop */}
                             
