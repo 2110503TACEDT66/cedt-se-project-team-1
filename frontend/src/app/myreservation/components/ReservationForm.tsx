@@ -13,11 +13,15 @@ import { CouponItem, CouponItemOne, CustomerCouponItem, CustomerCouponJson, Mass
 import getCustomerCouponByMassage from "@/libs/CustomerCoupon/getCustomerCouponByMassage";
 import getMassage from "@/libs/Massage/getMassage";
 import getCouponById from "@/libs/Coupon/getCouponById";
+import deleteCoupon from "@/libs/Coupon/deleteCoupon";
+import deleteCustomerCoupon from "@/libs/CustomerCoupon/deleteCustomerCoupon";
 
 export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, id: string | null }) {
 
     const { data: session } = useSession();
     if (!session || !session.user.token) return null
+
+ 
 
     const massageItems = useAppSelector(state => state.massageSlice.massageItems)
     const reservationItems = useAppSelector(state => state.reservationSlice.reservationItems)
@@ -34,6 +38,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
 
     const [total, setTotal] = useState<number | null>(0);
     const [maxDiscount, setMaxDiscount] = useState<number | null>(0);
+    const [customerCoupon, setCustomerCoupon] = useState<string|null>("");
 
     useEffect(() => {
         if (isUpdate) {
@@ -61,6 +66,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
               console.error("Error fetching coupon:", error);
 
             }
+          }else{
+            setCouponItems(null);
           }
         };
       
@@ -83,6 +90,10 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
               console.error("Error fetching coupon:", error);
 
             }
+          }else{
+            setPrice(0);
+
+        
           }
         };
       
@@ -106,6 +117,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
               console.error("Error fetching coupon:", error);
 
             }
+          }else{
+            setDiscount(null);
           }
         };
       
@@ -118,6 +131,8 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
             if(discount != null && price != null && maxDiscount != null ){
                 const finalTotal = price - discount;
                 setTotal(finalTotal);
+            }else{
+                setTotal(0);
             }
 
         };
@@ -154,6 +169,19 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
             dispatch(updateReservationReducer(data))
         } else {
             dispatch(addReservationReducer(data));
+            const selectedCouponItemId = coupon;
+            const selectedCouponItem = couponItems?.data.find(
+                (item) => item.coupon._id === coupon
+              );
+              
+              if (selectedCouponItem) {
+                console.log("Selected coupon item details:", selectedCouponItem);
+             
+                deleteCustomerCoupon(selectedCouponItem._id);
+                
+              }
+            
+              setMassage("");
         
         }
 
@@ -161,7 +189,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
 
     return (
         <>
-            <div className="h-[calc(100vh-75px)] grid justify-center items-center w-[500px]">
+            <div className="h-[calc(100vh-75px)] grid justify-center items-center w-[400px]">
                 <div className="bg-[#FFFFFF] shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-96 gap-4">
                     <h1 className="text-2xl text-center mb-5">Massage Reservation</h1>
                     <Select variant="standard" name="hospital" id="hospital" className="h-[2em] w-full" value={massage} onChange={(event) => setMassage(event.target.value)}>
@@ -183,15 +211,16 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
                     className="w-full"
                     value={coupon}
                     onChange={(event) => setCoupon(event.target.value)}
-                    >
-                        {couponItems === null ? (
-                            <MenuItem disabled>No coupons for this shop...</MenuItem>
-                        ) : couponItems?.data?.map((couponItem: CustomerCouponItem) => (
-                            <MenuItem key={couponItem.coupon._id} value={couponItem.coupon._id}>
-                            Discount {couponItem.coupon.discount}% Maximum {couponItem.coupon.coverage} ฿
-                            </MenuItem>
-                        ))}
-                    </Select>
+                >
+                    {couponItems === null ? (
+                        <MenuItem disabled>No coupons for this shop...</MenuItem>
+                    ) : couponItems?.data?.map((couponItem: CustomerCouponItem) => (
+                        <MenuItem key={couponItem._id} value={couponItem.coupon._id}>
+                            Discount {couponItem.coupon.discount}% Maximum {couponItem.coupon.coverage}฿
+                        </MenuItem>
+                    ))}
+                </Select>
+
 
                     <div className="w-full px-2 py-4 ">
                         <div className="flex justify-between">

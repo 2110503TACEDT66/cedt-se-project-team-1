@@ -16,6 +16,17 @@ const getCustomerCoupons = async (req, res) => {
 };
 
 
+const getCustomerCouponsByUserId = async (req, res) => {
+    try {
+        const customerCoupons = await CustomerCoupon.find({ user: req.user.id }).populate('coupon user massage');
+        res.status(200).json({ success: true, count: customerCoupons.length, data: customerCoupons });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+};
+
+
+
 const getCustomerCoupon = async (req, res) => {
     const { id } = req.params;
     try {
@@ -112,5 +123,6 @@ module.exports = {
     getCustomerCouponByUser,
     updateCustomerCoupon,
     deleteCustomerCoupon,
-    getCustomerCouponByMassage
+    getCustomerCouponByMassage,
+    getCustomerCouponsByUserId
 };
