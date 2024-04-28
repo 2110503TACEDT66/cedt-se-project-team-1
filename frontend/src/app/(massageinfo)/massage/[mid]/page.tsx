@@ -14,6 +14,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import MypointPage from "@/app/mypoint/page";
+
 export default function MassageDetailPage({ params }: { params: { mid: string } }) {
 
     const massageItem = useAppSelector(state => state.massageSlice.massageItems)
@@ -105,8 +107,16 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                                     Join Membership
                                 </Link>
                                 <MassageRating ratingJson={ratingJson} />
+                                <Link href={`/mypoint/${params.mid}`}
+                                    className="p-3 px-5 text-lg bg-orange-300 rounded-lg font-medium shadow-lg hover:bg-amber-600 hover:text-white ease-i-out duration-300">
+                                    Get Coupon
+                                </Link>
                             </div>
+                            {/* Coupon Massage Shop */}
+                            
+                            <MypointPage mid={params.mid} />
                         </main>
+                        
                     </div>
                 ) : <h1>This massage id not availble </h1>
             }
