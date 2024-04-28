@@ -11,7 +11,6 @@ import { deleteCouponReducer } from '@/redux/features/couponSlice'
 import { useSession } from 'next-auth/react';
 import addCustomerCoupon from '@/libs/CustomerCoupon/addCustomerCoupon'
 import updateUserPoint from '@/libs/User/updateUserPoint'
-import { setPoint } from '@/redux/features/userSlide'
 
 export default function CouponCard({couponItems}:{couponItems:CouponItem}) {
     const {data: session} = useSession();
