@@ -79,7 +79,6 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
         
         // store.dispatch(updateRatingReducer(ratingItem))
         const response = await addRating(shopID, ratingItem);
-        // updateUserPoint(reservation?.user ?? '', Math.round((reservation?.price ?? 0) / 200));
     
         if (response.success) {
             dispatch(deleteReservationReducer(reservationID))
@@ -116,7 +115,7 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
                 <textarea placeholder='comment' className="resize-none border rounded-md " rows={12} value={comment} onChange={handleCommentChange}></textarea>
                 <div className='text-center'>
                     <p>Every 200 Bath You got 1 point!</p>
-                    <p>You got {Math.round((reservation?.price ?? 0) / 200)} point !</p>
+                    <p>You got {Math.floor((reservation?.price ?? 0) / 200)} point !</p>
                 </div>
             </div>
             <div className='flex justify-center'>
