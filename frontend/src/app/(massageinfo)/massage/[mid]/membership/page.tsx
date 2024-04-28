@@ -27,14 +27,14 @@ function page({ params }: { params: { mid: string } }) {
       if (!session || !session.user.token) return;
       try {
         const response = await getMemberships();
-        const data: MembershipItem[] = response.data;
+        const membershipItem: MembershipItem[] = response.data;
 
-        data.filter((membership) => {
+        const filteredMemberships = await membershipItem.filter((membership) => {
           return membership.massageShop === params.mid && membership.user === session.user.data._id;
         })
-        setIsMember(data.length > 0);
-        if (isMember) {
-          setMemberData(data[0]);
+        setIsMember(filteredMemberships.length > 0);
+        if (filteredMemberships.length > 0) {
+          setMemberData(filteredMemberships[0]);
         }
       }
       catch (err) {
@@ -49,9 +49,11 @@ function page({ params }: { params: { mid: string } }) {
       router.push("/auth/signin");
       return;
     }
-    if (!memberData) return;
+    
     try {
       if (isMember) {
+        console.log(memberData);
+        if (!memberData) return;
         const oldExpireAt = new Date(memberData.expireAt);
         const next30Days = new Date(oldExpireAt.getTime() + 30 * 24 * 60 * 60 * 1000);
         const expireAt = next30Days.toISOString();
@@ -93,7 +95,7 @@ function page({ params }: { params: { mid: string } }) {
                     {isMember ? `Welcome back, You are one of ${massage.name} Membership` : `Join ${massage.name} Membership`}
 
                   </h1>
-                  <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Member" : "shipJoin"}</Button>
+                  <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Member" : "  Join"}</Button>
                 </div>
 
               </div>
