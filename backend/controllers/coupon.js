@@ -2,11 +2,16 @@ const Coupon = require('../models/Coupon');
 const Massage = require('../models/Massage')
 // Get all coupons
 const getCoupons = async (req, res) => {
-    try {
-        const coupons = await Coupon.find();
-        res.status(200).json({ success: true, data: coupons });
-    } catch (error) {
-        res.status(500).json({ success: false, error: 'Internal server error' });
+
+    if (req.params.massageShopId) {
+        getCouponsByMassageShop(req, res);
+    } else {
+        try {
+            const coupons = await Coupon.find();
+            res.status(200).json({ success: true, data: coupons });
+        } catch (error) {
+            res.status(500).json({ success: false, error: 'Internal server error' });
+        }
     }
 };
 
@@ -23,6 +28,17 @@ const getCoupon= async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
+
+const getCouponsByMassageShop = async (req, res) => {
+    const { massageShopId } = req.params;
+    try {
+        const coupons = await Coupon.find({ massageShop: massageShopId });
+        res.status(200).json({ success: true, data: coupons });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+};
+
 
 // Create a new coupon
 const addCoupon = async (req, res) => {
@@ -91,6 +107,7 @@ const updateCoupon = async (req, res) => {
 module.exports = {
     getCoupons,
     getCoupon,
+    getCouponsByMassageShop,
     addCoupon,
     updateCoupon,
     deleteCoupon
