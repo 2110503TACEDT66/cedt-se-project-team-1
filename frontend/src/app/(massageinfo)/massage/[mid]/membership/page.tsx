@@ -83,20 +83,42 @@ function page({ params }: { params: { mid: string } }) {
     <>
       {
         massage !== undefined ? (
-          <div className="bg-[#f6edd8e0] mx-6 mb-8 mt-10 rounded-lg">
+          <div className="bg-[#f6edd8e0] h-[83vh] mx-6 mb-8 mt-8 rounded-lg">
 
-
-            <main className="p-5 items-center">
-              <div className="flex flex-col my-5 items-center gap-8">
-                <div className="relative">
-
-                </div>
-                <div className="flex flex-col ml-5">
-                  <h1 className="text-2xl font-bold mb-4">
+            <main className="p-5 items-center h-full overflow-y-hidden">
+              <div className="flex flex-col my-5 items-center gap-8 h-full">
+                <div className="flex flex-col ml-5 h-full">
+                  <h1 className="text-2xl font-bold mb-4 text-center">
                     {isMember ? `Welcome back, You are one of ${massage.name} Membership` : `Join ${massage.name} Membership`}
 
                   </h1>
-                  <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Membership" : "Join"}</Button>
+                  <div className="flex bg-white rounded-md p-2 shadow-md py-4 h-[80%]">
+                    <div className="w-full border-r pr-3">
+                      <h2 className="text-lg mb-2 font-semibold text-center text-gray-800">None-Subscription</h2>
+                      <h2 className="text-lg font-semibold text-center text-white bg-[#99a881] my-4 py-2 mb-6 rounded-sm">FREE</h2>
+                      <ul className=" list-disc text-md ml-5 space-y-2 ">
+                        <li className="text-gray-700 bullet">Access to common coupons</li>
+                        <li className="text-red-500 bullet">No exclusive offers</li>
+                        <li className="text-red-500 bullet">Limited support</li>
+                      </ul>
+                    </div>
+                    <div className="w-full pl-3 flex flex-col items-center">
+                      <h2 className="text-lg mb-2 font-semibold text-center text-gray-800">Subscription</h2>  
+                      <h2 className="text-lg font-semibold text-center text-white bg-[#99a881] my-2 py-2 mb-6 w-full rounded-sm">9.99$/mo</h2>
+                      <ul className="text-md mb-2 list-disc ml-5 space-y-2">
+                        <li className="text-gray-700 bullet">Access to common coupons</li>
+                        <li className="text-green-500 bullet">Access to premium coupons</li>
+                        <li className="text-green-500 bullet">Exclusive offers and discounts</li>
+                        <li className="text-green-500 bullet">Priority support</li>
+                      </ul>
+                      <div className="w-2/3 flex justify-center rounded-md bg-blue-200 mt-28 hover:shadow-gray-600">
+                        <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Membership" : "Join"}</Button>
+                      </div>
+                      
+                    </div>
+                  </div>
+
+                  
                 </div>
 
               </div>

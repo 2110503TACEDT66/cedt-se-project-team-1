@@ -32,3 +32,9 @@ body {
 ::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
+
+.bullet::before {
+  content: "•"; /* Use any bullet character you prefer */
+  color: #333; /* Color of the bullet */
+  margin-right: 0.5em; /* Adjust as needed */
+}
