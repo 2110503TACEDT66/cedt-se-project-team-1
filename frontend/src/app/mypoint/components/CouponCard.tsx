@@ -8,21 +8,32 @@ import RedeemButton from './RedeemButton'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
 import { deleteCouponReducer } from '@/redux/features/couponSlice'
+import { useSession } from 'next-auth/react';
+import addCustomerCoupon from '@/libs/CustomerCoupon/addCustomerCoupon'
 
 export default function CouponCard({couponItems}:{couponItems:CouponItem}) {
-    const [massageShop, setMassageShop] = React.useState<string>('')
+    const {data: session} = useSession();
+    const userPoint = session?.user.data.point ?? 0;
     const dispatch = useDispatch<AppDispatch>()
-
+    const [massageShop, setMassageShop] = React.useState<MassageItem>({} as MassageItem);
+    const [canBuy, setCanBuy] = React.useState<boolean>(true);
+    
     useEffect(() => {
         getMassage(couponItems.massageShop).then((res) => {
-            const massage: MassageItem = res.data
-            setMassageShop(massage.name)
-        })
-    }, [])
+            const massage: MassageItem = res.data;
+            setMassageShop(massage);
+        });
+    }, []);
 
-    const handleRedeem = () => {
-        dispatch(deleteCouponReducer(couponItems._id))
-
+    const handleBuy = async () => {
+        if(userPoint > couponItems.point){
+            await addCustomerCoupon(couponItems._id, session?.user.data._id ?? '', massageShop._id).then((res) => {
+                if(res.success){
+                    setCanBuy(false);
+                }
+            });
+        }else alert('You do not have enough points to buy this coupon')
+        
     }
 return (
     <div className='w-[350px] h-[160px] bg-white shadow-md'>
@@ -32,10 +43,14 @@ return (
                     </div>
                     <div className='w-full h-[160px] p-4'>
                             <Typography variant='h5' fontWeight={"bold"}>{couponItems.discount} Bath</Typography>
-                            <Typography variant='body1'>coverage : {couponItems.coverage} Bath</Typography>
-                            <Typography variant='body2'>{massageShop}</Typography>
+                            <Typography variant='body1'>{couponItems.point} point</Typography>
+                            <Typography variant='body2'>{massageShop.name}</Typography>
                             <div className='flex justify-end items-end mt-5'>
-                               <RedeemButton>Redeem</RedeemButton> 
+                                { canBuy ?
+                                    <RedeemButton onClick={handleBuy}>Buy this Coupon</RedeemButton> :
+                                    <Button variant='contained' disabled>Bought</Button> 
+                                }
+                                
                             </div>  
                     </div>
             </div>
