@@ -59,19 +59,21 @@ const getCustomerCouponByMassage = async (req, res) => {
 const addCustomerCoupon = async (req, res) => {
     try {
         const customerCoupon = await CustomerCoupon.create(req.body);
-        const pointDeduct = req.body.coupon.point;
+        const pointDetect = await Coupon.findById(req.body.coupon);
+        const CouponPoint = pointDetect.point;
         const user = await User.findById(req.body.user);
         const userPoint = user.point;
-        const newPoint = userPoint - pointDeduct;
+        const newPoint = userPoint - CouponPoint;
         if(newPoint < 0){
             return res.status(400).json({ success: false, error: 'Not enough point' });
+        }else{
+            const updatedUserPoint = await User.findByIdAndUpdate(req.body.user, { point: newPoint }, { new: true })
         }
-        const updatedUserPoint = await User.findByIdAndUpdate(req.body.user, { point: newPoint }, { new: true })
-        res.status(201).json({ success: true, data: customerCoupon, userPoint: updatedUserPoint.point});
+        res.status(201).json({ success: true, data: customerCoupon });
     } catch (error) {
         res.status(400).json({ success: false, error: 'Bad request' });
     }
-};
+}
 
 
 const updateCustomerCoupon = async (req, res) => {

@@ -23,6 +23,7 @@ export interface CouponItem{
   coverage : number,
   expireAt : string,
   usableUserType : string,
+  point : number,
   __v : number
 }
 export interface CustomerCouponItem{
