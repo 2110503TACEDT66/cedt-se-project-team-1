@@ -4,7 +4,7 @@ import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
 import MassageRating from "@/app/(massageinfo)/components/MassageRating";
 import getMassagesRating from "@/libs/Rating/getMassagesRating";
-import { MassageItem, RatingJson } from "../../../../../interface";
+import { MassageItem, RatingJson, Role } from "../../../../../interface";
 
 import { useDispatch } from "react-redux";
 import { updateMassageReducer } from "@/redux/features/massageSlice";
@@ -115,11 +115,15 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                             <MypointPage mid={params.mid} />
 
                             {/* Create Button to create coupon */}
-                            <div className='flex justify-center'>
-                                <ModalButton text='Create Coupon' color='green'>
-                                    <CouponForm isUpdate={false} mid={params.mid} cid={null} />
-                                </ModalButton>
-                            </div>
+                            {
+                                (session?.user.data.role !== Role.User) ? (
+                                    <div className='flex justify-center'>
+                                        <ModalButton text='Create Coupon' color='green'>
+                                            <CouponForm isUpdate={false} mid={params.mid} cid={null} />
+                                        </ModalButton>
+                                    </div>
+                                ) : null
+                            }
                         </main>
                         
                     </div>

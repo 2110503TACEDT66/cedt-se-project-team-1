@@ -1,14 +1,13 @@
 import { Button, Typography } from '@mui/material'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
-import { CouponItem } from '../../../../interface'
+import { CouponItem, Role } from '../../../../interface'
 import getMassage from '@/libs/Massage/getMassage'
 import { MassageItem } from '../../../../interface'
 import RedeemButton from './RedeemButton'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
 import { deleteCouponReducer } from '@/redux/features/couponSlice'
-import { useSession } from 'next-auth/react';
 import addCustomerCoupon from '@/libs/CustomerCoupon/addCustomerCoupon'
 import updateUserPoint from '@/libs/User/updateUserPoint'
 import { setPoint } from '@/redux/features/userSlice'
@@ -60,15 +59,20 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                             <Typography variant='body2'>{couponItems.point} point</Typography>
                             <Typography variant='body2'>{massageShop.name}</Typography>
                         </div>
-                        <div className='flex flex-col items-end ml-4 gap-1 w-1/3 mt-[-4.5vh]'>
-                            <ModalButton text='Edit' color='gray'>
-                                <CouponForm isUpdate={true} cid={couponItems._id} mid={massageShop._id} />
-                            </ModalButton>
-                            <div>
-                                <button className="rounded-md bg-red-600 hover:bg-red-800 transition px-3 py-1 text-white shadow-sm relative"
-                                onClick={(e) => { e.preventDefault(); dispatch(deleteCouponReducer(couponItems._id))}}>Delete</button>
-                            </div>
-                        </div>
+                        {
+                            session?.user.data.role !== Role.User ? (
+                                <div className='flex flex-col items-end ml-4 gap-1 w-1/3 mt-[-4.5vh]'>
+                                    <ModalButton text='Edit' color='gray'>
+                                        <CouponForm isUpdate={true} cid={couponItems._id} mid={massageShop._id} />
+                                    </ModalButton>
+                                    <div>
+                                        <button className="rounded-md bg-red-600 hover:bg-red-800 transition px-3 py-1 text-white shadow-sm relative"
+                                            onClick={(e) => { e.preventDefault(); dispatch(deleteCouponReducer(couponItems._id)) }}>Delete</button>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                        
                     </div>
                     <div className='flex justify-end  mt-5'>
                         {canBuy ?
