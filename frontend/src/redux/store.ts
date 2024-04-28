@@ -6,13 +6,14 @@ import couponSlice from "./features/couponSlice";
 import { useSelector, TypedUseSelectorHook } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import userSlice from "./features/userSlice";
 
 const persistConfig = {
     key: "rootPersist",
     storage
 }
 
-const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice, couponSlice })
+const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice, couponSlice,userSlice })
 const reduxPersistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({

@@ -67,7 +67,6 @@ const deleteCoupon = async (req, res) => {
 
 const updateCoupon = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
         const {discount, coverage, expireAt, usableUserType} = req.body;
         const updateFields = {};

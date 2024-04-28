@@ -10,6 +10,7 @@ import { setCouponReducer } from '@/redux/features/couponSlice'
 import getAllCustomerCoupons from '@/libs/CustomerCoupon/getAllCustomerCoupons'
 import { useSession } from 'next-auth/react';
 import { CouponItem, MassageItem, UserProfile } from '../../../interface'
+import getUserPoint from '@/libs/User/getUser'
 
 interface CustomerCoupon {
     _id: string,
@@ -22,6 +23,16 @@ export default function page() {
     const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
     const [customerCoupon, setCustomerCoupon] = React.useState<CustomerCoupon[]>([])
     const { data: session } = useSession();
+    const [point, setPoint] = React.useState<number>(0);
+    useEffect(() => {
+        getUserPoint(session?.user.data._id ?? '').then((res) => {
+            setPoint(res.data.point)
+        })
+    }, [])
+
+    const updateUserPoint = (point: number) => {
+          setPoint(point);
+    }
 
     useEffect(() => {
       getCoupons().then((res) => {
@@ -39,8 +50,13 @@ export default function page() {
 
   return (
     <>    
-        <UserInfo/>
-        <CouponCatalog coupon={unusedCoupon}/>
+        <UserInfo userPoint={point}/>
+        <CouponCatalog 
+          coupon={unusedCoupon}
+          updateUserPoint={updateUserPoint}
+          userPoint={point}
+          session={session}
+        />
     </>
   )
 }

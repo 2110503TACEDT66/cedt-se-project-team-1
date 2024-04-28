@@ -11,10 +11,14 @@ import { deleteCouponReducer } from '@/redux/features/couponSlice'
 import { useSession } from 'next-auth/react';
 import addCustomerCoupon from '@/libs/CustomerCoupon/addCustomerCoupon'
 import updateUserPoint from '@/libs/User/updateUserPoint'
+import { setPoint } from '@/redux/features/userSlice'
 
-export default function CouponCard({couponItems}:{couponItems:CouponItem}) {
-    const {data: session} = useSession();
-    const userPoint = session?.user.data.point ?? 0;
+export default function CouponCard({couponItems,userPoint,updateUserPoint,session}:
+    {couponItems:CouponItem
+    userPoint:number
+    updateUserPoint:(newPoint:number)=>void
+    session:any
+    }) {
     const dispatch = useDispatch<AppDispatch>()
     const [massageShop, setMassageShop] = React.useState<MassageItem>({} as MassageItem);
     const [canBuy, setCanBuy] = React.useState<boolean>(true);
@@ -31,6 +35,7 @@ export default function CouponCard({couponItems}:{couponItems:CouponItem}) {
             await addCustomerCoupon(couponItems._id, session?.user.data._id ?? '', massageShop._id).then((res) => {
                 if(res.success){
                     setCanBuy(false);
+                    updateUserPoint(userPoint - couponItems.point);
                 }
             });
         }else alert('You do not have enough points to buy this coupon')
