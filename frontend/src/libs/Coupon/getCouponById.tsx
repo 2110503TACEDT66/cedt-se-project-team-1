@@ -1,21 +1,19 @@
-"use server"
+'use server'
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default async function getReservation(id:string) {
-
+export default async function getCouponById(cid: string) {
     const session = await getServerSession(authOptions);
-
-    const response = await fetch(`${process.env.BACKEND_URL}/api/reservations/${id}`, {
+    // console.log(mid);
+    const response = await fetch(`${process.env.BACKEND_URL}/api/coupons/${cid}`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
             authorization: `Bearer ${session?.user.token}`
         }
     });
-
+    console.log(response.status)
     if (!response.ok) {
-        throw new Error("Failed to get reservation")
+        throw new Error("Failed to fetch Coupon")
     }
 
     return await response.json();

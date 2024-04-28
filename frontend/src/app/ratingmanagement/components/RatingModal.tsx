@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Rating } from '@mui/material';
 import addRating from '@/libs/Rating/addRating';
-import { RatingItem } from '../../../../interface';
+import { RatingItem, ReservationItem } from '../../../../interface';
 
 import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from '@/redux/store';
@@ -9,19 +9,18 @@ import { store } from '@/redux/store';
 import { deleteReservationReducer } from '@/redux/features/reservationSlice';
 import getRatings from '@/libs/Rating/getRatings';
 import { setRatingReducer, updateRatingReducer } from '@/redux/features/ratingSlice';
+import getReservation from '@/libs/Reservation/getReservation';
+import updateUserPoint from '@/libs/User/updateUserPoint';
 
 const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID: string }) => {
+    const [reservation, setReservation] = useState<ReservationItem>();
+    useEffect(() => {
+        getReservation(reservationID).then((res) => {
+            setReservation(res.data);
+        })
+    }, [])
+    console.log(reservationID);
 
-    // const ratingItems = useAppSelector(state => state.ratingSlice.ratingItems);
-
-    // useEffect(() => {
-    //     getRatings().then((res) => {
-    //         store.dispatch(setRatingReducer(res.data))
-    //     })
-    // })
-
-
-    // State variables to store rating values for different categories
     const [serviceRating, setServiceRating] = useState<number | null>(null);
     const [transportationRating, setTransportationRating] = useState<number | null>(null);
     const [priceRating, setPriceRating] = useState<number | null>(null);
@@ -114,6 +113,10 @@ const RatingModal = ({ shopID, reservationID }: { shopID: string, reservationID:
             <div className='flex flex-col text-start my-4'>
                 <h1>Comment</h1>
                 <textarea placeholder='comment' className="resize-none border rounded-md " rows={12} value={comment} onChange={handleCommentChange}></textarea>
+                <div className='text-center'>
+                    <p>Every 200 Bath You got 1 point!</p>
+                    <p>You got {Math.floor((reservation?.price ?? 0) / 200)} point !</p>
+                </div>
             </div>
             <div className='flex justify-center'>
                 <button type='submit' className='text-white rounded-md w-1/3 bg-green-500 hover:bg-green-800' onClick={handleSubmit} disabled={loading}>Submit</button>

@@ -6,6 +6,35 @@ export interface RegisterJson {
   password: string;
 }
 
+export interface CustomerCouponJson {
+  success: boolean,
+  count: number,
+  data: CustomerCouponItem[]
+  
+
+}
+export interface CouponItemOne{
+  success: boolean,
+  data: CouponItem
+}
+export interface CouponItem{
+  _id: string,
+  massageShop: string,
+  discount : number,
+  coverage : number,
+  expireAt : string,
+  usableUserType : string,
+  point : number,
+  __v : number
+}
+export interface CustomerCouponItem{
+  _id : string,
+  coupon : CouponItem,
+  user: UserProfile["data"],
+  massageItem: MassageItem,
+  __v: number,
+}
+
 export enum Role {
   User = "user",
   Admin = "admin",
@@ -15,13 +44,14 @@ export enum Role {
 export interface UserProfile {
   success: boolean;
   data: {
-    _id: string;
-    name: string;
-    telephone: string;
-    email: string;
-    role: Role;
-    __v: number;
-  };
+    _id: string,
+    name: string,
+    telephone: string,
+    email: string,
+    role: Role,
+    __v: number,
+    point: number
+  }
 }
 
 export interface ReservationItem {
@@ -35,6 +65,7 @@ export interface ReservationItem {
     picture: string;
     id: string;
   };
+  price: number;
   _id: string;
   __v: number;
   id: string;
@@ -65,6 +96,7 @@ export interface MassageItem {
   serviceRating: number;
   transportRating: number;
   owner: string;
+  price: number;
 }
 
 export interface MassageJson {
@@ -109,20 +141,6 @@ export interface RatingJson {
   data: RatingItem[];
 }
 
-export interface CouponItem {
-  _id: string;
-  massageShop: string;
-  point: number;
-  discount: number;
-  coverage: number;
-  createdAt: string;
-  expireAt: string;
-}
-
-export interface CouponJson {
-  success: boolean;
-  data: CouponItem[];
-}
 
 export interface MembershipItem {
   _id: string;

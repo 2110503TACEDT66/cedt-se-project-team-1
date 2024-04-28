@@ -28,6 +28,7 @@ export default function TopMenu() {
                     <div className='flex'>
                     <TopMenuItem title='Massage' pageRef='/massage'/>
                     <TopMenuItem title='My Reservation' pageRef='/myreservation'/>
+                    <TopMenuItem title='My point' pageRef='/mypoint'/>
                     {
                         session?.user.data.role === 'admin' ?<TopMenuItem title= 'Ratings' pageRef='/ratingmanagement'/>:
                         null
