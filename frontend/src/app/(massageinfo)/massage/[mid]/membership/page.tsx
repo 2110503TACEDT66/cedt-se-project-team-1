@@ -44,12 +44,6 @@ function page({ params }: { params: { mid: string } }) {
     fetchData();
   }, []);
 
-
-  useEffect(() => {
-    console.log(isMember, memberData);
-  }, [isMember])
-
-
   const handleJoin = async () => {
     if (!session || !session.user.token) {
       router.push("/auth/signin");
@@ -72,7 +66,7 @@ function page({ params }: { params: { mid: string } }) {
           expireAt,
           __v: memberData.__v
         }
-        const response = await updateMembership(params.mid, item);
+        const response = await updateMembership(memberData._id, item);
         alert("Continue Membership Successfully")
       }
       else {
