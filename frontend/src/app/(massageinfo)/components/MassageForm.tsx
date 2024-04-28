@@ -81,7 +81,8 @@ export default function MassageForm({
             overallRating: 0,
             priceRating: priceRating,
             serviceRating: serviceRating,
-            transportRating: transportRating
+            transportRating: transportRating,
+            price: 0
         }
 
         // validate date

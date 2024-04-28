@@ -17,7 +17,7 @@ export interface CouponItemOne{
   success: boolean,
   data: CouponItem
 }
-export interface CouponItem{
+export interface CouponItem {
   _id: string,
   massageShop: string,
   discount : number,

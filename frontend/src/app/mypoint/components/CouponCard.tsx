@@ -14,6 +14,7 @@ import updateUserPoint from '@/libs/User/updateUserPoint'
 import { setPoint } from '@/redux/features/userSlice'
 
 import ModalButton from '@/components/ModalButton'
+import CouponForm from './CouponForm'
 
 export default function CouponCard({ couponItems, userPoint, updateUserPoint, session }:
     {
@@ -60,7 +61,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                         </div>
                         <div className='flex flex-col items-end ml-4 gap-1 w-1/3 mt-[-4.5vh]'>
                             <ModalButton text='Edit' color='gray'>
-                                <></>
+                                <CouponForm isUpdate={true} cid={couponItems._id} mid={massageShop._id} />
                             </ModalButton>
                             <div>
                                 <button className="rounded-md bg-red-600 hover:bg-red-800 transition px-3 py-1 text-white shadow-sm relative"
