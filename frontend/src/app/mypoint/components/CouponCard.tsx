@@ -42,8 +42,8 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                 }
             });
         } else alert('You do not have enough points to buy this coupon')
-
     }
+
     return (
         <div className='w-[350px] h-[180px] bg-white shadow-md'>
             <div className='flex flex-row'>
@@ -63,7 +63,8 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                                 <></>
                             </ModalButton>
                             <div>
-                                <button className="rounded-md bg-red-600 hover:bg-red-800 transition px-3 py-1 text-white shadow-sm relative">Delete</button>
+                                <button className="rounded-md bg-red-600 hover:bg-red-800 transition px-3 py-1 text-white shadow-sm relative"
+                                onClick={(e) => { e.preventDefault(); dispatch(deleteCouponReducer(couponItems._id))}}>Delete</button>
                             </div>
                         </div>
                     </div>

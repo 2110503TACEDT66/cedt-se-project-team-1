@@ -19,10 +19,12 @@ import { CouponItem, CouponJson, CustomerCouponItem, CustomerCouponJson, Massage
 import getUserPoint from '@/libs/User/getUser'
 
 export default function page({ mid }: { mid: string }) {
-  const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
+  // const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
   const [customerCoupon, setCustomerCoupon] = React.useState<CustomerCouponItem[]>([])
   const { data: session } = useSession();
   const [point, setPoint] = React.useState<number>(0);
+
+  const couponItems = useAppSelector(state => state.couponSlice.couponItems);
 
   useEffect(() => {
     getUserPoint(session?.user.data._id ?? '').then((res) => {
@@ -42,7 +44,7 @@ export default function page({ mid }: { mid: string }) {
         try {
           const coupons: CouponJson = await getCouponsByMassageId(mid);
           console.log("Coupons by massage id : ", coupons.data);
-          setCoupons(coupons.data);
+          store.dispatch(setCouponReducer(coupons.data));
         } catch (error) {
           console.log('No coupon found')
         }
@@ -57,7 +59,7 @@ export default function page({ mid }: { mid: string }) {
       } else {
         try {
           const coupons: CouponJson = await getCoupons();
-          setCoupons(coupons.data);
+          store.dispatch(setCouponReducer(coupons.data));
         } catch (error) {
           console.log('No coupon found')
         }

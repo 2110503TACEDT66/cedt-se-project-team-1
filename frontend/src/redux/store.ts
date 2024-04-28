@@ -13,7 +13,7 @@ const persistConfig = {
     storage
 }
 
-const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice, couponSlice,userSlice })
+const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice, couponSlice, userSlice })
 const reduxPersistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({

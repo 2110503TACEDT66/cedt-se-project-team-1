@@ -8,7 +8,11 @@ export default function CouponCatalog({ coupon, userPoint, updateUserPoint, sess
     userPoint: number
     updateUserPoint: (newPoint: number) => void
     session: any
-  }) {
+  }) 
+  
+  
+  
+  {
   return (
     <div className='flex justify-center h-full'>
       <div className="grid grid-cols-2 content-around mt-8 w-[800px] gap-4 h-full">
