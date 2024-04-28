@@ -44,7 +44,6 @@ function page({ params }: { params: { mid: string } }) {
     fetchData();
   }, []);
 
-
   const handleJoin = async () => {
     if (!session || !session.user.token) {
       router.push("/auth/signin");
@@ -64,7 +63,7 @@ function page({ params }: { params: { mid: string } }) {
           startAt: memberData.startAt,
           expireAt
         }
-        const response = await updateMembership(params.mid, item);
+        const response = await updateMembership(memberData._id, item);
         alert("Continue Membership Successfully")
       }
       else {
