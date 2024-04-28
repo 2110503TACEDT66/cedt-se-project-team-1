@@ -71,10 +71,11 @@ const addCoupon = async (req, res) => {
 const deleteCoupon = async (req, res) => {
     const { id } = req.params;
     try {
-        const coupon = await Coupon.findByIdAndDelete(id);
+        const coupon = await Coupon.findById(id);
         if (!coupon) {
             return res.status(404).json({ success: false, error: 'Coupon not found' });
         }
+        await coupon.deleteOne();
         res.status(200).json({ success: true, data: {} });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
