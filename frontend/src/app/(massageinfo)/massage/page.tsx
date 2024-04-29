@@ -41,7 +41,7 @@ export default function Massage() {
                 ? (
                     <div className="flex flex-col justify-center items-center mt-20">
                        <ModalButton text="Create new massage" color="green">
-                        {<MassageForm isUpdate={false} id={null}/>}
+                            <MassageForm isUpdate={false} id={null}/>
                         </ModalButton> 
                     </div>
                     

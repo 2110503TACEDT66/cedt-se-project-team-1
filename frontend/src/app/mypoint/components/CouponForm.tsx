@@ -13,16 +13,19 @@ import getMassages from "@/libs/Massage/getMassages";
 import { updateCouponReducer, addCouponReducer } from "@/redux/features/couponSlice";
 import { useSession } from "next-auth/react";
 
+import { useModal } from "@/components/ModalButton";
+
 export default function CouponForm({
     isUpdate,
     cid,
-    mid
+    mid,
 }: {
     isUpdate: boolean;
     cid: string | null;
     mid: string | null;
 }) {
     const { data: session } = useSession();
+    const { closeModal } = useModal();
 
     const [discount, setDiscount] = useState<number>(0);
     const [coverage, setCoverage] = useState<number>(0);
@@ -80,15 +83,20 @@ export default function CouponForm({
             return;
         }
         
-        // update data
-        if (isUpdate) {
+        try {
             // update data
-            if (cid === null)
-                return console.log("cid is null while editing massage");
-            dispatch(updateCouponReducer(data));
-        } else {
-            // create data
-            dispatch(addCouponReducer(data));
+            if (isUpdate) {
+                // update data
+                if (cid === null)
+                    return console.log("cid is null while editing massage");
+                dispatch(updateCouponReducer(data));
+            } else {
+                // create data
+                dispatch(addCouponReducer(data));
+            }
+            closeModal();
+        } catch (error) {
+            console.log("Incomplete couponForm submit", error);
         }
     };
 
