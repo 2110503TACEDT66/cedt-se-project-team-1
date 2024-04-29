@@ -7,30 +7,58 @@ export interface RegisterJson {
 }
 
 export interface CustomerCouponJson {
-  success: boolean;
-  count: number;
-  data: CustomerCouponItem[];
+  success: boolean,
+  count: number,
+  data: CustomerCouponItem[]
 }
-export interface CouponItemOne {
-  success: boolean;
-  data: CouponItem;
+export interface CouponItemOne{
+  success: boolean,
+  data: CouponItem
 }
+
 export interface CouponItem {
-  _id: string;
-  massageShop: string;
-  discount: number;
-  coverage: number;
-  expireAt: string;
-  usableUserType: string;
-  __v: number;
+  _id: string,
+  massageShop: string,
+  discount : number,
+  coverage : number,
+  expireAt : string,
+  usableUserType : string,
+  point : number,
+  __v : number
 }
-export interface CustomerCouponItem {
-  _id: string;
-  coupon: CouponItem;
-  user: UserProfile["data"];
-  massageItem: MassageItem;
-  __v: number;
+
+export interface CouponItemRedux {
+  _id: string,
+  massageShop: string,
+  discount: number,
+  coverage: number,
+  expireAt: string,
+  usableUserType: string,
+  point: number,
+  __v: number,
+  isMassageShop: boolean
 }
+
+export interface CouponJson {
+  success: boolean,
+  count: number,
+  data: CouponItem[]
+}
+
+export interface CustomerCouponItem{
+  _id : string,
+  coupon : CouponItem,
+  user: UserProfile["data"],
+  massageItem: MassageItem,
+  __v: number,
+}
+
+export interface CustomerCouponJson {
+  success: boolean,
+  count: number,
+  data: CustomerCouponItem[]
+}
+
 
 export enum Role {
   User = "user",
@@ -41,14 +69,14 @@ export enum Role {
 export interface UserProfile {
   success: boolean;
   data: {
-    _id: string;
-    name: string;
-    telephone: string;
-    email: string;
-    role: Role;
-    __v: number;
-    point: number;
-  };
+    _id: string,
+    name: string,
+    telephone: string,
+    email: string,
+    role: Role,
+    __v: number,
+    point: number
+  }
 }
 
 export interface ReservationItem {
@@ -138,13 +166,13 @@ export interface RatingJson {
   data: RatingItem[];
 }
 
+
 export interface MembershipItem {
   _id: string;
   user: string;
   massageShop: string;
   startAt: string;
   expireAt: string;
-  __v: number;
 }
 
 export interface MembershipJson {

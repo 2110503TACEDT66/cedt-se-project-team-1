@@ -2,16 +2,18 @@ import { configureStore, combineReducers, getDefaultMiddleware } from "@reduxjs/
 import massageSlice from "./features/massageSlice";
 import reservationSlice from "./features/reservationSlice";
 import ratingSlice from "./features/ratingSlice";
+import couponSlice from "./features/couponSlice";
 import { useSelector, TypedUseSelectorHook } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import pointslice from "./features/pointslice";
 
 const persistConfig = {
     key: "rootPersist",
     storage
 }
 
-const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice })
+const rootReducer = combineReducers({ massageSlice, reservationSlice, ratingSlice, couponSlice,pointslice })
 const reduxPersistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({

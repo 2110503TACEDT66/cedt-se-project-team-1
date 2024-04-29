@@ -2,11 +2,24 @@ const Coupon = require('../models/Coupon');
 const Massage = require('../models/Massage')
 // Get all coupons
 const getCoupons = async (req, res) => {
-    try {
-        const coupons = await Coupon.find();
-        res.status(200).json({ success: true, data: coupons });
-    } catch (error) {
-        res.status(500).json({ success: false, error: 'Internal server error' });
+
+    if (req.params.massageShopId) {
+        getCouponsByMassageShop(req, res);
+    } else {
+        try {
+            let coupons;
+            if (req.user.role === 'shopOwner') {
+                const massageShopOwner = await Massage.find({ owner: req.user.id });
+                const massageIDs = massageShopOwner.map(massage => massage.id);
+                coupons = await Coupon.find({ massageShop: massageIDs });
+            } else {
+                coupons = await Coupon.find();
+            }
+
+                res.status(200).json({ success: true, data: coupons });
+        } catch (error) {
+            res.status(500).json({ success: false, error: 'Internal server error' });
+        }
     }
 };
 
@@ -23,6 +36,17 @@ const getCoupon= async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
+
+const getCouponsByMassageShop = async (req, res) => {
+    const { massageShopId } = req.params;
+    try {
+        const coupons = await Coupon.find({ massageShop: massageShopId });
+        res.status(200).json({ success: true, data: coupons });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+};
+
 
 // Create a new coupon
 const addCoupon = async (req, res) => {
@@ -55,10 +79,11 @@ const addCoupon = async (req, res) => {
 const deleteCoupon = async (req, res) => {
     const { id } = req.params;
     try {
-        const coupon = await Coupon.findByIdAndDelete(id);
+        const coupon = await Coupon.findById(id);
         if (!coupon) {
             return res.status(404).json({ success: false, error: 'Coupon not found' });
         }
+        await coupon.deleteOne();
         res.status(200).json({ success: true, data: {} });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
@@ -67,7 +92,6 @@ const deleteCoupon = async (req, res) => {
 
 const updateCoupon = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
         const {discount, coverage, expireAt, usableUserType} = req.body;
         const updateFields = {};
@@ -77,7 +101,7 @@ const updateCoupon = async (req, res) => {
         if (usableUserType) updateFields.usableUserType = usableUserType;
         
         const updatedCoupon = await Coupon.findByIdAndUpdate(id, updateFields, { new: true });
-      
+
         if (!updatedCoupon) {
             console.log("here");
             return res.status(404).json({ success: false, error: 'Coupon not found' });
@@ -92,6 +116,7 @@ const updateCoupon = async (req, res) => {
 module.exports = {
     getCoupons,
     getCoupon,
+    getCouponsByMassageShop,
     addCoupon,
     updateCoupon,
     deleteCoupon
