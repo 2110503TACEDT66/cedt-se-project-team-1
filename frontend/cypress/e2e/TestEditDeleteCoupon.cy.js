@@ -6,9 +6,8 @@ describe('template spec', () => {
   // //   cy.visit('http://localhost:3000/')
   // //   cy.get('body').should('be.visible');
   //   })
-  it('check Sign In button is visible and clickable', () => {
+  it("Test each ShopOwer can edit, delete and create new coupon separately for each Ower's Shop.", () => {
     cy.visit('http://localhost:3000/')
-    cy.get('body').should('be.visible');
     cy.get('#buttomTosign').should('exist').contains('Sign-In').should('be.visible').click();
     cy.url().should('include', '/auth/signIn?callbackUrl=http%3A%2F%2Flocalhost%3A3000');
     cy.get('#Username').type('shopOwner1@admin.com');
@@ -22,11 +21,13 @@ describe('template spec', () => {
     cy.get('#discount').clear().type('5');
     cy.get('#coverage').clear().type('10');
     cy.get('.MuiModal-root > .flex-col > .px-4').should('exist').click();
-    // cy.get(':nth-child(7) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('exist').click();
-    // cy.get(':nth-child(7) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('not.exist');
+    cy.get(':nth-child(1) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('exist').click();
     cy.get(':nth-child(3) > div > .rounded-md').should('exist').click();
-    cy.get('#\:r21\:').type('12122024');
-    
+    cy.get('.h-full > .MuiFormControl-root > .MuiInputBase-root').should('exist').type('10122024');
+    cy.get('#discount').clear().type('1');
+    cy.get('#coverage').clear().type('2');
+    cy.get('#point').clear().type('5');
+    cy.get('.MuiModal-root > .flex-col > .px-4').click();
     })
  
   
