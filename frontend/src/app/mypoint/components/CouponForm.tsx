@@ -43,12 +43,6 @@ export default function CouponForm({
 
     const massageItems = useAppSelector(state => state.massageSlice.massageItems);
 
-    useEffect(() => {
-        getMassages().then((res) => {
-            store.dispatch(setMassageReducer(res.data))
-        })
-    }, [])
-
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
