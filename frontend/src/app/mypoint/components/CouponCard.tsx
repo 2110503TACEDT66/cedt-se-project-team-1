@@ -1,4 +1,5 @@
 import { Button, Typography } from '@mui/material'
+import Link from 'next/link'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 import { CouponItem, Role } from '../../../../interface'
@@ -15,14 +16,15 @@ import { setPoint } from '@/redux/features/userSlice'
 import ModalButton from '@/components/ModalButton'
 import CouponForm from './CouponForm'
 
-export default function CouponCard({ couponItems, userPoint, updateUserPoint, session, mid, isMember }:
+export default function CouponCard({ couponItems, userPoint, updateUserPoint, session, mid, isMemberCoupon,  isJoinMember}:
     {
         couponItems: CouponItem
         userPoint: number
         updateUserPoint: (newPoint: number) => void
         session: any
         mid: string
-        isMember: boolean
+        isMemberCoupon: boolean
+        isJoinMember: boolean
     }) {
     const dispatch = useDispatch<AppDispatch>()
     const [massageShop, setMassageShop] = React.useState<MassageItem>({} as MassageItem);
@@ -50,7 +52,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
         <div className='w-[350px] h-[180px] bg-white shadow-md'>
 
             <div className='flex flex-row'>
-                <div className={`bg-[#${(isMember) ? 'E8BC4C' : '426B1F'}] h-[180px] w-[120px] flex justify-center items-center`}>
+                <div className={`bg-[#${(isMemberCoupon) ? 'E8BC4C' : '426B1F'}] h-[180px] w-[120px] flex justify-center items-center`}>
                     <Image src='/img/discount.png' width={60} height={60} alt='coupon' />
                 </div>
                 <div className='w-full h-[180px] p-4'>
@@ -77,9 +79,18 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                         
                     </div>
                     <div className='flex justify-end  mt-5'>
-                        {canBuy ?
-                            <RedeemButton onClick={handleBuy}>Buy this Coupon</RedeemButton> :
-                            <Button variant='contained' disabled>Bought</Button>
+                        {
+                        
+                            !isJoinMember && isMemberCoupon ?
+                                <Link href={`/massage/${couponItems.massageShop}/membership`}
+                                    className="p-2 text-sm bg-[#E8BC4C] rounded-lg shadow-lg hover:bg-amber-600 hover:text-white ease-i-out duration-300">
+                                    Join Membership
+                                </Link> :
+                            (
+                                (canBuy) ? <RedeemButton onClick={handleBuy}>Buy this Coupon</RedeemButton> :
+                                <Button variant='contained' disabled>Bought</Button>
+                            )
+
                         }
                     </div>
                 </div>
