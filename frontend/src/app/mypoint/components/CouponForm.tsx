@@ -8,6 +8,8 @@ import { CouponItem, CouponItemRedux, MassageItem } from "../../../../interface"
 
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
+import { store } from "@/redux/store";
+import { setMassageReducer } from "@/redux/features/massageSlice";
 
 import getMassages from "@/libs/Massage/getMassages";
 import { updateCouponReducer, addCouponReducer } from "@/redux/features/couponSlice";
@@ -37,7 +39,14 @@ export default function CouponForm({
     const couponItems = useAppSelector(
         (state) => state.couponSlice.couponItems
     );
-    const massageItems = useAppSelector(state => state.massageSlice.massageItems)
+
+    const massageItems = useAppSelector(state => state.massageSlice.massageItems);
+
+    useEffect(() => {
+        getMassages().then((res) => {
+            store.dispatch(setMassageReducer(res.data))
+        })
+    }, [])
 
     const dispatch = useDispatch<AppDispatch>();
 
