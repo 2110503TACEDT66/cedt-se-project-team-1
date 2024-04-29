@@ -6,21 +6,18 @@ import { CouponItem, Role } from '../../../../interface'
 import getMassage from '@/libs/Massage/getMassage'
 import { MassageItem } from '../../../../interface'
 import RedeemButton from './RedeemButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
 import { deleteCouponReducer } from '@/redux/features/couponSlice'
 import addCustomerCoupon from '@/libs/CustomerCoupon/addCustomerCoupon'
-import updateUserPoint from '@/libs/User/updateUserPoint'
-import { setPoint } from '@/redux/features/userSlice'
+import { setPointReducer } from '@/redux/features/pointslice'
 
 import ModalButton from '@/components/ModalButton'
 import CouponForm from './CouponForm'
 
-export default function CouponCard({ couponItems, userPoint, updateUserPoint, session, mid, isMemberCoupon,  isJoinMember}:
+export default function CouponCard({ couponItems, session, mid, isMemberCoupon,  isJoinMember}:
     {
         couponItems: CouponItem
-        userPoint: number
-        updateUserPoint: (newPoint: number) => void
         session: any
         mid: string
         isMemberCoupon: boolean
@@ -29,6 +26,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
     const dispatch = useDispatch<AppDispatch>()
     const [massageShop, setMassageShop] = React.useState<MassageItem>({} as MassageItem);
     const [canBuy, setCanBuy] = React.useState<boolean>(true);
+    const userPoint = useSelector((state: any) => state.pointslice.points);
 
     useEffect(() => {
         getMassage(couponItems.massageShop).then((res) => {
@@ -42,7 +40,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
             await addCustomerCoupon(couponItems._id, session?.user.data._id ?? '', massageShop._id).then((res) => {
                 if (res.success) {
                     setCanBuy(false);
-                    updateUserPoint(userPoint - couponItems.point);
+                    dispatch(setPointReducer(userPoint - couponItems.point));
                 }
             });
         } else alert('You do not have enough points to buy this coupon')

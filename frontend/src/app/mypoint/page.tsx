@@ -28,26 +28,13 @@ import getMassages from '@/libs/Massage/getMassages'
 import { setMassageReducer } from '@/redux/features/massageSlice'
 
 export default function page({ mid }: { mid: string }) {
-  //const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
   const [customerCoupon, setCustomerCoupon] = React.useState<CustomerCouponItem[]>([])
   const { data: session } = useSession();
-  const [point, setPoint] = React.useState<number>(0);
 
   const [memberships, setMemberships] = React.useState<MembershipItem[]>([]);
 
   const couponItems = useAppSelector(state => state.couponSlice.couponItems);
   const massageItems = useAppSelector(state => state.massageSlice.massageItems);
-
-  useEffect(() => {
-    if (session?.user.data._id === undefined) return;
-    getUserPoint(session?.user.data._id).then((res) => {
-      setPoint(res.data.point)
-    })
-  }, [])
-
-  const updateUserPoint = (point: number) => {
-    setPoint(point);
-  }
 
   useEffect(() => {
 
@@ -123,12 +110,11 @@ export default function page({ mid }: { mid: string }) {
 
   return (
     <>
-      {(mid === undefined) ? <UserInfo userPoint={point} /> : <> </>}
+      {(mid === undefined) ? <UserInfo /> : <> </>
+      }
       <CouponCatalog
         coupon={unusedCoupon}
         memberships={memberships}
-        updateUserPoint={updateUserPoint}
-        userPoint={point}
         session={session}
         mid={mid}
       />
