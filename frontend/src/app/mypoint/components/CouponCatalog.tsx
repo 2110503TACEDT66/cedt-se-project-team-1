@@ -2,12 +2,13 @@ import React from 'react'
 import CouponCard from './CouponCard'
 import { CouponItem } from '../../../../interface'
 
-export default function CouponCatalog({ coupon, userPoint, updateUserPoint, session }:
+export default function CouponCatalog({ coupon, userPoint, updateUserPoint, session, mid }:
   {
     coupon: CouponItem[]
     userPoint: number
     updateUserPoint: (newPoint: number) => void
     session: any
+    mid: string
   }) 
   
   {
@@ -22,6 +23,7 @@ export default function CouponCatalog({ coupon, userPoint, updateUserPoint, sess
               userPoint={userPoint}
               updateUserPoint={updateUserPoint}
               session={session}
+              mid={mid}
             />
           ))
         )}

@@ -27,7 +27,8 @@ export default function page({ mid }: { mid: string }) {
   const couponItems = useAppSelector(state => state.couponSlice.couponItems);
 
   useEffect(() => {
-    getUserPoint(session?.user.data._id ?? '').then((res) => {
+    if (session?.user.data._id === undefined) return ;
+    getUserPoint(session?.user.data._id).then((res) => {
       setPoint(res.data.point)
     })
   }, [])
@@ -90,6 +91,7 @@ export default function page({ mid }: { mid: string }) {
         updateUserPoint={updateUserPoint}
         userPoint={point}
         session={session}
+        mid={mid}
       />
     </>
   )

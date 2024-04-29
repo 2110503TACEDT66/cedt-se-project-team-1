@@ -15,12 +15,13 @@ import { setPoint } from '@/redux/features/userSlice'
 import ModalButton from '@/components/ModalButton'
 import CouponForm from './CouponForm'
 
-export default function CouponCard({ couponItems, userPoint, updateUserPoint, session }:
+export default function CouponCard({ couponItems, userPoint, updateUserPoint, session, mid }:
     {
         couponItems: CouponItem
         userPoint: number
         updateUserPoint: (newPoint: number) => void
         session: any
+        mid: string
     }) {
     const dispatch = useDispatch<AppDispatch>()
     const [massageShop, setMassageShop] = React.useState<MassageItem>({} as MassageItem);
@@ -60,7 +61,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                             <Typography variant='body2'>{massageShop.name}</Typography>
                         </div>
                         {
-                            session?.user.data.role !== Role.User ? (
+                            (session?.user.data.role !== Role.User && (mid !== undefined || session?.user.data.role === Role.Admin)) ? (
                                 <div className='flex flex-col items-end ml-4 gap-1 w-1/3 mt-[-4.5vh]'>
                                     <ModalButton text='Edit' color='gray'>
                                         <CouponForm isUpdate={true} cid={couponItems._id} mid={massageShop._id} />
