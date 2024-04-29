@@ -64,7 +64,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                             <Typography variant='body2'>{massageShop.name}</Typography>
                         </div>
                         {
-                            (session?.user.data.role !== Role.User ) ? (
+                            (session?.user.data.role !== Role.User) ? (
                                 <div className='flex flex-col items-end ml-4 gap-1 w-1/3 mt-[-4.5vh]'>
                                     <ModalButton text='Edit' color='gray'>
                                         <CouponForm isUpdate={true} cid={couponItems._id} mid={massageShop._id} />
@@ -76,7 +76,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
                                 </div>
                             ) : null
                         }
-                        
+
                     </div>
                     <div className='flex justify-end  mt-5'>
                         {

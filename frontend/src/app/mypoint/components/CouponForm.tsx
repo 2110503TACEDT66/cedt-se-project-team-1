@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import DateReserve from "@/components/DateReserve";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 import { CouponItem, CouponItemRedux, MassageItem } from "../../../../interface";
 
@@ -33,9 +33,10 @@ export default function CouponForm({
     const [coverage, setCoverage] = useState<number>(0);
     const [point, setPoint] = useState<number>(0);
     const [expireAt, setExpireAt] = useState<Dayjs | null>(null);
-    const [usableUserType, setUsableUserType] = useState<string>("");
+    type UserType = "user" | "member";
+    const [usableUserType, setUsableUserType] = useState<UserType>("user");
     const [selectedShop, setSelectedShop] = useState<string>(mid ?? "");
-    
+
     const couponItems = useAppSelector(
         (state) => state.couponSlice.couponItems
     );
@@ -61,7 +62,7 @@ export default function CouponForm({
                 setCoverage(couponTarget.coverage);
                 setPoint(couponTarget.point);
                 setExpireAt(dayjs(couponTarget.expireAt));
-                setUsableUserType(couponTarget.usableUserType);
+                setUsableUserType(couponTarget.usableUserType as UserType);
                 setSelectedShop(couponTarget.massageShop);
             }
         }
@@ -85,13 +86,12 @@ export default function CouponForm({
             discount < 0 ||
             coverage < 0 ||
             point < 0 ||
-            expireAt === null ||
-            usableUserType === ""
+            expireAt === null
         ) {
             console.log("Validation error")
             return;
         }
-        
+
         try {
             // update data
             if (isUpdate) {
@@ -110,70 +110,79 @@ export default function CouponForm({
     };
 
     return (
-        <div className="flex flex-col items-center bg-white h-[500px] py-8 px-4 gap-4 rounded-xl">
-                <InputLabel id="massage-shop-label">Massage Shop</InputLabel>
-                <Select
-                    labelId="massage-shop-label"
-                    id="massage-shop"
-                    value={selectedShop}
-                    onChange={(e) => setSelectedShop(e.target.value)}
-                    className="w-[1/4]"
-                    disabled={(mid !== undefined) ? true : false}
-                >
-                    {
-                        massageItems.map((massageItem) => (
-                            <MenuItem key={massageItem.id} value={massageItem.id}>{massageItem.name}</MenuItem>
-                        ))
-                    }
+        <div className="flex flex-col items-center bg-white h-fit py-8 px-4 gap-4 rounded-xl">
+            <InputLabel id="massage-shop-label">Massage Shop</InputLabel>
+            <Select
+                labelId="massage-shop-label"
+                id="massage-shop"
+                value={selectedShop}
+                onChange={(e) => setSelectedShop(e.target.value)}
+                className="w-[1/4] min-w-[200px]"
+                disabled={(mid !== undefined) ? true : false}
+            >
+                {
+                    massageItems.map((massageItem) => (
+                        <MenuItem key={massageItem.id} value={massageItem.id}>{massageItem.name}</MenuItem>
+                    ))
+                }
 
-                </Select>
-                <div className="flex w-full justify-center gap-6">
-                    <TextField
-                        id="discount"
-                        label="Discount"
-                        type="number"
-                        value={discount}
-                        onChange={(e) => setDiscount(Number(e.target.value))}
-                        className="w-[1/4]"
-                    />
-                    <TextField
-                        id="coverage"
-                        label="Coverage"
-                        type="number"
-                        value={coverage}
-                        onChange={(e) => setCoverage(Number(e.target.value))}
-                        className="w-[1/4]"
-                    />
-                </div>
-                <div className="w-[500px] flex justify-center">
-                    <DateReserve
-                        onDateChange={(value: Dayjs) => {
-                            setExpireAt(value);
-                        }}
-                        defaultDate={expireAt}
-                    />
-                </div>
-                <div className="flex w-full justify-center gap-4">
-                    <TextField
-                        id="point"
-                        label="Point"
-                        type="number"
-                        value={point}
-                        onChange={(e) => setPoint(Number(e.target.value))}
-                        className="w-[1/4]"
-                    />
-                    <TextField
+            </Select>
+            <div className="flex w-full justify-center gap-6 my-2">
+                <TextField
+                    id="discount"
+                    label="Discount"
+                    type="number"
+                    value={discount}
+                    variant="standard"
+                    onChange={(e) => setDiscount(Number(e.target.value))}
+                    className="w-[1/4] overflow-auto"
+                />
+                <TextField
+                    id="coverage"
+                    label="Coverage"
+                    type="number"
+                    value={coverage}
+                    variant="standard"
+                    onChange={(e) => setCoverage(Number(e.target.value))}
+                    className="w-[1/4]"
+                />
+            </div>
+            <div className="w-full flex justify-center">
+                <DateReserve
+                    onDateChange={(value: Dayjs) => {
+                        setExpireAt(value);
+                    }}
+                    defaultDate={expireAt}
+                />
+            </div>
+            <div className="flex w-full justify-center gap-4 my-2">
+                <TextField
+                    id="point"
+                    label="Point"
+                    type="number"
+                    value={point}
+                    variant="standard"
+                    onChange={(e) => setPoint(Number(e.target.value))}
+                    className="w-[1/4]"
+                />
+                <div className="w-[1/4] relative flex items-center flex-1">
+                    <label htmlFor="usableUserType">usableUserType: </label>
+                    <select
+                        name="usableUserType"
                         id="usableUserType"
-                        label="Usable User Type"
-                        type="text"
                         value={usableUserType}
-                        onChange={(e) => setUsableUserType(e.target.value)}
-                        className="w-[1/4]"
-                    />
+                        onChange={(e) => { setUsableUserType(e.target.value as UserType) }}
+                        className="ml-2 border-2 border-gray-300 rounded-md p-1 w-[1/2]"
+                    >
+                        <option value="user">User</option>
+                        <option value="member">Member</option>
+                    </select>
                 </div>
+
+            </div>
 
             <button
-                className="px-4 py-2 bg-[#426B1F] text-[#FFFFFF] rounded-xl transition hover:bg-[#DBE7C9] hover:text-[#426B1F]"
+                className="px-4 py-2 bg-[#426B1F] text-[#FFFFFF] rounded-xl transition hover:bg-[#DBE7C9] hover:text-[#426B1F] mt-2"
                 onClick={(e) => {
                     e.stopPropagation();
                     onSubmit();
