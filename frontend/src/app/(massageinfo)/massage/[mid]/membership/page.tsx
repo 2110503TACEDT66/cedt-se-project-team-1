@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { MembershipItem } from "../../../../../../interface";
 import updateMembership from "@/libs/Membership/updateMembership";
 
-function page({ params }: { params: { mid: string } }) {
+function joinMemberPage({ params }: { params: { mid: string } }) {
 
   const massageItem = useAppSelector(state => state.massageSlice.massageItems);
   const massage = massageItem.find(massage => massage.id === params.mid)
@@ -107,4 +107,4 @@ function page({ params }: { params: { mid: string } }) {
   )
 }
 
-export default page;
+export default joinMemberPage;
