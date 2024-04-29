@@ -78,18 +78,20 @@ export default function CouponCard({ couponItems, session, mid, isMemberCoupon, 
                     </div>
                     <div className='flex justify-end  mt-5'>
                         {
-                        
-                            !isJoinMember && isMemberCoupon ?
-                                <Link href={`/massage/${couponItems.massageShop}/membership`}
-                                    className="p-2 text-sm bg-[#E8BC4C] rounded-lg shadow-lg hover:bg-amber-600 hover:text-white ease-i-out duration-300">
-                                    Join Membership
-                                </Link> :
-                            (
-                                (canBuy) ? <RedeemButton onClick={handleBuy}>Buy this Coupon</RedeemButton> :
-                                <Button variant='contained' disabled>Bought</Button>
-                            )
-
+                            session?.user.data.role !== Role.ShopOwner ?
+                                (!isJoinMember && isMemberCoupon ?
+                                    <Link href={`/massage/${couponItems.massageShop}/membership`}
+                                        className="p-2 text-sm bg-[#E8BC4C] rounded-lg shadow-lg hover:bg-amber-600 hover:text-white ease-i-out duration-300">
+                                        Join Membership
+                                    </Link> :
+                                (
+                                    (canBuy) ? <RedeemButton onClick={handleBuy}>Buy this Coupon</RedeemButton> :
+                                        <Button variant='contained' disabled>Bought</Button>
+                                ))
+                            
+                                : null
                         }
+  
                     </div>
                 </div>
             </div>
