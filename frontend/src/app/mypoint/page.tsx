@@ -15,11 +15,16 @@ import getAllCustomerCoupons from '@/libs/CustomerCoupon/getAllCustomerCoupons'
 import getCustomerCouponByMassage from '@/libs/CustomerCoupon/getCustomerCouponByMassage'
 
 import { useSession } from 'next-auth/react';
-import { CouponItem, CouponJson, CustomerCouponItem, CustomerCouponJson, MassageItem, UserProfile } from '../../../interface'
+import { CouponItem, CouponJson, CustomerCouponItem, CustomerCouponJson, MassageItem, UserProfile,Role } from '../../../interface'
 import getUserPoint from '@/libs/User/getUser'
 
+
+import ModalButton from '@/components/ModalButton'
+import CouponForm from '@/app/mypoint/components/CouponForm'
+import { Button } from '@mui/material'
+
 export default function page({ mid }: { mid: string }) {
-  // const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
+  //const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
   const [customerCoupon, setCustomerCoupon] = React.useState<CustomerCouponItem[]>([])
   const { data: session } = useSession();
   const [point, setPoint] = React.useState<number>(0);
@@ -93,6 +98,18 @@ export default function page({ mid }: { mid: string }) {
         session={session}
         mid={mid}
       />
+
+
+{
+    (session?.user.data.role !== Role.User) ? (
+        <div className='flex justify-center'>
+            <ModalButton text='Create Coupon' color='green'>
+                <CouponForm isUpdate={false} mid={mid} cid={null} />
+            </ModalButton>
+        </div>
+    ) : null
+}
+      
     </>
   )
 }

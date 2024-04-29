@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
+import { TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import DateReserve from "@/components/DateReserve";
 import dayjs, {Dayjs} from "dayjs";
 
@@ -9,6 +9,7 @@ import { CouponItem, MassageItem } from "../../../../interface";
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 
+import getMassages from "@/libs/Massage/getMassages";
 import { updateCouponReducer, addCouponReducer } from "@/redux/features/couponSlice";
 import { useSession } from "next-auth/react";
 
@@ -28,14 +29,34 @@ export default function CouponForm({
     const [point, setPoint] = useState<number>(0);
     const [expireAt, setExpireAt] = useState<Dayjs | null>(null);
     const [usableUserType, setUsableUserType] = useState<string>("");
+    
+    
+    const [selectedShop, setSelectedShop] = useState<string>(mid ?? "");
+    const [massageShops, setMassageShops] = useState<MassageItem[]>([]);
 
+    //const [ massage, setMassage] = useState<string>("")
+
+    //const massageShops = await getMassages();
+    
     const couponItems = useAppSelector(
         (state) => state.couponSlice.couponItems
     );
+    const massageItems = useAppSelector(state => state.massageSlice.massageItems)
 
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
+        async function loadMassageShops() {
+            try {
+                const shops = await getMassages();
+                setMassageShops(shops || []);
+            } catch (error) {
+                console.error("Error loading massage shops:", error);
+                setMassageShops([]); // Set massageShops to an empty array on error
+            }
+        }   
+
+        loadMassageShops();
         if (isUpdate) {
             if (cid === null) return;
             const couponTarget = couponItems?.find(
@@ -47,6 +68,7 @@ export default function CouponForm({
                 setPoint(couponTarget.point);
                 setExpireAt(dayjs(couponTarget.expireAt));
                 setUsableUserType(couponTarget.usableUserType);
+                setSelectedShop(couponTarget.massageShop);
             }
         }
     }, []);
@@ -58,7 +80,7 @@ export default function CouponForm({
             point,
             expireAt: expireAt?.format() ?? "", // Convert Dayjs to string or use an empty string if null
             usableUserType,
-            massageShop: mid ?? "",
+            massageShop: selectedShop,
             _id: cid ?? "",
             __v: 0
         };
@@ -89,40 +111,67 @@ export default function CouponForm({
     };
 
     return (
-        <div className="flex flex-col items-center bg-white w-[500px] py-8 px-4 gap-4 rounded-xl">
-            <TextField
-                id="discount"
-                label="Discount"
-                type="number"
-                value={discount}
-                onChange={(e) => setDiscount(Number(e.target.value))}
-            />
-            <TextField
-                id="coverage"
-                label="Coverage"
-                type="number"
-                value={coverage}
-                onChange={(e) => setCoverage(Number(e.target.value))}
-            />
-            <TextField
-                id="point"
-                label="Point"
-                type="number"
-                value={point}
-                onChange={(e) => setPoint(Number(e.target.value))}
-            />
+        <div className="flex flex-col items-center bg-white h-[500px] py-8 px-4 gap-4 rounded-xl">
+            <InputLabel id="massage-shop-label">Massage Shop</InputLabel>
+                <Select
+                    labelId="massage-shop-label"
+                    id="massage-shop"
+                    value={selectedShop}
+                    onChange={(e) => setSelectedShop(e.target.value)}
+                    className="w-[1/4]"
+                >
+                    {
+                        massageItems.map((massageItem) => (
+                            <MenuItem key={massageItem.id} value={massageItem.id}>{massageItem.name}</MenuItem>
+                        ))
+                    }
 
-            <DateReserve onDateChange={(value: Dayjs) => {
-                setExpireAt(value);
-            }} defaultDate={expireAt} />
-            
-            <TextField
-                id="usableUserType"
-                label="Usable User Type"
-                type="text"
-                value={usableUserType}
-                onChange={(e) => setUsableUserType(e.target.value)}
-            />
+                </Select>
+                <div className="flex w-full justify-center gap-6">
+                     <InputLabel id="discount-label" className="w-[1/4] text-left">Discount</InputLabel>
+                    <TextField
+                        id="discount"
+                        label="Discount"
+                        type="number"
+                        value={discount}
+                        onChange={(e) => setDiscount(Number(e.target.value))}
+                        className="w-[1/4]"
+                    />
+                    <TextField
+                        id="coverage"
+                        label="Coverage"
+                        type="number"
+                        value={coverage}
+                        onChange={(e) => setCoverage(Number(e.target.value))}
+                        className="w-[1/4]"
+                    />
+                </div>
+                <div className="w-[500px] flex justify-center">
+                    <DateReserve
+                        onDateChange={(value: Dayjs) => {
+                            setExpireAt(value);
+                        }}
+                        defaultDate={expireAt}
+                    />
+                </div>
+                <div className="flex w-full justify-center gap-4">
+                    <TextField
+                        id="point"
+                        label="Point"
+                        type="number"
+                        value={point}
+                        onChange={(e) => setPoint(Number(e.target.value))}
+                        className="w-[1/4]"
+                    />
+                    <TextField
+                        id="usableUserType"
+                        label="Usable User Type"
+                        type="text"
+                        value={usableUserType}
+                        onChange={(e) => setUsableUserType(e.target.value)}
+                        className="w-[1/4]"
+                    />
+                </div>
 
             <button
                 className="px-4 py-2 bg-[#426B1F] text-[#FFFFFF] rounded-xl transition hover:bg-[#DBE7C9] hover:text-[#426B1F]"
