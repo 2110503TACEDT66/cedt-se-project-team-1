@@ -22,7 +22,11 @@ describe('template spec', () => {
     cy.get('#discount').clear().type('5');
     cy.get('#coverage').clear().type('10');
     cy.get('.MuiModal-root > .flex-col > .px-4').should('exist').click();
-    cy.get('body').click();
+    // cy.get(':nth-child(7) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('exist').click();
+    // cy.get(':nth-child(7) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('not.exist');
+    cy.get(':nth-child(3) > div > .rounded-md').should('exist').click();
+    cy.get('#\:r21\:').type('12122024');
+    
     })
  
   
