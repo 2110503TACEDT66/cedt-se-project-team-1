@@ -75,6 +75,7 @@ export default function MassageCatalog({
                         href={`/massage/${massage.id}`}
                         key={massage.id}
                         className="rounded-lg"
+                        id={"massageitem" + massage.id}
                     >
                         <Card
                             key={massage.id}
