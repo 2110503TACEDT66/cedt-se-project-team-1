@@ -8,19 +8,13 @@ const getMemberships = async (req, res) => {
     if (req.user.role === "user") {
         query = Membership.find({ user: req.user.id });
     }
-    else if (req.user.role === "admin") {
+    else {
         if (req.params.massageShopId) {
             query = Membership.find({ massageShop: req.params.massageShopId });
         }
         else {
             query = Membership.find();
         }
-    }
-    else if (req.user.role === "shopOwner") {
-        if (!req.params.massageShopId) {
-            return res.status(400).json({ success: false, error: 'Please provide massage shop id' });
-        }
-        query = Membership.find({ massageShop: req.params.massageShopId });
     }
     try {
         const memberships = await query;

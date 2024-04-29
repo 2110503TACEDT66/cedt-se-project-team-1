@@ -15,6 +15,7 @@ export default async function updateCoupon(id: string, couponData: CouponItem) {
                 massageShop: couponData.massageShop,
                 point: couponData.point,
                 discount: couponData.discount,
+                usableUserType: couponData.usableUserType,
                 coverage: couponData.coverage,
                 expireAt: couponData.expireAt,
             })
