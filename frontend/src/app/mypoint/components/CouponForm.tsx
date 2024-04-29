@@ -4,7 +4,7 @@ import { TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/mater
 import DateReserve from "@/components/DateReserve";
 import dayjs, {Dayjs} from "dayjs";
 
-import { CouponItem, MassageItem } from "../../../../interface";
+import { CouponItem, CouponItemRedux, MassageItem } from "../../../../interface";
 
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
@@ -56,7 +56,7 @@ export default function CouponForm({
     }, []);
 
     const onSubmit = async () => {
-        const data: CouponItem = {
+        const data: CouponItemRedux = {
             discount,
             coverage,
             point,
@@ -64,7 +64,8 @@ export default function CouponForm({
             usableUserType,
             massageShop: selectedShop,
             _id: cid ?? "",
-            __v: 0
+            __v: 0,
+            isMassageShop: (mid !== undefined)
         };
 
         // validate date
@@ -87,7 +88,6 @@ export default function CouponForm({
             dispatch(updateCouponReducer(data));
         } else {
             // create data
-            console.log("create data", data);
             dispatch(addCouponReducer(data));
         }
     };
