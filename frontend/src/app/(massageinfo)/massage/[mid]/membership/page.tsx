@@ -11,11 +11,14 @@ import updateMembership from "@/libs/Membership/updateMembership";
 
 function joinMemberPage({ params }: { params: { mid: string } }) {
 
+  
   const massageItem = useAppSelector(state => state.massageSlice.massageItems);
   const massage = massageItem.find(massage => massage.id === params.mid)
-
+  
   const { data: session } = useSession();
+  
   if (!session || !session.user.token) return null;
+  if (session.user.data.role !== "user" && session.user.data.role !== "admin") return null;
 
   const router = useRouter();
 

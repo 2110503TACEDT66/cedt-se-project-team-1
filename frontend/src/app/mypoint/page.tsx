@@ -123,8 +123,7 @@ export default function page({ mid }: { mid: string }) {
 
   return (
     <>
-      {(mid === undefined) ? <UserInfo userPoint={point} /> : <> </>
-      }
+      {(mid === undefined) ? <UserInfo userPoint={point} /> : <> </>}
       <CouponCatalog
         coupon={unusedCoupon}
         memberships={memberships}
