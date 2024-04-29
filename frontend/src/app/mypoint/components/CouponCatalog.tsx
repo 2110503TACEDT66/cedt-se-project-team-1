@@ -24,6 +24,7 @@ export default function CouponCatalog({ coupon, userPoint, updateUserPoint, sess
               updateUserPoint={updateUserPoint}
               session={session}
               mid={mid}
+              isMember={coupon.usableUserType === 'member'}
             />
           ))
         )}

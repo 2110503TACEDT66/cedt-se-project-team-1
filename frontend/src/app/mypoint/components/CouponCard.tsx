@@ -15,13 +15,14 @@ import { setPoint } from '@/redux/features/userSlice'
 import ModalButton from '@/components/ModalButton'
 import CouponForm from './CouponForm'
 
-export default function CouponCard({ couponItems, userPoint, updateUserPoint, session, mid }:
+export default function CouponCard({ couponItems, userPoint, updateUserPoint, session, mid, isMember }:
     {
         couponItems: CouponItem
         userPoint: number
         updateUserPoint: (newPoint: number) => void
         session: any
         mid: string
+        isMember: boolean
     }) {
     const dispatch = useDispatch<AppDispatch>()
     const [massageShop, setMassageShop] = React.useState<MassageItem>({} as MassageItem);
@@ -49,7 +50,7 @@ export default function CouponCard({ couponItems, userPoint, updateUserPoint, se
         <div className='w-[350px] h-[180px] bg-white shadow-md'>
 
             <div className='flex flex-row'>
-                <div className='bg-[#426B1F] h-[180px] w-[120px] flex justify-center items-center'>
+                <div className={`bg-[#${(isMember) ? 'E8BC4C' : '426B1F'}] h-[180px] w-[120px] flex justify-center items-center`}>
                     <Image src='/img/discount.png' width={60} height={60} alt='coupon' />
                 </div>
                 <div className='w-full h-[180px] p-4'>
