@@ -4,7 +4,7 @@ import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
 import MassageRating from "@/app/(massageinfo)/components/MassageRating";
 import getMassagesRating from "@/libs/Rating/getMassagesRating";
-import { MassageItem, RatingJson } from "../../../../../interface";
+import { MassageItem, RatingJson, Role } from "../../../../../interface";
 
 import { useDispatch } from "react-redux";
 import { updateMassageReducer } from "@/redux/features/massageSlice";
@@ -13,6 +13,10 @@ import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import MypointPage from "@/app/mypoint/page";
+import ModalButton from "@/components/ModalButton";
+import CouponForm from "@/app/mypoint/components/CouponForm";
 
 export default function MassageDetailPage({ params }: { params: { mid: string } }) {
 
@@ -106,7 +110,11 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                                 </Link>
                                 <MassageRating ratingJson={ratingJson} />
                             </div>
+
+                            {/* Coupon Massage Shop */}
+                            <MypointPage mid={params.mid} />
                         </main>
+                        
                     </div>
                 ) : <h1>This massage id not availble </h1>
             }

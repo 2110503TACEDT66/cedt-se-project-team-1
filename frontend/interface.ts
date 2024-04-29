@@ -10,14 +10,13 @@ export interface CustomerCouponJson {
   success: boolean,
   count: number,
   data: CustomerCouponItem[]
-  
-
 }
 export interface CouponItemOne{
   success: boolean,
   data: CouponItem
 }
-export interface CouponItem{
+
+export interface CouponItem {
   _id: string,
   massageShop: string,
   discount : number,
@@ -27,6 +26,25 @@ export interface CouponItem{
   point : number,
   __v : number
 }
+
+export interface CouponItemRedux {
+  _id: string,
+  massageShop: string,
+  discount: number,
+  coverage: number,
+  expireAt: string,
+  usableUserType: string,
+  point: number,
+  __v: number,
+  isMassageShop: boolean
+}
+
+export interface CouponJson {
+  success: boolean,
+  count: number,
+  data: CouponItem[]
+}
+
 export interface CustomerCouponItem{
   _id : string,
   coupon : CouponItem,
@@ -34,6 +52,13 @@ export interface CustomerCouponItem{
   massageItem: MassageItem,
   __v: number,
 }
+
+export interface CustomerCouponJson {
+  success: boolean,
+  count: number,
+  data: CustomerCouponItem[]
+}
+
 
 export enum Role {
   User = "user",

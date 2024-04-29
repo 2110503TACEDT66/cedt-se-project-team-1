@@ -20,7 +20,12 @@ export default function TopMenu() {
                     <div className='px-8 text-xl text-[#426B1F]'>Massage with Girl</div>
                     <div>
                         {
-                            session ? <p className='text-gray-600'>Welcome, {session.user.data.name}</p>:null
+                            session ? (
+                            <div className='flex flex-row gap-4'>
+                                <p className='text-gray-600'>Welcome, {session.user.data.name}</p>
+                                <p className='text-gray-600'>{session.user.data.point} Points</p>
+                            </div>
+                        ):null
                         }
                     </div>
                 </Link>

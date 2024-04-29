@@ -12,7 +12,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { CouponItem, CouponItemOne, CustomerCouponItem, CustomerCouponJson, MassageItem, MassageOne, ReservationItem } from "../../../../interface";
 import getCustomerCouponByMassage from "@/libs/CustomerCoupon/getCustomerCouponByMassage";
 import getMassage from "@/libs/Massage/getMassage";
-import getCouponById from "@/libs/Coupon/getCouponById";
+import getCoupon from "@/libs/Coupon/getCoupon";
 import deleteCustomerCoupon from "@/libs/CustomerCoupon/deleteCustomerCoupon";
 
 export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, id: string | null }) {
@@ -106,7 +106,7 @@ export default function ReservationForm({ isUpdate, id }: { isUpdate: boolean, i
           if (coupon !== "" && coupon !== null ) {
             setDiscount(null);
             try {
-                const usingTicket : CouponItemOne = await getCouponById(coupon);
+                const usingTicket : CouponItemOne = await getCoupon(coupon);
                 setMaxDiscount(usingTicket.data.coverage);
                 console.log(usingTicket.data.discount);
                 setDiscount(Math.min(usingTicket.data.discount/100.0 * price, usingTicket.data.coverage));

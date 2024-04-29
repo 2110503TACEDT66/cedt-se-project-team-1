@@ -38,4 +38,10 @@ const CouponSchema = new mongoose.Schema({
     }
 });
 
+CouponSchema.pre('deleteOne', {document: true, query: false}, async function(next) {
+    console.log(`CustomerCoupon being removed from coupon ${this._id}`);
+    await this.model('CustomerCoupon').deleteMany({coupon: this._id});
+    next();
+})
+
 module.exports = mongoose.model('Coupon', CouponSchema);
