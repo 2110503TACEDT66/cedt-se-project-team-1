@@ -5,12 +5,14 @@ import TopMenuItem from './TopMenuItem';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
 
 export default function TopMenu() {
 
     // const session = await getServerSession(authOptions);
     // console.log(session);
     const {data: session} = useSession();
+    const points = useSelector((state: any) => state.pointslice.points)
 
     return (
         <div className="h-[65px] bg-[#c3d6a7] fixed top-0 left-0 right-0 z-30 flex flex-row justify-between rounded-bl-lg rounded-br-lg">
@@ -23,7 +25,7 @@ export default function TopMenu() {
                             session ? (
                             <div className='flex flex-row gap-4'>
                                 <p className='text-gray-600'>Welcome, {session.user.data.name}</p>
-                                <p className='text-gray-600'>{session.user.data.point} Points</p>
+                                <p className='text-gray-600'>{points} Points</p>
                             </div>
                         ):null
                         }
