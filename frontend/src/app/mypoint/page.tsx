@@ -15,7 +15,7 @@ import getAllCustomerCoupons from '@/libs/CustomerCoupon/getAllCustomerCoupons'
 import getCustomerCouponByMassage from '@/libs/CustomerCoupon/getCustomerCouponByMassage'
 
 import { useSession } from 'next-auth/react';
-import { CouponItem, CouponJson, CustomerCouponItem, CustomerCouponJson, MassageItem, UserProfile,Role } from '../../../interface'
+import { CouponItem, CouponJson, CustomerCouponItem, CustomerCouponJson, MassageItem, UserProfile, Role } from '../../../interface'
 import getUserPoint from '@/libs/User/getUser'
 
 
@@ -32,7 +32,7 @@ export default function page({ mid }: { mid: string }) {
   const couponItems = useAppSelector(state => state.couponSlice.couponItems);
 
   useEffect(() => {
-    if (session?.user.data._id === undefined) return ;
+    if (session?.user.data._id === undefined) return;
     getUserPoint(session?.user.data._id).then((res) => {
       setPoint(res.data.point)
     })
@@ -90,7 +90,7 @@ export default function page({ mid }: { mid: string }) {
   return (
     <>
       {(mid === undefined) ? <UserInfo userPoint={point} /> : <> </>
-    }
+      }
       <CouponCatalog
         coupon={unusedCoupon}
         updateUserPoint={updateUserPoint}
@@ -100,16 +100,16 @@ export default function page({ mid }: { mid: string }) {
       />
 
 
-{
-    (session?.user.data.role !== Role.User) ? (
-        <div className='flex justify-center'>
+      {
+        (session?.user.data.role !== Role.User) ? (
+          <div className='flex justify-center'>
             <ModalButton text='Create Coupon' color='green'>
-                <CouponForm isUpdate={false} mid={mid} cid={null} />
+              <CouponForm isUpdate={false} mid={mid} cid={null} />
             </ModalButton>
-        </div>
-    ) : null
-}
-      
+          </div>
+        ) : null
+      }
+
     </>
   )
 }

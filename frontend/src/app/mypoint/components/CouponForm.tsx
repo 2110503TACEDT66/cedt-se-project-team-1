@@ -29,14 +29,7 @@ export default function CouponForm({
     const [point, setPoint] = useState<number>(0);
     const [expireAt, setExpireAt] = useState<Dayjs | null>(null);
     const [usableUserType, setUsableUserType] = useState<string>("");
-    
-    
     const [selectedShop, setSelectedShop] = useState<string>(mid ?? "");
-    const [massageShops, setMassageShops] = useState<MassageItem[]>([]);
-
-    //const [ massage, setMassage] = useState<string>("")
-
-    //const massageShops = await getMassages();
     
     const couponItems = useAppSelector(
         (state) => state.couponSlice.couponItems
@@ -46,17 +39,6 @@ export default function CouponForm({
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
-        async function loadMassageShops() {
-            try {
-                const shops = await getMassages();
-                setMassageShops(shops || []);
-            } catch (error) {
-                console.error("Error loading massage shops:", error);
-                setMassageShops([]); // Set massageShops to an empty array on error
-            }
-        }   
-
-        loadMassageShops();
         if (isUpdate) {
             if (cid === null) return;
             const couponTarget = couponItems?.find(
@@ -112,13 +94,14 @@ export default function CouponForm({
 
     return (
         <div className="flex flex-col items-center bg-white h-[500px] py-8 px-4 gap-4 rounded-xl">
-            <InputLabel id="massage-shop-label">Massage Shop</InputLabel>
+                <InputLabel id="massage-shop-label">Massage Shop</InputLabel>
                 <Select
                     labelId="massage-shop-label"
                     id="massage-shop"
                     value={selectedShop}
                     onChange={(e) => setSelectedShop(e.target.value)}
                     className="w-[1/4]"
+                    disabled={(mid !== undefined) ? true : false}
                 >
                     {
                         massageItems.map((massageItem) => (
@@ -128,7 +111,6 @@ export default function CouponForm({
 
                 </Select>
                 <div className="flex w-full justify-center gap-6">
-                     <InputLabel id="discount-label" className="w-[1/4] text-left">Discount</InputLabel>
                     <TextField
                         id="discount"
                         label="Discount"

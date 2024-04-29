@@ -7,8 +7,21 @@ const getCoupons = async (req, res) => {
         getCouponsByMassageShop(req, res);
     } else {
         try {
-            const coupons = await Coupon.find();
-            res.status(200).json({ success: true, data: coupons });
+            let coupons;
+            if (req.user.role === 'shopOwner') {
+                const massageShopOwner = await Massage.find({ owner: req.user.id });
+                const massageIDs = massageShopOwner.map(massage => massage.id);
+                // console.log(massageIDs);
+                coupons = await Coupon.find({ massageShop: massageIDs });
+                // const coupons = await Coupon.find();
+                // res.status(200).json({ success: true, data: coupons });
+            } else {
+                coupons = await Coupon.find();
+                // res.status(200).json({ success: true, data: coupons });
+            }
+
+                // const coupons = await Coupon.find();
+                res.status(200).json({ success: true, data: coupons });
         } catch (error) {
             res.status(500).json({ success: false, error: 'Internal server error' });
         }

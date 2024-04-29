@@ -113,17 +113,6 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
 
                             {/* Coupon Massage Shop */}
                             <MypointPage mid={params.mid} />
-
-                            {/* Create Button to create coupon */}
-                            {
-                                (session?.user.data.role !== Role.User) ? (
-                                    <div className='flex justify-center'>
-                                        <ModalButton text='Create Coupon' color='green'>
-                                            <CouponForm isUpdate={false} mid={params.mid} cid={null} />
-                                        </ModalButton>
-                                    </div>
-                                ) : null
-                            }
                         </main>
                         
                     </div>
