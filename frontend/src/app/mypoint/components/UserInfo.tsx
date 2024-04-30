@@ -12,11 +12,6 @@ import { setPointReducer } from '@/redux/features/pointslice';
 export default function UserInfo() {
     const {data: session} = useSession();
     const points = useSelector((state: any) => state.pointslice.points)
-    useEffect(() => {
-        getUserPoint(session?.user.data._id ?? '').then((res) => {
-            store.dispatch(setPointReducer(res.data.point))
-        })
-    }, [])
     
     return (
         <div className='w-full h-[300px] p-10 flex flex-col items-center'>

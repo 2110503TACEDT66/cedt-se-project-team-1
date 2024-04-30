@@ -20,6 +20,11 @@ module.exports = router;
 /** 
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Rating:
  *       type: object
@@ -109,31 +114,33 @@ module.exports = router;
 
 /**
  * @swagger
- *  /massages/{massageShopID}/ratings:
- *    get:
- *      summary: Get all ratings by massage shop ID
- *      tags: [Ratings]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: query
- *          name: massageShopId
- *          schema:
- *            type: string
- *          description: Optional. The ID of the massage shop to filter ratings
- *      responses:
- *        '200':
- *          description: A list of ratings
- *          content:
- *            application/json:
- *              schema:
- *                type: array
- *                items:
- *                  $ref: '#/components/schemas/Rating'
- *        '401':
- *          description: Unauthorized
- *        '500':
- *          description: Internal server error
+ * /massages/{massageShopID}/ratings:
+ *   get:
+ *     summary: Get rating by massage shop ID
+ *     tags: [Ratings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: massageShopID
+ *         schema:
+ *           type: string
+ *         description: ID of the massage shop
+ *     responses:
+ *       '200':
+ *         description: A list of ratings
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Rating'
+ *       '400':
+ *         description: Bad request (missing massage shop ID for shop owners)
+ *       '401':
+ *         description: Unauthorized
+ *       '500':
+ *         description: Internal server error
  */
 
 /**
@@ -168,7 +175,7 @@ module.exports = router;
 
 /**
  * @swagger
- * massages/{massageShopID}/ratings:
+ * /massages/{massageShopID}/ratings:
  *    post:
  *      summary: Add a new rating
  *      tags: [Ratings]
@@ -176,7 +183,7 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: path
- *          name: massageShopId
+ *          name: massageShopID
  *          required: true
  *          schema:
  *            type: string
