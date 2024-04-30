@@ -6,6 +6,10 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { store } from '@/redux/store';
+import getUserPoint from '@/libs/User/getUser';
+import { setPointReducer } from '@/redux/features/pointslice';
 
 export default function TopMenu() {
 
@@ -13,6 +17,11 @@ export default function TopMenu() {
     // console.log(session);
     const {data: session} = useSession();
     const points = useSelector((state: any) => state.pointslice.points)
+    useEffect(() => {
+        getUserPoint(session?.user.data._id ?? '').then((res) => {
+            store.dispatch(setPointReducer(res.data.point))
+        })
+    }, [])
 
     return (
         <div className="h-[65px] bg-[#c3d6a7] fixed top-0 left-0 right-0 z-30 flex flex-row justify-between rounded-bl-lg rounded-br-lg">
