@@ -5,12 +5,30 @@ import TopMenuItem from './TopMenuItem';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { store } from '@/redux/store';
+import getUserPoint from '@/libs/User/getUser';
+import { setPointReducer } from '@/redux/features/pointslice';
 
 export default function TopMenu() {
 
     // const session = await getServerSession(authOptions);
     // console.log(session);
     const {data: session} = useSession();
+    const points = useSelector((state: any) => state.pointslice.points)
+    if(session){
+        useEffect(() => {
+            getUserPoint(session?.user.data._id ?? '').then((res) => {
+                store.dispatch(setPointReducer(res.data.point))
+            })
+        }, [])
+    }else{
+        useEffect(() => {
+            store.dispatch(setPointReducer(0))
+        }, [])
+    }
+
 
     return (
         <div className="h-[65px] bg-[#c3d6a7] fixed top-0 left-0 right-0 z-30 flex flex-row justify-between rounded-bl-lg rounded-br-lg">
@@ -23,7 +41,7 @@ export default function TopMenu() {
                             session ? (
                             <div className='flex flex-row gap-4'>
                                 <p className='text-gray-600'>Welcome, {session.user.data.name}</p>
-                                <p className='text-gray-600'>{session.user.data.point} Points</p>
+                                <p className='text-gray-600'>{points} Points</p>
                             </div>
                         ):null
                         }

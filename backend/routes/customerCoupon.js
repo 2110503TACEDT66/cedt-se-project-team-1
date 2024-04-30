@@ -27,6 +27,11 @@ module.exports = router;
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     CustomerCoupon:
  *       type: object
@@ -116,19 +121,12 @@ module.exports = router;
 
 /**
  * @swagger
- * /customerCoupons/user/{userid}:
+ * /customerCoupons/myCoupons/me:
  *   get:
  *     summary: Get customer coupons by user ID
  *     tags: [Customer Coupons]
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: userid
- *         required: true
- *         description: ID of the user
- *         schema:
- *           type: string
  *     responses:
  *       '200':
  *         description: A list of customer coupons

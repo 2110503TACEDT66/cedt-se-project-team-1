@@ -19,6 +19,11 @@ module.exports = router;
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Membership:
  *       type: object
@@ -90,7 +95,7 @@ module.exports = router;
 
 /**
  * @swagger
- * massages/{massageShopID}/memberships:
+ * /massages/{massageShopID}/memberships:
  *   get:
  *     summary: Get memberships
  *     tags: [Memberships]
@@ -98,7 +103,7 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: query
- *         name: massageShopId
+ *         name: massageShopID
  *         schema:
  *           type: string
  *         description: ID of the massage shop (required for shop owners, optional for admins)
@@ -151,7 +156,7 @@ module.exports = router;
 
 /**
  * @swagger
- * massages/{massageShopID}/memberships:
+ * /massages/{massageShopID}/memberships:
  *   post:
  *     summary: Create a new membership
  *     tags: [Memberships]
@@ -159,23 +164,11 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: massageShopId
+ *         name: massageShopID
  *         required: true
  *         schema:
  *           type: string
  *         description: ID of the massage shop
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               user:
- *                 type: string
- *               expireAt:
- *                 type: string
- *                 format: date-time
  *     responses:
  *       '201':
  *         description: Successfully created membership

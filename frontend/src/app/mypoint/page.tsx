@@ -21,30 +21,20 @@ import getUserPoint from '@/libs/User/getUser'
 
 import ModalButton from '@/components/ModalButton'
 import CouponForm from '@/app/mypoint/components/CouponForm'
-import { Button } from '@mui/material'
 import getMassageMemberships from '@/libs/Membership/getMassageMemberships'
 import getMemberships from '@/libs/Membership/getMemberships'
 
-export default function page({ mid }: { mid: string }) {
-  //const [couponItems, setCoupons] = React.useState<CouponItem[]>([])
+import getMassages from '@/libs/Massage/getMassages'
+import { setMassageReducer } from '@/redux/features/massageSlice'
+
+export default function MypointPage({ mid }: { mid: string }) {
   const [customerCoupon, setCustomerCoupon] = React.useState<CustomerCouponItem[]>([])
   const { data: session } = useSession();
-  const [point, setPoint] = React.useState<number>(0);
 
   const [memberships, setMemberships] = React.useState<MembershipItem[]>([]);
 
   const couponItems = useAppSelector(state => state.couponSlice.couponItems);
-
-  useEffect(() => {
-    if (session?.user.data._id === undefined) return;
-    getUserPoint(session?.user.data._id).then((res) => {
-      setPoint(res.data.point)
-    })
-  }, [])
-
-  const updateUserPoint = (point: number) => {
-    setPoint(point);
-  }
+  const massageItems = useAppSelector(state => state.massageSlice.massageItems);
 
   useEffect(() => {
 
@@ -107,6 +97,12 @@ export default function page({ mid }: { mid: string }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+        getMassages().then((res) => {
+            store.dispatch(setMassageReducer(res.data))
+        })
+    }, [])
+
   const unusedCoupon = couponItems.filter((coupon: CouponItem) => {
     return !customerCoupon.some((customerCoupon) => customerCoupon.coupon && ((customerCoupon.coupon._id === coupon._id) && (customerCoupon.user._id === session?.user.data._id)));
     // return !customerCoupon.some((customerCoupon) => customerCoupon.coupon && ((customerCoupon.coupon._id === coupon._id)));
@@ -114,20 +110,16 @@ export default function page({ mid }: { mid: string }) {
 
   return (
     <>
-      {(mid === undefined) ? <UserInfo userPoint={point} /> : <> </>
-      }
+      {(mid === undefined) ? <UserInfo /> : <> </>}
       <CouponCatalog
         coupon={unusedCoupon}
         memberships={memberships}
-        updateUserPoint={updateUserPoint}
-        userPoint={point}
         session={session}
         mid={mid}
       />
 
-
       {
-        (session?.user.data.role !== Role.User) ? (
+        (session?.user.data.role !== Role.User && massageItems.length > 0) ? (
           <div className='flex justify-center'>
             <ModalButton text='Create Coupon' color='green'>
               <CouponForm isUpdate={false} mid={mid} cid={null}/>

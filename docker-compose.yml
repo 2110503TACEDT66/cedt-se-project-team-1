@@ -1,0 +1,20 @@
+version: '3'
+services:
+  frontend:
+    build: frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    links:
+      - backend
+    environment:
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET='Ey7nTKnggBc0bRN8WUjyShw2qzOZ6KW4fUyqcKBePxY='
+      - FRONTEND_URL=http://localhost:3000
+      - BACKEND_URL=http://backend:5000
+
+  backend:
+    build: backend
+    ports:
+      - 5000:5000

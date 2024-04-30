@@ -2,17 +2,16 @@ import React from 'react'
 import CouponCard from './CouponCard'
 import { CouponItem, MembershipItem } from '../../../../interface'
 
-export default function CouponCatalog({ coupon, memberships, userPoint, updateUserPoint, session, mid }:
+export default function CouponCatalog({ coupon, memberships, session, mid }:
   {
     coupon: CouponItem[]
     memberships: MembershipItem[]
-    userPoint: number
-    updateUserPoint: (newPoint: number) => void
     session: any
     mid: string
-  }) 
-  
+  })  
+
   {
+
   return (
     <div className='flex justify-center h-full'>
       <div className="grid grid-cols-2 content-around mt-8 w-[800px] gap-4 h-full">
@@ -21,12 +20,10 @@ export default function CouponCatalog({ coupon, memberships, userPoint, updateUs
             <CouponCard
               key={coupon._id}
               couponItems={coupon}
-              userPoint={userPoint}
-              updateUserPoint={updateUserPoint}
               session={session}
               mid={mid}
               isMemberCoupon={coupon.usableUserType === 'member'}
-              isJoinMember={memberships.some((membership) => membership._id === mid)}
+              isJoinMember={memberships.some((membership) => membership.massageShop === coupon.massageShop)}
             />
           ))
         )}

@@ -15,6 +15,11 @@ module.exports = router;
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     User:
  *       type: object
@@ -78,7 +83,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /api/logout:
+ * /auth/logout:
  *   get:
  *     summary: Logout the current user
  *     tags: [Authentication]
@@ -93,7 +98,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /api/me:
+ * /auth/me:
  *   get:
  *     summary: Get information about the currently logged-in user
  *     tags: [Authentication]
@@ -112,7 +117,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /register:
+ * /auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Authentication]
@@ -146,7 +151,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /api/login:
+ * /auth/login:
  *   post:
  *     summary: Login with existing user credentials
  *     tags: [Authentication]
