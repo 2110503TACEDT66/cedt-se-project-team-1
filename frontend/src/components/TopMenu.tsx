@@ -17,11 +17,18 @@ export default function TopMenu() {
     // console.log(session);
     const {data: session} = useSession();
     const points = useSelector((state: any) => state.pointslice.points)
-    useEffect(() => {
-        getUserPoint(session?.user.data._id ?? '').then((res) => {
-            store.dispatch(setPointReducer(res.data.point))
-        })
-    }, [])
+    if(session){
+        useEffect(() => {
+            getUserPoint(session?.user.data._id ?? '').then((res) => {
+                store.dispatch(setPointReducer(res.data.point))
+            })
+        }, [])
+    }else{
+        useEffect(() => {
+            store.dispatch(setPointReducer(0))
+        }, [])
+    }
+
 
     return (
         <div className="h-[65px] bg-[#c3d6a7] fixed top-0 left-0 right-0 z-30 flex flex-row justify-between rounded-bl-lg rounded-br-lg">
