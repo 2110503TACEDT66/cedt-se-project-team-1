@@ -264,6 +264,7 @@ describe('Membership Controller', () => {
             json: jest.fn()
         }
         const deleteMembership = await membership.deleteMembership(req, res);
+        expect(res.status.mock.calls[0][0]).toBe(200)
     })
 
     it("test user get deleted membership", async () => {
