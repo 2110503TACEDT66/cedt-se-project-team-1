@@ -27,7 +27,7 @@ import getMemberships from '@/libs/Membership/getMemberships'
 import getMassages from '@/libs/Massage/getMassages'
 import { setMassageReducer } from '@/redux/features/massageSlice'
 
-export default function page({ mid }: { mid: string }) {
+export default function MypointPage({ mid }: { mid: string }) {
   const [customerCoupon, setCustomerCoupon] = React.useState<CustomerCouponItem[]>([])
   const { data: session } = useSession();
 
@@ -110,8 +110,7 @@ export default function page({ mid }: { mid: string }) {
 
   return (
     <>
-      {(mid === undefined) ? <UserInfo /> : <> </>
-      }
+      {(mid === undefined) ? <UserInfo /> : <> </>}
       <CouponCatalog
         coupon={unusedCoupon}
         memberships={memberships}
