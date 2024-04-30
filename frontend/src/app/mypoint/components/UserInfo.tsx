@@ -6,9 +6,13 @@ import { Typography } from '@mui/material';
 import { AiOutlineUser, AiOutlineGift } from 'react-icons/ai';
 import getUserPoint from '@/libs/User/getUser';
 import { useSelector } from 'react-redux';
+import { store } from '@/redux/store';
+import { setPointReducer } from '@/redux/features/pointslice';
 
-export default function UserInfo({userPoint}: {userPoint: number}) {
+export default function UserInfo() {
     const {data: session} = useSession();
+    const points = useSelector((state: any) => state.pointslice.points)
+    
     return (
         <div className='w-full h-[300px] p-10 flex flex-col items-center'>
             <Typography variant='h3' fontWeight={"bold"} color={"#426B1F"}>Promotion Code</Typography>
@@ -21,7 +25,7 @@ export default function UserInfo({userPoint}: {userPoint: number}) {
                 </div>
                 <div className='flex flex-row gap-2'>
                     <AiOutlineGift size={24} color='white'/>
-                    <p className='text-white'>{userPoint} point</p>
+                    <p className='text-white'>{points} point</p>
                 </div>
                
             </div>
