@@ -387,18 +387,6 @@ describe('getCouponsByMassageShop', () => {
       jest.clearAllMocks();
     });
   
-    it('should delete a coupon', async () => {
-      req.params.id = '662fc929ace6616a25282989'; 
-  
-      Coupon.findById = jest.fn().mockResolvedValue({});
-  
-      await deleteCoupon(req, res);
-  
-      expect(Coupon.findById).toHaveBeenCalledWith('662fc929ace6616a25282989');
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith({ success: true, data: {} });
-    });
-  
     it('should handle coupon not found', async () => {
       req.params.id = 'invalid_id';
   
@@ -421,5 +409,19 @@ describe('getCouponsByMassageShop', () => {
       expect(Coupon.findById).toHaveBeenCalledWith('662c7fabae6f7a8d911cd473');
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ success: false, error: 'Internal server error' });
+    });
+
+    it('should delete a coupon', async () => {
+      req.params.id = '66310da1eed182d0d2f28f88';
+      const mockCoupon = { _id: '66310da1eed182d0d2f28f88', deleteOne: jest.fn().mockResolvedValue() };
+
+      Coupon.findById = jest.fn().mockResolvedValue(mockCoupon);
+
+      await deleteCoupon(req, res);
+
+      expect(Coupon.findById).toHaveBeenCalledWith('66310da1eed182d0d2f28f88');
+      expect(mockCoupon.deleteOne).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ success: true, data: {} });
     });
   });
