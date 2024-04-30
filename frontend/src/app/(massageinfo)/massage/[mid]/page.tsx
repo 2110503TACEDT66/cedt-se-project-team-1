@@ -12,7 +12,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import MypointPage from "@/app/mypoint/page";
 import ModalButton from "@/components/ModalButton";
@@ -23,7 +22,6 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
     const massageItem = useAppSelector(state => state.massageSlice.massageItems)
     const massage = massageItem.find(massage => massage.id === params.mid)
     const [ratingJson, setRatingJson] = useState<RatingJson>({ success: false, data: [] });
-    const pathname = usePathname();
 
     const dispatch = useDispatch<AppDispatch>()
     const { data: session } = useSession();
@@ -106,11 +104,11 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                                 </div>
                                 {
                                     session?.user.data.role !== Role.ShopOwner ?
-                                        <Link href={pathname + "/membership"}
+                                        <Link href={"/massage/" + params.mid + "/membership"}
                                             className="p-3 px-5 text-lg bg-orange-300 rounded-lg font-medium shadow-lg hover:bg-amber-600 hover:text-white ease-i-out duration-300">
                                             Join Membership
                                         </Link>
-                                    : null
+                                        : null
                                 }
                                 <MassageRating ratingJson={ratingJson} />
                             </div>
@@ -118,7 +116,7 @@ export default function MassageDetailPage({ params }: { params: { mid: string } 
                             {/* Coupon Massage Shop */}
                             <MypointPage mid={params.mid} />
                         </main>
-                        
+
                     </div>
                 ) : <h1>This massage id not availble </h1>
             }
