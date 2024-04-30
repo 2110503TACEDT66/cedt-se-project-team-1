@@ -10,15 +10,6 @@ describe('template spec', () => {
     cy.get('[href="/massage"]').should('exist').contains('Massage').should('be.visible').click();
     cy.get('[href="/massage"]').should('exist').click();
     cy.get('#massageitem6602f1e55275387a7855d32e').should('exist').click();
-    cy.get(':nth-child(1) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(1) > .rounded-md').should('exist').click();
-    cy.get('#discount').then($input => {
-      $input.get(0).select();
-    }).type('55');
-    cy.get('#coverage').then($input => {
-      $input.get(0).select();
-    }).type('100');
-    cy.get('.MuiModal-root > .flex-col > .px-4').should('exist').click();
-    cy.get(':nth-child(1) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('exist').click();
     cy.get(':nth-child(3) > div > .rounded-md').should('exist').click();
     cy.get('.h-full > .MuiFormControl-root > .MuiInputBase-root').should('exist').type('10122024');
     cy.get('#discount').then($input => {
@@ -31,6 +22,16 @@ describe('template spec', () => {
       $input.get(0).select();
     }).type('10');
     cy.get('.MuiModal-root > .flex-col > .px-4').click();
+    cy.get(':nth-child(1) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(1) > .rounded-md').should('exist').click();
+    cy.get('#discount').then($input => {
+      $input.get(0).select();
+    }).type('55');
+    cy.get('#coverage').then($input => {
+      $input.get(0).select();
+    }).type('100');
+    cy.get('.MuiModal-root > .flex-col > .px-4').should('exist').click();
+    cy.get(':nth-child(1) > .flex-row > .w-full > :nth-child(1) > .flex > :nth-child(2) > .rounded-md').should('exist').click();
+    
     })
   it("Test ShopOwer can edit, delete and create new coupon all Ower's Shop.", () => {
     cy.visit('http://localhost:3000/')
