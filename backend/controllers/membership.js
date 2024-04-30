@@ -39,11 +39,11 @@ const getMembership = async (req, res) => {
 
 const addMembership = async (req, res) => {
     try {
-        const user = await User.findById(req.user);
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: `No user with the id of ${req.body.user}`
+                message: `No user with the id of ${req.user.id}`
             });
         }
 

@@ -6,7 +6,7 @@ const CouponSchema = new mongoose.Schema({
         ref: 'Massage',
         required: true
     },
-    point:{
+    point: {
         type: Number,
         required: [true, 'Please add a Number of point'],
         min: 0,
@@ -29,7 +29,7 @@ const CouponSchema = new mongoose.Schema({
     expireAt: {
         type: Date,
         required: [true, 'Please add an expire date'],
-      
+
     },
     usableUserType: {
         type: String,
@@ -38,9 +38,9 @@ const CouponSchema = new mongoose.Schema({
     }
 });
 
-CouponSchema.pre('deleteOne', {document: true, query: false}, async function(next) {
+CouponSchema.pre('findOneAndDelete', { document: true, query: false }, async function (next) {
     console.log(`CustomerCoupon being removed from coupon ${this._id}`);
-    await this.model('CustomerCoupon').deleteMany({coupon: this._id});
+    await this.model('CustomerCoupon').deleteMany({ coupon: this._id });
     next();
 })
 

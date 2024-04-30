@@ -3,10 +3,15 @@ const Massage = require('../models/Massage')
 // Get all coupons
 const getCoupons = async (req, res) => {
 
-    if (req.params.massageShopId) {
-        getCouponsByMassageShop(req, res);
-    } else {
-        try {
+    try {
+        if (req.params.massageShopId) {
+            const { massageShopId } = req.params;
+
+            const coupons = await Coupon.find({ massageShop: massageShopId });
+            res.status(200).json({ success: true, data: coupons });
+
+        } else {
+
             let coupons;
             if (req.user.role === 'shopOwner') {
                 const massageShopOwner = await Massage.find({ owner: req.user.id });
@@ -16,15 +21,16 @@ const getCoupons = async (req, res) => {
                 coupons = await Coupon.find();
             }
 
-                res.status(200).json({ success: true, data: coupons });
-        } catch (error) {
-            res.status(500).json({ success: false, error: 'Internal server error' });
+            res.status(200).json({ success: true, data: coupons });
         }
+    }
+    catch (error) {
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 
 // Get coupon by ID
-const getCoupon= async (req, res) => {
+const getCoupon = async (req, res) => {
     const { id } = req.params;
     try {
         const coupon = await Coupon.findById(id);
@@ -32,16 +38,6 @@ const getCoupon= async (req, res) => {
             return res.status(404).json({ success: false, error: 'Coupon not found' });
         }
         res.status(200).json({ success: true, data: coupon });
-    } catch (error) {
-        res.status(500).json({ success: false, error: 'Internal server error' });
-    }
-};
-
-const getCouponsByMassageShop = async (req, res) => {
-    const { massageShopId } = req.params;
-    try {
-        const coupons = await Coupon.find({ massageShop: massageShopId });
-        res.status(200).json({ success: true, data: coupons });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
@@ -59,11 +55,11 @@ const addCoupon = async (req, res) => {
             });
         }
         req.body.massageShop = req.params.massageShopId;
-        
+
         // Set expireAt to current time
-        const {expireAt} = req.body;
-        
-        if(!expireAt){
+        const { expireAt } = req.body;
+
+        if (!expireAt) {
             req.body.expireAt = new Date();
         }
 
@@ -83,7 +79,7 @@ const deleteCoupon = async (req, res) => {
         if (!coupon) {
             return res.status(404).json({ success: false, error: 'Coupon not found' });
         }
-        await coupon.deleteOne();
+        const deleted = await Coupon.findByIdAndDelete(id)
         res.status(200).json({ success: true, data: {} });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
@@ -93,19 +89,19 @@ const deleteCoupon = async (req, res) => {
 const updateCoupon = async (req, res) => {
     const { id } = req.params;
     try {
-        const {discount, coverage, expireAt, usableUserType} = req.body;
+        const { discount, coverage, expireAt, usableUserType } = req.body;
         const updateFields = {};
         if (discount) updateFields.discount = discount;
         if (coverage) updateFields.coverage = coverage;
         if (expireAt) updateFields.expireAt = expireAt;
         if (usableUserType) updateFields.usableUserType = usableUserType;
-        
+
         const updatedCoupon = await Coupon.findByIdAndUpdate(id, updateFields, { new: true });
 
         if (!updatedCoupon) {
             console.log("here");
             return res.status(404).json({ success: false, error: 'Coupon not found' });
-            
+
         }
         res.status(200).json({ success: true, data: updatedCoupon });
     } catch (error) {
@@ -116,7 +112,6 @@ const updateCoupon = async (req, res) => {
 module.exports = {
     getCoupons,
     getCoupon,
-    getCouponsByMassageShop,
     addCoupon,
     updateCoupon,
     deleteCoupon
