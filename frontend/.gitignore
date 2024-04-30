@@ -37,4 +37,4 @@ next-env.d.ts
 *.test.js
 .babelrc
 jest.config.js
-*.cy.*
+# *.cy.*
