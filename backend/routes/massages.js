@@ -21,6 +21,11 @@ module.exports = router;
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas: 
  *     Massage:
  *       type: object
