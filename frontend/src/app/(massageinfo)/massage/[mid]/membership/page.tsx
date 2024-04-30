@@ -111,7 +111,7 @@ function page({ params }: { params: { mid: string } }) {
                         <li className="text-green-500 bullet">Priority support</li>
                       </ul>
                       <div className="w-2/3 flex justify-center rounded-md bg-blue-200 mt-28 hover:shadow-gray-600">
-                        <Button onClick={() => { handleJoin() }}>{isMember ? "Continue Membership" : "Join"}</Button>
+                        <Button id="JoinBtn" onClick={() => { handleJoin() }}>{isMember ? "Continue Membership" : "Join"}</Button>
                         </div>
 
                   </div>
