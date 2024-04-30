@@ -5,7 +5,7 @@ describe('template spec', () => {
     cy.get('#Username').type("user@gmail.com");
     cy.get('#Password').type("12345678");
     cy.get('.bg-green-600').click();
-    //add deleay here
+
     cy.wait(2000);
     cy.get('[href="/massage"]').click();
     cy.wait(2000);
@@ -29,15 +29,15 @@ describe('template spec', () => {
         cy.get('#coupon').click();
 
         cy.contains('% Maximum').closest('.MuiButtonBase-root').then(($component) => {
-          // Do something with the component, such as clicking it or asserting its properties
-          cy.wrap($component).click(); // Example: Clicking the component
+
+          cy.wrap($component).click();
         });
 
 
 
         cy.contains('Reserve Massage').closest('.bg-green-600').then(($component) => {
-          // Do something with the component, such as clicking it or asserting its properties
-          cy.wrap($component).click(); // Example: Clicking the component
+
+          cy.wrap($component).click(); 
         });
 
         cy.wait(5000);
