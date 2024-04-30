@@ -10,6 +10,7 @@ const reports = require("./routes/report.js");
 const coupons = require("./routes/coupon.js");
 const memberships = require("./routes/membership.js");
 const customerCoupons = require("./routes/customerCoupon.js")
+const points = require("./routes/user.js");
 
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
@@ -50,7 +51,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: process.env.HOST + ":" + PORT + "/api/v1"
+                url: process.env.HOST + ":" + PORT + "/api"
             }
         ]
     },
@@ -78,6 +79,8 @@ app.use("/api/reports", reports);
 app.use("/api/coupons", coupons);
 app.use("/api/memberships", memberships);
 app.use("/api/customerCoupons",customerCoupons );
+app.use("/api/points",points);
+
 
 // process.on('unhandledRejection', (err, promise) => {
 //     console.log(`Error: ${err.message}`);
