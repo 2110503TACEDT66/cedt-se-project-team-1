@@ -25,12 +25,12 @@ describe('getCoupons', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
+  }); 
 
   it('should get all coupons for a shop owner', async () => {
     req.user.role = 'shopOwner';
-    req.user.id = '66195e36bbd0d32fbc0b3b9f'; // Assuming this is the ID of the shop owner
-    const mockMassageShopOwner = [{ id: '66014f1d3ab7a4db54e4f1ab' }]; // Assuming this is the massage shop ID of the shop owner
+    req.user.id = '66195e36bbd0d32fbc0b3b9f'; 
+    const mockMassageShopOwner = [{ id: '66014f1d3ab7a4db54e4f1ab' }]; 
     const mockCoupons = [
       { id: '662c7fabae6f7a8d911cd473', massageShop: '66014f1d3ab7a4db54e4f1ab' }
     ];
@@ -72,19 +72,19 @@ describe('getCoupons', () => {
   });
 
   it('should get coupons by massage shop ID', async () => {
-    req.user.role = 'user';
-    req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; // Assuming this is a valid massage shop ID
-    const mockCoupons = [
-      { id: '662c7fabae6f7a8d911cd473', massageShop: '66014f1d3ab7a4db54e4f1ab' }
-    ];
+      req.user.role = 'user';
+      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; 
+      const mockCoupons = [
+          { id: '662c7fabae6f7a8d911cd473', massageShop: '66014f1d3ab7a4db54e4f1ab' }
+      ];
 
-    Coupon.find = jest.fn().mockResolvedValue(mockCoupons);
+      Coupon.find = jest.fn().mockResolvedValue(mockCoupons);
 
-    await getCouponsByMassageShop(req, res);
+      await getCouponsByMassageShop(req, res);
 
-    expect(Coupon.find).toHaveBeenCalledWith({ massageShop: '66014f1d3ab7a4db54e4f1ab' });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ success: true, data: mockCoupons });
+      expect(Coupon.find).toHaveBeenCalledWith({ massageShop: '66014f1d3ab7a4db54e4f1ab' });
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ success: true, data: mockCoupons });
   });
 
   it('should handle missing massage shop ID', async () => {
@@ -96,6 +96,21 @@ describe('getCoupons', () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ success: false, error: 'Missing massage shop ID' });
   });
+
+  it('should call getCouponsByMassageShop', async () => {
+    req.user.role = 'shopOwner';
+    req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab';
+
+    const spyGetCouponsByMassageShop = jest.spyOn(require('../controllers/coupon'), 'getCouponsByMassageShop');
+    
+    await getCoupons(req, res);
+
+    expect(spyGetCouponsByMassageShop).toHaveBeenCalled();
+
+    spyGetCouponsByMassageShop.mockRestore();
+
+  });
+
 });
 
 describe('getCoupon', () => {
@@ -134,7 +149,7 @@ describe('getCoupon', () => {
   });
 
   it('should handle coupon not found', async () => {
-    req.params.id = 'invalid_id'; // Assuming this is an invalid coupon ID
+    req.params.id = 'invalid_id'; 
 
     Coupon.findById = jest.fn().mockResolvedValue(null);
 
@@ -181,7 +196,7 @@ describe('getCouponsByMassageShop', () => {
     });
   
     it('should get coupons by massage shop ID', async () => {
-      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; // Assuming this is a valid massage shop ID
+      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; 
       const mockCoupons = [
         { id: '662c7fabae6f7a8d911cd473', massageShop: '66014f1d3ab7a4db54e4f1ab' }
       ];
@@ -196,7 +211,7 @@ describe('getCouponsByMassageShop', () => {
     });
   
     it('should handle error', async () => {
-      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; // Assuming this is a valid massage shop ID
+      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; 
   
       Coupon.find = jest.fn().mockRejectedValue(new Error('Database error'));
   
@@ -232,7 +247,7 @@ describe('getCouponsByMassageShop', () => {
     });
   
     it('should add a new coupon', async () => {
-      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; // Assuming this is a valid massage shop ID
+      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; 
       req.body = { discount: 10, coverage: 'Full body', expireAt: new Date() };
       const mockMassageShop = { _id: '66014f1d3ab7a4db54e4f1ab' };
   
@@ -248,7 +263,7 @@ describe('getCouponsByMassageShop', () => {
     });
   
     it('should handle missing massage shop', async () => {
-      req.params.massageShopId = 'invalid_id'; // Assuming this is an invalid massage shop ID
+      req.params.massageShopId = 'invalid_id'; 
   
       Massage.findById = jest.fn().mockResolvedValue(null);
   
@@ -258,9 +273,25 @@ describe('getCouponsByMassageShop', () => {
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ success: false, message: 'No massageShop with the id of invalid_id' });
     });
+
+    it('should handle missing expire date', async () => {
+      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; 
+      req.body = { discount: 10, coverage: 'Full body' };
+      const mockMassageShop = { _id: '66014f1d3ab7a4db54e4f1ab' };
+  
+      Massage.findById = jest.fn().mockResolvedValue(mockMassageShop);
+      Coupon.create = jest.fn().mockResolvedValue(req.body);
+  
+      await addCoupon(req, res);
+  
+      expect(Massage.findById).toHaveBeenCalledWith('66014f1d3ab7a4db54e4f1ab');
+      expect(Coupon.create).toHaveBeenCalledWith({ ...req.body, expireAt: expect.any(Date), massageShop: '66014f1d3ab7a4db54e4f1ab' });
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith({ success: true, data: req.body });
+    });
   
     it('should handle error', async () => {
-      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; // Assuming this is a valid massage shop ID
+      req.params.massageShopId = '66014f1d3ab7a4db54e4f1ab'; 
   
       Massage.findById = jest.fn().mockRejectedValue(new Error('Database error'));
   
@@ -309,7 +340,7 @@ describe('getCouponsByMassageShop', () => {
     });
   
     it('should handle coupon not found', async () => {
-      req.params.id = 'invalid_id'; // Assuming this is an invalid coupon ID
+      req.params.id = 'invalid_id'; 
   
       Coupon.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
   
@@ -335,6 +366,7 @@ describe('getCouponsByMassageShop', () => {
   
   describe('deleteCoupon', () => {
     let req, res;
+    const couponID = '662fc92aace6616a2528298d'
   
     beforeAll(async () => {
       await mongoose.connect(process.env.MONGO_URI);
@@ -356,19 +388,19 @@ describe('getCouponsByMassageShop', () => {
     });
   
     it('should delete a coupon', async () => {
-      req.params.id = '662c7fabae6f7a8d911cd473'; 
+      req.params.id = '662fc929ace6616a25282989'; 
   
       Coupon.findById = jest.fn().mockResolvedValue({});
   
       await deleteCoupon(req, res);
   
-      expect(Coupon.findById).toHaveBeenCalledWith('662c7fabae6f7a8d911cd473');
+      expect(Coupon.findById).toHaveBeenCalledWith('662fc929ace6616a25282989');
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ success: true, data: {} });
     });
   
     it('should handle coupon not found', async () => {
-      req.params.id = 'invalid_id'; // Assuming this is an invalid coupon ID
+      req.params.id = 'invalid_id';
   
       Coupon.findById = jest.fn().mockResolvedValue(null);
   
