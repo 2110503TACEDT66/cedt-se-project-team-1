@@ -4,3 +4,4 @@ config/config.env
 out/*
 image/*
 .env
+coverage/*
