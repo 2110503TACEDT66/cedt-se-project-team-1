@@ -193,6 +193,8 @@ module.exports = router;
 *               type: string
 *              tel:
 *               type: string
+*              picture:
+*               type: string
 *              description:
 *               type: string
 *              price:

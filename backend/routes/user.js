@@ -91,7 +91,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /api/user/{id}/point:
+ * /points/{id}:
  *   put:
  *     summary: Update user's point by ID
  *     tags: [Points]
@@ -104,16 +104,15 @@ module.exports = router;
  *         description: ID of the user whose point needs to be updated
  *         schema:
  *           type: string
- *       - in: body
- *         name: point
- *         required: true
- *         description: Amount to update the user's point
- *         schema:
- *           type: object
- *           properties:
- *             point:
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              point:
  *               type: number
- *               description: Amount to update the user's point
  *     responses:
  *       '201':
  *         description: User's point updated successfully

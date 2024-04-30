@@ -148,8 +148,6 @@ module.exports = router;
  *               format: date-time
  *              user:
  *               type: string
- *              massage:
- *               type: string
  *              price:
  *               type: number
  *     responses:
@@ -189,7 +187,15 @@ module.exports = router;
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Reservation'
+ *             type: object
+ *             properties:
+ *              apptDate:
+ *               type: string
+ *               format: date-time
+ *              user:
+ *               type: string
+ *              massage:
+ *               type: string
  *     responses:
  *       '200':
  *         description: The updated reservation

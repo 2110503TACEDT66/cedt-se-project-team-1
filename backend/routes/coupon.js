@@ -138,7 +138,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /coupons:
+ * /massages/{massageShopID}/coupons:
  *   post:
  *     summary: Create a new coupon
  *     tags: [Coupons]
@@ -146,11 +146,11 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: massageShopId
+ *         name: massageShopID
  *         required: true
- *         description: ID of the massage shop associated with the coupon
  *         schema:
  *           type: string
+ *         description: ID of the massage shop associated with the coupon
  *     requestBody:
  *       required: true
  *       content:
@@ -158,13 +158,11 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *              massageShop:
- *               type: string
- *              point:
- *               type: number
  *              discount:
  *               type: number
  *              coverage:
+ *               type: number
+ *              point:
  *               type: number
  *              expireAt:
  *               type: string
