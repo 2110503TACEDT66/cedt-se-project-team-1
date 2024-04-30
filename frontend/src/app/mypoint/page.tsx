@@ -128,8 +128,8 @@ export default function page({ mid }: { mid: string }) {
 
       {
         (session?.user.data.role !== Role.User) ? (
-          <div className='flex justify-center'>
-            <ModalButton text='Create Coupon' color='green'>
+          <div id='Totest' className='flex justify-center'>
+            <ModalButton  text='Create Coupon' color='green'>
               <CouponForm isUpdate={false} mid={mid} cid={null}/>
             </ModalButton>
           </div>
