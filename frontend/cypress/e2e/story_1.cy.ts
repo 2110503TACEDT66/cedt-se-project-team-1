@@ -11,10 +11,10 @@ describe('template spec', () => {
     cy.wait(2000);
     cy.visit('http://localhost:3000/massage/66014f1d3ab7a4db54e4f1ab/')
     cy.get('.p-3').click();
-    cy.wait(2000);
+    cy.wait(4000);
     // cy.get('#JoinBtn').click();
     // cy.wait(2000);
     // cy.reload();
-
+    cy.visit('http://localhost:3000/massage/66014f1d3ab7a4db54e4f1ab/')
   })
 })
