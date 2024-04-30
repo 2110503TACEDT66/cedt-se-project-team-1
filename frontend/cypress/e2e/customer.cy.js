@@ -11,7 +11,7 @@ it('passes', () => {
 
     cy.get('[href="/massage"]').should('exist').should('be.visible').click()
     cy.get('[href="/massage/66014f1d3ab7a4db54e4f1ab"]').should('exist').should('be.visible').click()
-    cy.wait(19000)
+    cy.wait(10000)
     cy.get('.p-3').should('exist').should('be.visible').click()
     cy.wait(3000)
 
@@ -21,7 +21,7 @@ it('passes', () => {
     cy.wait(6000)
 
     cy.go(-1)
-    cy.wait(20000)
+    cy.wait(10000)
     cy.get(':nth-child(3) > .flex-row > .w-full > .justify-end > .MuiButtonBase-root').should('exist').should('be.visible').click()
     cy.get('[href="/myreservation"]').should('exist').should('be.visible').click()
     cy.wait(3000)
