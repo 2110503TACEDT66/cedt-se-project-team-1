@@ -11,6 +11,8 @@ import {
 } from "@/redux/features/massageSlice";
 import { useSession } from "next-auth/react";
 
+import { useModal } from "@/components/ModalButton";
+
 export default function MassageForm({
     isUpdate,
     id,
@@ -19,6 +21,7 @@ export default function MassageForm({
     id: string | null;
 }) {
     const { data: session } = useSession();
+    const { closeModal } = useModal();
 
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
@@ -81,7 +84,8 @@ export default function MassageForm({
             overallRating: 0,
             priceRating: priceRating,
             serviceRating: serviceRating,
-            transportRating: transportRating
+            transportRating: transportRating,
+            price: 0
         }
 
         // validate date
@@ -101,15 +105,20 @@ export default function MassageForm({
         if (description.length > 500) return alert("description is too long");
         if (postalcode.length > 5) return alert("postalcode is too long");
 
-        // update data
-        if (isUpdate) {
+        try {
             // update data
-            if (id === null)
-                return console.log("id is null while editing massage");
-            dispatch(updateMassageReducer(data));
-        } else {
-            // create data
-            dispatch(addMassageReducer(data));
+            if (isUpdate) {
+                // update data
+                if (id === null)
+                    return console.log("id is null while editing massage");
+                dispatch(updateMassageReducer(data));
+            } else {
+                // create data
+                dispatch(addMassageReducer(data));
+            }
+            closeModal();
+        } catch (error) {
+            console.log("Incomplete massageForm submit", error);
         }
     };
 

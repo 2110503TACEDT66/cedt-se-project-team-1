@@ -176,5 +176,3 @@ module.exports = router;
  *       '400':
  *         description: Invalid credentials
  */
-
-

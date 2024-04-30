@@ -9,13 +9,16 @@ import React, { useEffect, useState } from "react";
 import { MembershipItem } from "../../../../../../interface";
 import updateMembership from "@/libs/Membership/updateMembership";
 
-function page({ params }: { params: { mid: string } }) {
+function joinMemberPage({ params }: { params: { mid: string } }) {
 
+  
   const massageItem = useAppSelector(state => state.massageSlice.massageItems);
   const massage = massageItem.find(massage => massage.id === params.mid)
-
+  
   const { data: session } = useSession();
+  
   if (!session || !session.user.token) return null;
+  if (session.user.data.role !== "user" && session.user.data.role !== "admin") return null;
 
   const router = useRouter();
 
@@ -107,4 +110,4 @@ function page({ params }: { params: { mid: string } }) {
   )
 }
 
-export default page;
+export default joinMemberPage;

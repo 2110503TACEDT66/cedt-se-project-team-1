@@ -68,10 +68,34 @@ module.exports = router;
 *   description: The Memberships managing API
 */
 
-
 /**
  * @swagger
  * /memberships:
+ *   get:
+ *     summary: Get memberships
+ *     tags: [Memberships]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: A list of memberships
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Membership'
+ *       '400':
+ *         description: Bad request (missing massage shop ID for shop owners)
+ *       '401':
+ *         description: Unauthorized
+ *       '500':
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * massages/{massageShopID}/memberships:
  *   get:
  *     summary: Get memberships
  *     tags: [Memberships]
@@ -132,7 +156,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /memberships/{id}:
+ * massages/{massageShopID}/memberships:
  *   post:
  *     summary: Create a new membership
  *     tags: [Memberships]
